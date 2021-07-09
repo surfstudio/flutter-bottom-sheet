@@ -7,7 +7,7 @@
 [![Pub popularity](https://badgen.net/pub/popularity/bottom_sheet)](https://pub.dev/packages/bottom_sheet/score)
 ![Flutter Platform](https://badgen.net/pub/flutter-platform/bottom_sheet)
 
-This package made by [Surf](https://surf.ru).
+This package is part of the [SurfGear](https://github.com/surfstudio/SurfGear) toolkit made by [Surf](https://surf.ru).
 
 ## About
 
