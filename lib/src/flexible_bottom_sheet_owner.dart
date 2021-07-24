@@ -23,9 +23,9 @@ mixin FlexibleBottomSheetOwner {
 abstract class BottomSheetData {}
 
 class BottomSheetShower<T extends BottomSheetData, R> {
-  BottomSheetShower(this.builder);
-
   final Future<R> Function(BuildContext context, {T? data}) builder;
+
+  BottomSheetShower(this.builder);
 
   Future<R> call(BuildContext context, {T? data}) =>
       builder(context, data: data);

@@ -18,13 +18,13 @@ import 'package:flutter/material.dart';
 
 /// Default controller of showing bottom sheet that can resize and scroll.
 class FlexibleBottomSheetController {
+  final FlexibleBottomSheetOwner owner;
+  final BuildContext _context;
+
   FlexibleBottomSheetController(
     this._context, {
     required this.owner,
   });
-
-  final BuildContext _context;
-  final FlexibleBottomSheetOwner owner;
 
   /// Show registered bottom sheet.
   Future<T> show<T>(

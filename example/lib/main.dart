@@ -15,8 +15,6 @@
 import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
-// ignore_for_file: avoid-returning-widgets
-
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
@@ -35,12 +33,12 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
+  final String title;
+
   const MyHomePage({
     required this.title,
     Key? key,
   }) : super(key: key);
-
-  final String title;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -78,6 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
       context: context,
       builder: _buildBottomSheet,
       anchors: [0, 0.5, 1],
+      isExpand: false,
     );
   }
 
@@ -145,23 +144,23 @@ class _MyHomePageState extends State<MyHomePage> {
             'position $bottomSheetOffset',
             style: Theme.of(context).textTheme.headline6,
           ),
-        _buildTextField(),
-        _testContainer(const Color(0xEEFFFF00)),
-        _buildTextField(),
-        _testContainer(const Color(0xDD99FF00)),
-        _buildTextField(),
-        _testContainer(const Color(0xCC00FFFF)),
-        _buildTextField(),
-        _testContainer(const Color(0xBB555555)),
-        _buildTextField(),
-        _testContainer(const Color(0xAAFF5555)),
-        _buildTextField(),
-        _testContainer(const Color(0x9900FF00)),
-        _buildTextField(),
-        _testContainer(const Color(0x8800FF00)),
-        _buildTextField(),
-        _testContainer(const Color(0x7700FF00)),
-        _buildTextField(),
+        _CustomTextField(),
+        const _Spacer(Color(0xEEFFFF00)),
+        _CustomTextField(),
+        const _Spacer(Color(0xDD99FF00)),
+        _CustomTextField(),
+        const _Spacer(Color(0xCC00FFFF)),
+        _CustomTextField(),
+        const _Spacer(Color(0xBB555555)),
+        _CustomTextField(),
+        const _Spacer(Color(0xAAFF5555)),
+        _CustomTextField(),
+        const _Spacer(Color(0x9900FF00)),
+        _CustomTextField(),
+        const _Spacer(Color(0x8800FF00)),
+        _CustomTextField(),
+        const _Spacer(Color(0x7700FF00)),
+        _CustomTextField(),
       ];
 
   Widget _testContainer(Color color) {
@@ -198,11 +197,29 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+}
 
-  Widget _buildTextField() => const TextField(
+class _CustomTextField extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) => const TextField(
         decoration: InputDecoration(
           border: InputBorder.none,
           hintText: 'Enter a search term',
+        ),
+      );
+}
+
+class _Spacer extends StatelessWidget {
+  final Color color;
+
+  const _Spacer(this.color);
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          height: 100,
+          color: color,
         ),
       );
 }

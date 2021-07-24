@@ -1,6 +1,6 @@
 name: example
 description: Example using bottom sheet.
-version: 1.0.0+1
+version: 1.0.0+2
 publish_to: none
 
 environment:
@@ -13,10 +13,10 @@ dependencies:
   flutter:
     sdk: flutter
 
-  rxdart: ^0.27.0
+  rxdart: ^0.27.1
 
 dev_dependencies:
-  surf_lint_rules: ^1.0.0
+  surf_lint_rules: ^1.4.0
 
 flutter:
   uses-material-design: true

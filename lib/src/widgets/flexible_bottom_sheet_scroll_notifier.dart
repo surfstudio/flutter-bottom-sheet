@@ -12,33 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import 'package:bottom_sheet/src/widgets/flexible_draggable_scrollable_sheet.dart';
+import 'package:bottom_sheet/src/core/core.dart';
 import 'package:flutter/material.dart';
 
-/// Start scrolling
-typedef ScrollStartCallback = bool Function(ScrollStartNotification);
-
-/// Scrolling
-typedef ScrollCallback = bool Function(FlexibleDraggableScrollableNotification);
-
-/// Scroll finished
-typedef ScrollEndCallback = bool Function(ScrollEndNotification);
-
 /// Listen drag-notifications
-class FlexibleScrollNotifyer extends StatelessWidget {
-  const FlexibleScrollNotifyer({
+class FlexibleScrollNotifier extends StatelessWidget {
+  final Widget child;
+
+  final ScrollStartCallback scrollStartCallback;
+  final ScrollCallback scrollingCallback;
+  final ScrollEndCallback scrollEndCallback;
+
+  const FlexibleScrollNotifier({
     required this.child,
     required this.scrollStartCallback,
     required this.scrollingCallback,
     required this.scrollEndCallback,
     Key? key,
   }) : super(key: key);
-
-  final Widget child;
-
-  final ScrollStartCallback scrollStartCallback;
-  final ScrollCallback scrollingCallback;
-  final ScrollEndCallback scrollEndCallback;
 
   @override
   Widget build(BuildContext context) {

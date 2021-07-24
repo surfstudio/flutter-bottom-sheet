@@ -12,11 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:bottom_sheet/src/core/core.dart';
 import 'package:bottom_sheet/src/flexible_bottom_sheet.dart';
-import 'package:bottom_sheet/src/widgets/flexible_draggable_scrollable_sheet.dart';
 import 'package:flutter/material.dart';
-
-// ignore_for_file: avoid-returning-widgets
 
 const Duration _bottomSheetDuration = Duration(milliseconds: 500);
 
@@ -118,6 +116,35 @@ Future<T?> showStickyFlexibleBottomSheet<T>({
 
 /// A modal route with flexible bottom sheet.
 class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
+  final FlexibleDraggableScrollableWidgetBuilder? builder;
+  final FlexibleDraggableScrollableHeaderWidgetBuilder? headerBuilder;
+  final FlexibleDraggableScrollableWidgetBodyBuilder? bodyBuilder;
+  final double minHeight;
+  final double initHeight;
+  final double maxHeight;
+  final bool isCollapsible;
+  final bool isExpand;
+  final bool isModal;
+  final List<double>? anchors;
+  final double? minHeaderHeight;
+  final double? maxHeaderHeight;
+  final Decoration? decoration;
+  final ThemeData? theme;
+
+  @override
+  final String? barrierLabel;
+
+  @override
+  Duration get transitionDuration => _bottomSheetDuration;
+
+  @override
+  bool get barrierDismissible => true;
+
+  @override
+  Color? get barrierColor => isModal ? Colors.black54 : const Color(0x00FFFFFF);
+
+  late AnimationController _animationController;
+
   _FlexibleBottomSheetRoute({
     required this.minHeight,
     required this.initHeight,
@@ -136,36 +163,6 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
     this.decoration,
     RouteSettings? settings,
   }) : super(settings: settings);
-
-  final FlexibleDraggableScrollableWidgetBuilder? builder;
-  final FlexibleDraggableScrollableHeaderWidgetBuilder? headerBuilder;
-  final FlexibleDraggableScrollableWidgetBodyBuilder? bodyBuilder;
-  final double minHeight;
-  final double initHeight;
-  final double maxHeight;
-  final bool isCollapsible;
-  final bool isExpand;
-  final bool isModal;
-  final List<double>? anchors;
-  final double? minHeaderHeight;
-  final double? maxHeaderHeight;
-  final Decoration? decoration;
-
-  final ThemeData? theme;
-
-  @override
-  Duration get transitionDuration => _bottomSheetDuration;
-
-  @override
-  bool get barrierDismissible => true;
-
-  @override
-  final String? barrierLabel;
-
-  @override
-  Color? get barrierColor => isModal ? Colors.black54 : const Color(0x00FFFFFF);
-
-  late AnimationController _animationController;
 
   @override
   AnimationController createAnimationController() {

@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:bottom_sheet/src/core/core.dart';
 import 'package:bottom_sheet/src/flexible_bottom_sheet_header_delegate.dart';
-import 'package:bottom_sheet/src/widgets/flexible_bottom_sheet_scroll_notifyer.dart';
-import 'package:bottom_sheet/src/widgets/flexible_draggable_scrollable_sheet.dart';
+import 'package:bottom_sheet/src/widgets/flexible_bottom_sheet_scroll_notifier.dart';
 import 'package:flutter/material.dart';
 
 /// Flexible and scrollable bottom sheet.
@@ -41,6 +41,21 @@ import 'package:flutter/material.dart';
 ///
 /// [initHeight] - relevant height for init bottom sheet
 class FlexibleBottomSheet extends StatefulWidget {
+  final double minHeight;
+  final double initHeight;
+  final double maxHeight;
+  final FlexibleDraggableScrollableWidgetBuilder? builder;
+  final FlexibleDraggableScrollableHeaderWidgetBuilder? headerBuilder;
+  final FlexibleDraggableScrollableWidgetBodyBuilder? bodyBuilder;
+  final bool isCollapsible;
+  final bool isExpand;
+  final AnimationController? animationController;
+  final List<double>? anchors;
+  final double? minHeaderHeight;
+  final double? maxHeaderHeight;
+  final Decoration? decoration;
+  final VoidCallback? onDismiss;
+
   const FlexibleBottomSheet({
     Key? key,
     this.minHeight = 0,
@@ -82,7 +97,6 @@ class FlexibleBottomSheet extends StatefulWidget {
           builder: builder,
           headerBuilder: headerBuilder,
           bodyBuilder: bodyBuilder,
-          minHeight: 0,
           initHeight: initHeight,
           isCollapsible: true,
           isExpand: isExpand,
@@ -93,44 +107,33 @@ class FlexibleBottomSheet extends StatefulWidget {
           decoration: decoration,
         );
 
-  final double minHeight;
-  final double initHeight;
-  final double maxHeight;
-  final FlexibleDraggableScrollableWidgetBuilder? builder;
-  final FlexibleDraggableScrollableHeaderWidgetBuilder? headerBuilder;
-  final FlexibleDraggableScrollableWidgetBodyBuilder? bodyBuilder;
-  final bool isCollapsible;
-  final bool isExpand;
-  final AnimationController? animationController;
-  final List<double>? anchors;
-  final double? minHeaderHeight;
-  final double? maxHeaderHeight;
-  final Decoration? decoration;
-  final VoidCallback? onDismiss;
-
   @override
   _FlexibleBottomSheetState createState() => _FlexibleBottomSheetState();
 }
 
 class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
     with SingleTickerProviderStateMixin {
-  bool _isClosing = false;
-
-  late AnimationController _animationController;
   final _topOffsetTween = Tween<double>();
 
+  bool _isClosing = false;
+  bool _isKeyboardOpenedNotified = false;
+  bool _isKeyboardClosedNotified = false;
+
+  late AnimationController _animationController;
   late double _currentAnchor;
-
   late FlexibleDraggableScrollableSheetScrollController _controller;
-
   late Animation<double> _topTweenAnimation;
   late VoidCallback _animationListener;
   late void Function(AnimationStatus) _statusListener;
 
-  bool _isKeyboardOpenedNotified = false;
-  bool _isKeyboardClosedNotified = false;
-
   double get _currentExtent => _controller.extent.currentExtent;
+
+  List<double> get _screenAnchors => {
+        if (widget.anchors != null) ...widget.anchors!,
+        widget.maxHeight,
+        widget.minHeight,
+        widget.initHeight,
+      }.toList();
 
   @override
   void initState() {
@@ -167,7 +170,7 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
   Widget build(BuildContext context) {
     _checkKeyboard();
 
-    return FlexibleScrollNotifyer(
+    return FlexibleScrollNotifier(
       scrollStartCallback: _startScroll,
       scrollingCallback: _scrolling,
       scrollEndCallback: _endScroll,
@@ -175,27 +178,38 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
         maxChildSize: widget.maxHeight,
         minChildSize: widget.minHeight,
         initialChildSize: widget.initHeight,
-        builder: (
-          context,
-          controller,
-        ) {
-          _controller =
-              controller as FlexibleDraggableScrollableSheetScrollController;
-
-          return AnimatedPadding(
-            duration: const Duration(milliseconds: 100),
-            padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).viewInsets.bottom,
-            ),
-            child: _buildContent(context),
-          );
-        },
+        builder: _flexibleDraggableScrollableSheetBuilder,
         expand: widget.isExpand,
       ),
     );
   }
 
-  // ignore: avoid-returning-widgets
+  @override
+  void dispose() {
+    _animationController.dispose();
+    _topTweenAnimation
+      ..removeListener(_animationListener)
+      ..removeStatusListener(_statusListener);
+
+    super.dispose();
+  }
+
+  Widget _flexibleDraggableScrollableSheetBuilder(
+    BuildContext context,
+    ScrollController controller,
+  ) {
+    _controller =
+        controller as FlexibleDraggableScrollableSheetScrollController;
+
+    return AnimatedPadding(
+      duration: const Duration(milliseconds: 100),
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+      ),
+      child: _buildContent(context),
+    );
+  }
+
   Widget _buildContent(BuildContext context) {
     if (widget.builder != null) {
       return widget.builder!(
@@ -232,16 +246,6 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _animationController.dispose();
-    _topTweenAnimation
-      ..removeListener(_animationListener)
-      ..removeStatusListener(_statusListener);
-
-    super.dispose();
   }
 
   void _checkKeyboard() {
@@ -408,13 +412,6 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
       _dismiss();
     }
   }
-
-  List<double> get _screenAnchors => {
-        if (widget.anchors != null) ...widget.anchors!,
-        widget.maxHeight,
-        widget.minHeight,
-        widget.initHeight,
-      }.toList();
 
   void _dismiss() {
     if (widget.onDismiss != null) widget.onDismiss!();
