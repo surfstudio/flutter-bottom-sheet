@@ -59,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: _showSheetWithoutList,
+              onPressed: _showSticky,
               child: const Text('Open StickyBottomSheet'),
             ),
           ],
@@ -69,6 +69,10 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _showSheet() {
+    // showFlexibleBottomSheet<void>(
+    //   context: context,
+    //   builder: _buildBottomSheet,
+    // );
     showFlexibleBottomSheet<void>(
       minHeight: 0,
       initHeight: 0.5,
@@ -80,11 +84,11 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void _showSheetWithoutList() {
+  void _showSticky() {
     showStickyFlexibleBottomSheet<void>(
       minHeight: 0,
       initHeight: 0.5,
-      maxHeight: .8,
+      maxHeight: 0.8,
       headerHeight: 200,
       context: context,
       decoration: const BoxDecoration(
@@ -130,7 +134,7 @@ class _MyHomePageState extends State<MyHomePage> {
           _getChildren(offset, isShowPosition: false),
         );
       },
-      anchors: [.2, 0.5, .8],
+      anchors: [.2, 0.5, 1],
     );
   }
 
@@ -162,16 +166,6 @@ class _MyHomePageState extends State<MyHomePage> {
         const _Spacer(Color(0x7700FF00)),
         _CustomTextField(),
       ];
-
-  Widget _testContainer(Color color) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        height: 100,
-        color: color,
-      ),
-    );
-  }
 
   Widget _buildBottomSheet(
     BuildContext context,

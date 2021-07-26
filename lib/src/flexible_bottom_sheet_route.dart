@@ -114,6 +114,55 @@ Future<T?> showStickyFlexibleBottomSheet<T>({
   );
 }
 
+Future<T?> showBottomSheet2<T>({
+  required BuildContext context,
+  required FlexibleDraggableScrollableWidgetBodyBuilder builder,
+  FlexibleDraggableScrollableHeaderWidgetBuilder? headerBuilder,
+  double minHeight = 0,
+  double initHeight = 0.5,
+  double maxHeight = 1,
+  bool isSticky = false,
+  bool isCollapsible = true,
+  bool isExpanded = true,
+  bool useRootNavigator = false,
+  bool isModal = true,
+  List<double>? anchors,
+  double? headerHeight,
+  double? minHeaderHeight,
+  double? maxHeaderHeight,
+  Decoration? decoration,
+}) {
+  if (isSticky) {
+    assert(
+      headerBuilder != null,
+      'When sticky is true, you should provide headerBuilder',
+    );
+    assert(
+      maxHeaderHeight != null,
+      'When sticky is true, you should provide maxHeaderHeight',
+    );
+  }
+
+  return Navigator.of(context, rootNavigator: useRootNavigator).push(
+    _FlexibleBottomSheetRoute<T>(
+      theme: Theme.of(context),
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      minHeight: minHeight,
+      initHeight: initHeight,
+      maxHeight: maxHeight,
+      isCollapsible: isCollapsible,
+      isExpand: isExpanded,
+      isModal: isModal,
+      bodyBuilder: builder,
+      anchors: anchors,
+      maxHeaderHeight: maxHeaderHeight,
+      decoration: decoration,
+      minHeaderHeight: minHeaderHeight,
+      headerBuilder: headerBuilder,
+    ),
+  );
+}
+
 /// A modal route with flexible bottom sheet.
 class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
   final FlexibleDraggableScrollableWidgetBuilder? builder;

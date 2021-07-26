@@ -13,7 +13,6 @@
 // limitations under the License.
 
 import 'package:bottom_sheet/src/core/core.dart';
-import 'package:bottom_sheet/src/widgets/flexible_bottom_sheet_scroll_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -23,7 +22,7 @@ import 'test_utils.dart';
 void main() {
   group('Smoke tests', () {
     testWidgets('FlexibleDraggableScrollableSheet builds', (tester) async {
-      final widget = FlexibleDraggableScrollableSheet(
+      final widget = InteractiveContainer(
         builder: (context, scrollController) {
           return ListView.builder(
             controller: scrollController,
@@ -39,7 +38,7 @@ void main() {
     });
 
     testWidgets('FlexibleScrollNotifier builds', (tester) async {
-      final widget = FlexibleScrollNotifier(
+      final widget = InteractiveContainerNotifier(
         scrollStartCallback: (_) {
           return true;
         },
@@ -65,7 +64,7 @@ void main() {
     testWidgets('scroll callbacks', (tester) async {
       final result = <Scroll>[];
 
-      final widget = FlexibleScrollNotifier(
+      final widget = InteractiveContainerNotifier(
         scrollStartCallback: (_) {
           result.add(Scroll.start);
           return true;
@@ -78,7 +77,7 @@ void main() {
           result.add(Scroll.end);
           return true;
         },
-        child: FlexibleDraggableScrollableSheet(
+        child: InteractiveContainer(
           builder: (context, scrollController) {
             return ListView.builder(
               controller: scrollController,

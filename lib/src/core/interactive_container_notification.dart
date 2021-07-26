@@ -17,14 +17,14 @@ import 'package:flutter/material.dart';
 
 /// A [Notification] related to the extent, which is the size, and scroll
 /// offset, which is the position of the child list, of the
-/// [FlexibleDraggableScrollableSheet].
+/// [InteractiveContainer].
 ///
-/// [FlexibleDraggableScrollableSheet] widgets notify their ancestors when the
+/// [InteractiveContainer] widgets notify their ancestors when the
 /// size of
 /// the sheet changes. When the extent of the sheet changes via a drag,
 /// this notification bubbles up through the tree, which means a given
 /// [NotificationListener] will receive notifications for all descendant
-/// [FlexibleDraggableScrollableSheet] widgets. To focus on notifications
+/// [InteractiveContainer] widgets. To focus on notifications
 /// from the
 /// nearest FlexibleDraggableScrollableSheet descendant, check that the
 /// [depth]
@@ -38,7 +38,7 @@ import 'package:flutter/material.dart';
 /// notifications are used primarily to drive animations. The [Scaffold] widget
 /// listens for extent notifications and responds by driving animations for the
 /// [FloatingActionButton] as the bottom sheet scrolls up.
-class FlexibleDraggableScrollableNotification extends Notification
+class InteractiveContainerNotification extends Notification
     with ViewportNotificationMixin {
   /// The current value of the extent, between [minExtent] and [maxExtent].
   final double extent;
@@ -60,12 +60,12 @@ class FlexibleDraggableScrollableNotification extends Notification
   final BuildContext? context;
 
   /// Creates a notification that the extent of a
-  /// [FlexibleDraggableScrollableSheet] has
+  /// [InteractiveContainer] has
   /// changed.
   ///
   /// All parameters are required. The [minExtent] must be >= 0. The [maxExtent]
   /// must be <= 1.0.  The [extent] must be between [minExtent] and [maxExtent].
-  FlexibleDraggableScrollableNotification({
+  InteractiveContainerNotification({
     required this.extent,
     required this.minExtent,
     required this.maxExtent,

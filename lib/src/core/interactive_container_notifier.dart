@@ -16,14 +16,14 @@ import 'package:bottom_sheet/src/core/core.dart';
 import 'package:flutter/material.dart';
 
 /// Listen drag-notifications
-class FlexibleScrollNotifier extends StatelessWidget {
+class InteractiveContainerNotifier extends StatelessWidget {
   final Widget child;
 
   final ScrollStartCallback scrollStartCallback;
   final ScrollCallback scrollingCallback;
   final ScrollEndCallback scrollEndCallback;
 
-  const FlexibleScrollNotifier({
+  const InteractiveContainerNotifier({
     required this.child,
     required this.scrollStartCallback,
     required this.scrollingCallback,
@@ -37,7 +37,7 @@ class FlexibleScrollNotifier extends StatelessWidget {
       onNotification: scrollStartCallback,
       child: NotificationListener<ScrollEndNotification>(
         onNotification: scrollEndCallback,
-        child: NotificationListener<FlexibleDraggableScrollableNotification>(
+        child: NotificationListener<InteractiveContainerNotification>(
           onNotification: scrollingCallback,
           child: child,
         ),

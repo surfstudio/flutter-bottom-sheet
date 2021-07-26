@@ -14,13 +14,12 @@
 
 import 'package:flutter/foundation.dart';
 
-/// A [ChangeNotifier] to use with InheritedResetNotifyer to notify
+/// A [ChangeNotifier] to use with InheritedResetNotifier to notify
 /// descendants that they should reset to initial state.
 class ResetNotifier extends ChangeNotifier {
   /// Whether someone called [sendReset] or not.
   ///
   /// This flag should be reset after checking it.
-  /// TODO: check should be private
   bool wasCalled = false;
 
   /// Fires a reset notification to descendants.

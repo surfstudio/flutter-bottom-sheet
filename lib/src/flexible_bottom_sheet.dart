@@ -13,8 +13,6 @@
 // limitations under the License.
 
 import 'package:bottom_sheet/src/core/core.dart';
-import 'package:bottom_sheet/src/flexible_bottom_sheet_header_delegate.dart';
-import 'package:bottom_sheet/src/widgets/flexible_bottom_sheet_scroll_notifier.dart';
 import 'package:flutter/material.dart';
 
 /// Flexible and scrollable bottom sheet.
@@ -119,9 +117,10 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
   bool _isKeyboardOpenedNotified = false;
   bool _isKeyboardClosedNotified = false;
 
-  late AnimationController _animationController;
   late double _currentAnchor;
-  late FlexibleDraggableScrollableSheetScrollController _controller;
+  late InteractiveContainerScrollController _controller;
+
+  late AnimationController _animationController;
   late Animation<double> _topTweenAnimation;
   late VoidCallback _animationListener;
   late void Function(AnimationStatus) _statusListener;
@@ -170,11 +169,11 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
   Widget build(BuildContext context) {
     _checkKeyboard();
 
-    return FlexibleScrollNotifier(
+    return InteractiveContainerNotifier(
       scrollStartCallback: _startScroll,
       scrollingCallback: _scrolling,
       scrollEndCallback: _endScroll,
-      child: FlexibleDraggableScrollableSheet(
+      child: InteractiveContainer(
         maxChildSize: widget.maxHeight,
         minChildSize: widget.minHeight,
         initialChildSize: widget.initHeight,
@@ -198,15 +197,14 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
     BuildContext context,
     ScrollController controller,
   ) {
-    _controller =
-        controller as FlexibleDraggableScrollableSheetScrollController;
+    _controller = controller as InteractiveContainerScrollController;
 
     return AnimatedPadding(
       duration: const Duration(milliseconds: 100),
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewInsets.bottom,
       ),
-      child: _buildContent(context),
+      child: Builder(builder: _buildContent),
     );
   }
 
@@ -225,27 +223,31 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
         decoration: widget.decoration,
         child: CustomScrollView(
           controller: _controller,
-          slivers: <Widget>[
-            if (widget.headerBuilder != null)
-              SliverPersistentHeader(
-                pinned: true,
-                delegate: FlexibleBottomSheetHeaderDelegate(
-                  minHeight: widget.minHeaderHeight ?? 0.0,
-                  maxHeight: widget.maxHeaderHeight ?? 1.0,
-                  child: widget.headerBuilder!(context, _currentExtent),
-                ),
-              ),
-            if (widget.bodyBuilder != null)
-              SliverList(
-                delegate: widget.bodyBuilder!(
-                  context,
-                  _currentExtent,
-                ),
-              ),
-          ],
+          slivers: _buildSlivers(),
         ),
       ),
     );
+  }
+
+  List<Widget> _buildSlivers() {
+    return [
+      if (widget.headerBuilder != null)
+        SliverPersistentHeader(
+          pinned: true,
+          delegate: _FlexibleBottomSheetHeaderDelegate(
+            minHeight: widget.minHeaderHeight ?? 0.0,
+            maxHeight: widget.maxHeaderHeight ?? 1.0,
+            child: widget.headerBuilder!(context, _currentExtent),
+          ),
+        ),
+      if (widget.bodyBuilder != null)
+        SliverList(
+          delegate: widget.bodyBuilder!(
+            context,
+            _currentExtent,
+          ),
+        ),
+    ];
   }
 
   void _checkKeyboard() {
@@ -305,7 +307,7 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
     return false;
   }
 
-  bool _scrolling(FlexibleDraggableScrollableNotification notification) {
+  bool _scrolling(InteractiveContainerNotification notification) {
     if (_isClosing) return false;
 
     if (widget.isCollapsible && !_isClosing) {
@@ -416,5 +418,36 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
   void _dismiss() {
     if (widget.onDismiss != null) widget.onDismiss!();
     Navigator.pop(context);
+  }
+}
+
+class _FlexibleBottomSheetHeaderDelegate
+    extends SliverPersistentHeaderDelegate {
+  final Widget child;
+  final double minHeight;
+  final double maxHeight;
+
+  @override
+  double get minExtent => minHeight;
+
+  @override
+  double get maxExtent => maxHeight;
+
+  _FlexibleBottomSheetHeaderDelegate({
+    required this.maxHeight,
+    required this.child,
+    this.minHeight = 0,
+  });
+
+  @override
+  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => true;
+
+  @override
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
+    return child;
   }
 }

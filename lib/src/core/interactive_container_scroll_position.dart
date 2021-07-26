@@ -16,79 +16,28 @@ import 'package:bottom_sheet/src/core/core.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-/// A [ScrollController] suitable for use in a [ScrollableWidgetBuilder] created
-/// by a [FlexibleDraggableScrollableSheet].
-///
-/// If a [FlexibleDraggableScrollableSheet] contains content that is exceeds
-/// the height
-/// of its container, this controller will allow the sheet to both be dragged to
-/// fill the container and then scroll the child content.
-///
-/// See also:
-///
-///  * [FlexibleDraggableScrollableSheetScrollPosition], which manages the
-/// positioning logic for
-///    this controller.
-///  * [PrimaryScrollController], which can be used to establish a
-///    [FlexibleDraggableScrollableSheetScrollController] as the primary
-/// controller for
-///    descendants.
-class FlexibleDraggableScrollableSheetScrollController
-    extends ScrollController {
-  final FlexibleDraggableSheetExtent extent;
-
-  FlexibleDraggableScrollableSheetScrollController({
-    required this.extent,
-    double initialScrollOffset = 0.0,
-    String? debugLabel,
-  }) : super(
-          debugLabel: debugLabel,
-          initialScrollOffset: initialScrollOffset,
-        );
-
-  @override
-  FlexibleDraggableScrollableSheetScrollPosition createScrollPosition(
-    ScrollPhysics physics,
-    ScrollContext context,
-    ScrollPosition? oldPosition,
-  ) {
-    return FlexibleDraggableScrollableSheetScrollPosition(
-      physics: physics,
-      context: context,
-      oldPosition: oldPosition,
-      extent: extent,
-    );
-  }
-
-  @override
-  void debugFillDescription(List<String> description) {
-    super.debugFillDescription(description);
-    description.add('extent: $extent');
-  }
-}
-
 /// A scroll position that manages scroll activities for
-/// [FlexibleDraggableScrollableSheetScrollController].
+/// [InteractiveContainerScrollController].
 ///
 /// This class is a concrete subclass of [ScrollPosition] logic that handles a
 /// single [ScrollContext], such as a [Scrollable]. An instance of this class
 /// manages [ScrollActivity] instances, which changes the
-/// [FlexibleDraggableSheetExtent.currentExtent] or visible content offset in
+/// [InteractiveContainerExtent.currentExtent] or visible content offset in
 /// the [Scrollable]'s [Viewport]
 ///
 /// See also:
 ///
-///  * [FlexibleDraggableScrollableSheetScrollController], which uses this as
+///  * [InteractiveContainerScrollController], which uses this as
 /// its [ScrollPosition].
-class FlexibleDraggableScrollableSheetScrollPosition
+class InteractiveContainerScrollPosition
     extends ScrollPositionWithSingleContext {
-  final FlexibleDraggableSheetExtent extent;
+  final InteractiveContainerExtent extent;
 
   bool get listShouldScroll => pixels > 0.0;
 
   VoidCallback? _dragCancelCallback;
 
-  FlexibleDraggableScrollableSheetScrollPosition({
+  InteractiveContainerScrollPosition({
     required ScrollPhysics physics,
     required ScrollContext context,
     required this.extent,

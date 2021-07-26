@@ -12,9 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import 'package:bottom_sheet/src/core/flexible_draggable_scrollable_sheet_scroll_controller.dart';
-import 'package:bottom_sheet/src/core/flexible_draggable_sheet_extent.dart';
-import 'package:bottom_sheet/src/core/inherited_reset_notifier.dart';
+import 'package:bottom_sheet/src/core/core.dart';
 import 'package:flutter/material.dart';
 
 /// A container for a [Scrollable] that responds to drag gestures by resizing
@@ -80,7 +78,7 @@ import 'package:flutter/material.dart';
 /// }
 /// ```
 /// {@end-tool}
-class FlexibleDraggableScrollableSheet extends StatefulWidget {
+class InteractiveContainer extends StatefulWidget {
   /// The initial fractional value of the parent container's height to use when
   /// displaying the widget.
   ///
@@ -118,7 +116,7 @@ class FlexibleDraggableScrollableSheet extends StatefulWidget {
   ///
   /// The [builder], [initialChildSize], [minChildSize], [maxChildSize] and
   /// [expand] parameters must not be null.
-  const FlexibleDraggableScrollableSheet({
+  const InteractiveContainer({
     required this.builder,
     Key? key,
     this.initialChildSize = 0.5,
@@ -132,26 +130,23 @@ class FlexibleDraggableScrollableSheet extends StatefulWidget {
         super(key: key);
 
   @override
-  FlexibleDraggableScrollableSheetState createState() =>
-      FlexibleDraggableScrollableSheetState();
+  InteractiveContainerState createState() => InteractiveContainerState();
 }
 
-class FlexibleDraggableScrollableSheetState
-    extends State<FlexibleDraggableScrollableSheet> {
-  late FlexibleDraggableScrollableSheetScrollController _scrollController;
-  late FlexibleDraggableSheetExtent _extent;
+class InteractiveContainerState extends State<InteractiveContainer> {
+  late InteractiveContainerScrollController _scrollController;
+  late InteractiveContainerExtent _extent;
 
   @override
   void initState() {
     super.initState();
-    _extent = FlexibleDraggableSheetExtent(
+    _extent = InteractiveContainerExtent(
       minExtent: widget.minChildSize,
       maxExtent: widget.maxChildSize,
       initialExtent: widget.initialChildSize,
       listener: _setExtent,
     );
-    _scrollController =
-        FlexibleDraggableScrollableSheetScrollController(extent: _extent);
+    _scrollController = InteractiveContainerScrollController(extent: _extent);
   }
 
   @override
