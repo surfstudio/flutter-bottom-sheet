@@ -15,9 +15,9 @@
 import 'package:bottom_sheet/src/core/core.dart';
 import 'package:flutter/material.dart';
 
-/// Manages state between [InteractiveContainerState],
-/// [InteractiveContainerScrollController], and
-/// [InteractiveContainerScrollPosition].
+/// Manages state between [InteractiveSheetState],
+/// [InteractiveSheetScrollController], and
+/// [InteractiveSheetScrollPosition].
 ///
 /// The State knows the pixels available along the axis the widget wants to
 /// scroll, but expects to get a fraction of those pixels to render the sheet.
@@ -66,7 +66,7 @@ class InteractiveContainerExtent {
       return;
     }
     currentExtent += delta / availablePixels * maxExtent;
-    InteractiveContainerNotification(
+    InteractiveSheetNotification(
       minExtent: minExtent,
       maxExtent: maxExtent,
       extent: currentExtent,

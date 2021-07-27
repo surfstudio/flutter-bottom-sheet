@@ -16,26 +16,26 @@ import 'package:bottom_sheet/src/core/core.dart';
 import 'package:flutter/material.dart';
 
 /// A [ScrollController] suitable for use in a [ScrollableWidgetBuilder] created
-/// by a [InteractiveContainer].
+/// by a [InteractiveSheet].
 ///
-/// If a [InteractiveContainer] contains content that is exceeds
+/// If a [InteractiveSheet] contains content that is exceeds
 /// the height
 /// of its container, this controller will allow the sheet to both be dragged to
 /// fill the container and then scroll the child content.
 ///
 /// See also:
 ///
-///  * [InteractiveContainerScrollPosition], which manages the
+///  * [InteractiveSheetScrollPosition], which manages the
 /// positioning logic for
 ///    this controller.
 ///  * [PrimaryScrollController], which can be used to establish a
 ///    [FlexibleDraggableScrollableSheetScrollController] as the primary
 /// controller for
 ///    descendants.
-class InteractiveContainerScrollController extends ScrollController {
+class InteractiveSheetScrollController extends ScrollController {
   final InteractiveContainerExtent extent;
 
-  InteractiveContainerScrollController({
+  InteractiveSheetScrollController({
     required this.extent,
     double initialScrollOffset = 0.0,
     String? debugLabel,
@@ -45,12 +45,12 @@ class InteractiveContainerScrollController extends ScrollController {
         );
 
   @override
-  InteractiveContainerScrollPosition createScrollPosition(
+  InteractiveSheetScrollPosition createScrollPosition(
     ScrollPhysics physics,
     ScrollContext context,
     ScrollPosition? oldPosition,
   ) {
-    return InteractiveContainerScrollPosition(
+    return InteractiveSheetScrollPosition(
       physics: physics,
       context: context,
       oldPosition: oldPosition,

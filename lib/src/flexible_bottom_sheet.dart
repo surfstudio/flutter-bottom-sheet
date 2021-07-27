@@ -118,7 +118,7 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
   bool _isKeyboardClosedNotified = false;
 
   late double _currentAnchor;
-  late InteractiveContainerScrollController _controller;
+  late InteractiveSheetScrollController _controller;
 
   late AnimationController _animationController;
   late Animation<double> _topTweenAnimation;
@@ -169,11 +169,11 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
   Widget build(BuildContext context) {
     _checkKeyboard();
 
-    return InteractiveContainerNotifier(
+    return InteractiveSheetNotifier(
       scrollStartCallback: _startScroll,
       scrollingCallback: _scrolling,
       scrollEndCallback: _endScroll,
-      child: InteractiveContainer(
+      child: InteractiveSheet(
         maxChildSize: widget.maxHeight,
         minChildSize: widget.minHeight,
         initialChildSize: widget.initHeight,
@@ -197,7 +197,7 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
     BuildContext context,
     ScrollController controller,
   ) {
-    _controller = controller as InteractiveContainerScrollController;
+    _controller = controller as InteractiveSheetScrollController;
 
     return AnimatedPadding(
       duration: const Duration(milliseconds: 100),
@@ -223,31 +223,27 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
         decoration: widget.decoration,
         child: CustomScrollView(
           controller: _controller,
-          slivers: _buildSlivers(),
+          slivers: [
+            if (widget.headerBuilder != null)
+              SliverPersistentHeader(
+                pinned: true,
+                delegate: _FlexibleBottomSheetHeaderDelegate(
+                  minHeight: widget.minHeaderHeight ?? 0.0,
+                  maxHeight: widget.maxHeaderHeight ?? 1.0,
+                  child: widget.headerBuilder!(context, _currentExtent),
+                ),
+              ),
+            if (widget.bodyBuilder != null)
+              SliverList(
+                delegate: widget.bodyBuilder!(
+                  context,
+                  _currentExtent,
+                ),
+              ),
+          ],
         ),
       ),
     );
-  }
-
-  List<Widget> _buildSlivers() {
-    return [
-      if (widget.headerBuilder != null)
-        SliverPersistentHeader(
-          pinned: true,
-          delegate: _FlexibleBottomSheetHeaderDelegate(
-            minHeight: widget.minHeaderHeight ?? 0.0,
-            maxHeight: widget.maxHeaderHeight ?? 1.0,
-            child: widget.headerBuilder!(context, _currentExtent),
-          ),
-        ),
-      if (widget.bodyBuilder != null)
-        SliverList(
-          delegate: widget.bodyBuilder!(
-            context,
-            _currentExtent,
-          ),
-        ),
-    ];
   }
 
   void _checkKeyboard() {
@@ -307,7 +303,7 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
     return false;
   }
 
-  bool _scrolling(InteractiveContainerNotification notification) {
+  bool _scrolling(InteractiveSheetNotification notification) {
     if (_isClosing) return false;
 
     if (widget.isCollapsible && !_isClosing) {

@@ -78,7 +78,7 @@ import 'package:flutter/material.dart';
 /// }
 /// ```
 /// {@end-tool}
-class InteractiveContainer extends StatefulWidget {
+class InteractiveSheet extends StatefulWidget {
   /// The initial fractional value of the parent container's height to use when
   /// displaying the widget.
   ///
@@ -116,7 +116,7 @@ class InteractiveContainer extends StatefulWidget {
   ///
   /// The [builder], [initialChildSize], [minChildSize], [maxChildSize] and
   /// [expand] parameters must not be null.
-  const InteractiveContainer({
+  const InteractiveSheet({
     required this.builder,
     Key? key,
     this.initialChildSize = 0.5,
@@ -130,11 +130,11 @@ class InteractiveContainer extends StatefulWidget {
         super(key: key);
 
   @override
-  InteractiveContainerState createState() => InteractiveContainerState();
+  InteractiveSheetState createState() => InteractiveSheetState();
 }
 
-class InteractiveContainerState extends State<InteractiveContainer> {
-  late InteractiveContainerScrollController _scrollController;
+class InteractiveSheetState extends State<InteractiveSheet> {
+  late InteractiveSheetScrollController _scrollController;
   late InteractiveContainerExtent _extent;
 
   @override
@@ -146,7 +146,7 @@ class InteractiveContainerState extends State<InteractiveContainer> {
       initialExtent: widget.initialChildSize,
       listener: _setExtent,
     );
-    _scrollController = InteractiveContainerScrollController(extent: _extent);
+    _scrollController = InteractiveSheetScrollController(extent: _extent);
   }
 
   @override

@@ -22,7 +22,7 @@ import 'test_utils.dart';
 void main() {
   group('Smoke tests', () {
     testWidgets('FlexibleDraggableScrollableSheet builds', (tester) async {
-      final widget = InteractiveContainer(
+      final widget = InteractiveSheet(
         builder: (context, scrollController) {
           return ListView.builder(
             controller: scrollController,
@@ -38,7 +38,7 @@ void main() {
     });
 
     testWidgets('FlexibleScrollNotifier builds', (tester) async {
-      final widget = InteractiveContainerNotifier(
+      final widget = InteractiveSheetNotifier(
         scrollStartCallback: (_) {
           return true;
         },
@@ -64,7 +64,7 @@ void main() {
     testWidgets('scroll callbacks', (tester) async {
       final result = <Scroll>[];
 
-      final widget = InteractiveContainerNotifier(
+      final widget = InteractiveSheetNotifier(
         scrollStartCallback: (_) {
           result.add(Scroll.start);
           return true;
@@ -77,7 +77,7 @@ void main() {
           result.add(Scroll.end);
           return true;
         },
-        child: InteractiveContainer(
+        child: InteractiveSheet(
           builder: (context, scrollController) {
             return ListView.builder(
               controller: scrollController,

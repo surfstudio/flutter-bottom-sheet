@@ -69,10 +69,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _showSheet() {
-    // showFlexibleBottomSheet<void>(
-    //   context: context,
-    //   builder: _buildBottomSheet,
-    // );
     showFlexibleBottomSheet<void>(
       minHeight: 0,
       initHeight: 0.5,

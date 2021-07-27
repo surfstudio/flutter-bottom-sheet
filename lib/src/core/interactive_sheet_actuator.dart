@@ -15,15 +15,15 @@
 import 'package:bottom_sheet/src/core/core.dart';
 import 'package:flutter/material.dart';
 
-/// A widget that can notify a descendent [InteractiveContainer]
+/// A widget that can notify a descendent [InteractiveSheet]
 /// that it should reset its position to the initial state.
 ///
 /// The [Scaffold] uses this widget to notify a persistent bottom sheet that
 /// the user has tapped back if the sheet has started to cover more of the body
 /// than when at its initial position. This is important for users of assistive
 /// technology, where dragging may be difficult to communicate.
-class InteractiveContainerActuator extends StatelessWidget {
-  /// This child's [InteractiveContainer] descendant will be reset
+class InteractiveSheetActuator extends StatelessWidget {
+  /// This child's [InteractiveSheet] descendant will be reset
   /// when the [reset] method is applied to a context that includes it.
   ///
   /// Must not be null.
@@ -32,10 +32,10 @@ class InteractiveContainerActuator extends StatelessWidget {
   final ResetNotifier _notifier = ResetNotifier();
 
   /// Creates a widget that can notify descendent
-  /// [InteractiveContainer]s to reset to their initial position.
+  /// [InteractiveSheet]s to reset to their initial position.
   ///
   /// The [child] parameter is required.
-  InteractiveContainerActuator({
+  InteractiveSheetActuator({
     required this.child,
     Key? key,
   }) : super(key: key);
@@ -48,11 +48,11 @@ class InteractiveContainerActuator extends StatelessWidget {
     );
   }
 
-  /// Notifies any descendant [InteractiveContainer] that it should
+  /// Notifies any descendant [InteractiveSheet] that it should
   /// reset to its initial position.
   ///
-  /// Returns `true` if a [InteractiveContainerActuator] is available and
-  /// some [InteractiveContainer] is listening for updates, `false`
+  /// Returns `true` if a [InteractiveSheetActuator] is available and
+  /// some [InteractiveSheet] is listening for updates, `false`
   /// otherwise.
   static bool reset(BuildContext context) {
     final notifier =
