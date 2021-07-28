@@ -15,9 +15,9 @@
 import 'package:bottom_sheet/src/core/core.dart';
 import 'package:flutter/material.dart';
 
-/// Manages state between [InteractiveSheetState],
-/// [InteractiveSheetScrollController], and
-/// [InteractiveSheetScrollPosition].
+/// Manages state between [FlexibleDraggableScrollableSheetState],
+/// [FlexibleDraggableScrollableSheetScrollController], and
+/// [FlexibleDraggableScrollableSheetScrollPosition].
 ///
 /// The State knows the pixels available along the axis the widget wants to
 /// scroll, but expects to get a fraction of those pixels to render the sheet.
@@ -26,7 +26,7 @@ import 'package:flutter/material.dart';
 ///
 /// The [currentExtent] will never be null.
 /// The [availablePixels] will never be null, but may be `double.infinity`.
-class InteractiveContainerExtent {
+class FlexibleDraggableSheetExtent {
   final double minExtent;
   final double maxExtent;
   final double initialExtent;
@@ -46,7 +46,7 @@ class InteractiveContainerExtent {
 
   double get additionalMaxExtent => isAtMax ? 0.0 : 1.0;
 
-  InteractiveContainerExtent({
+  FlexibleDraggableSheetExtent({
     required this.minExtent,
     required this.maxExtent,
     required this.initialExtent,
@@ -66,7 +66,7 @@ class InteractiveContainerExtent {
       return;
     }
     currentExtent += delta / availablePixels * maxExtent;
-    InteractiveSheetNotification(
+    FlexibleDraggableScrollableNotification(
       minExtent: minExtent,
       maxExtent: maxExtent,
       extent: currentExtent,

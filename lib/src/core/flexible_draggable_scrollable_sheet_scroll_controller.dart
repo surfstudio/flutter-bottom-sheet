@@ -16,26 +16,27 @@ import 'package:bottom_sheet/src/core/core.dart';
 import 'package:flutter/material.dart';
 
 /// A [ScrollController] suitable for use in a [ScrollableWidgetBuilder] created
-/// by a [InteractiveSheet].
+/// by a [FlexibleDraggableScrollableSheet].
 ///
-/// If a [InteractiveSheet] contains content that is exceeds
+/// If a [FlexibleDraggableScrollableSheet] contains content that is exceeds
 /// the height
 /// of its container, this controller will allow the sheet to both be dragged to
 /// fill the container and then scroll the child content.
 ///
 /// See also:
 ///
-///  * [InteractiveSheetScrollPosition], which manages the
+///  * [FlexibleDraggableScrollableSheetScrollPosition], which manages the
 /// positioning logic for
 ///    this controller.
 ///  * [PrimaryScrollController], which can be used to establish a
 ///    [FlexibleDraggableScrollableSheetScrollController] as the primary
 /// controller for
 ///    descendants.
-class InteractiveSheetScrollController extends ScrollController {
-  final InteractiveContainerExtent extent;
+class FlexibleDraggableScrollableSheetScrollController
+    extends ScrollController {
+  final FlexibleDraggableSheetExtent extent;
 
-  InteractiveSheetScrollController({
+  FlexibleDraggableScrollableSheetScrollController({
     required this.extent,
     double initialScrollOffset = 0.0,
     String? debugLabel,
@@ -45,12 +46,12 @@ class InteractiveSheetScrollController extends ScrollController {
         );
 
   @override
-  InteractiveSheetScrollPosition createScrollPosition(
+  FlexibleDraggableScrollableSheetScrollPosition createScrollPosition(
     ScrollPhysics physics,
     ScrollContext context,
     ScrollPosition? oldPosition,
   ) {
-    return InteractiveSheetScrollPosition(
+    return FlexibleDraggableScrollableSheetScrollPosition(
       physics: physics,
       context: context,
       oldPosition: oldPosition,

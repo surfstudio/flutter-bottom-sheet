@@ -17,26 +17,27 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 /// A scroll position that manages scroll activities for
-/// [InteractiveSheetScrollController].
+/// [FlexibleDraggableScrollableSheetScrollController].
 ///
 /// This class is a concrete subclass of [ScrollPosition] logic that handles a
 /// single [ScrollContext], such as a [Scrollable]. An instance of this class
 /// manages [ScrollActivity] instances, which changes the
-/// [InteractiveContainerExtent.currentExtent] or visible content offset in
+/// [FlexibleDraggableSheetExtent.currentExtent] or visible content offset in
 /// the [Scrollable]'s [Viewport]
 ///
 /// See also:
 ///
-///  * [InteractiveSheetScrollController], which uses this as
+///  * [FlexibleDraggableScrollableSheetScrollController], which uses this as
 /// its [ScrollPosition].
-class InteractiveSheetScrollPosition extends ScrollPositionWithSingleContext {
-  final InteractiveContainerExtent extent;
+class FlexibleDraggableScrollableSheetScrollPosition
+    extends ScrollPositionWithSingleContext {
+  final FlexibleDraggableSheetExtent extent;
 
   bool get listShouldScroll => pixels > 0.0;
 
   VoidCallback? _dragCancelCallback;
 
-  InteractiveSheetScrollPosition({
+  FlexibleDraggableScrollableSheetScrollPosition({
     required ScrollPhysics physics,
     required ScrollContext context,
     required this.extent,

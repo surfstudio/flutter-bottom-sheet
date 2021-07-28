@@ -13,21 +13,21 @@
 // limitations under the License.
 
 import 'package:bottom_sheet/src/core/core.dart';
-import 'package:flutter/material.dart' hide BottomSheet;
+import 'package:flutter/material.dart';
 
+/// Creates an [InheritedNotifier] that the
+/// [FlexibleDraggableScrollableSheet] will
+/// listen to for an indication that it should change its extent.
+///
+/// The [child] and [notifier] properties must not be null.
 class InheritedResetNotifier extends InheritedNotifier<ResetNotifier> {
-  /// Creates an [InheritedNotifier] that the
-  /// [InteractiveSheet] will
-  /// listen to for an indication that it should change its extent.
-  ///
-  /// The [child] and [notifier] properties must not be null.
   const InheritedResetNotifier({
     required Widget child,
     required ResetNotifier notifier,
     Key? key,
   }) : super(key: key, child: child, notifier: notifier);
 
-  /// Specifies whether the [InteractiveSheet] should reset to
+  /// Specifies whether the [FlexibleDraggableScrollableSheet] should reset to
   /// its initial position.
   ///
   /// Returns true if the notifier requested a reset, false otherwise.

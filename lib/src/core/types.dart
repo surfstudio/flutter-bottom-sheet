@@ -26,7 +26,7 @@ import 'package:flutter/material.dart';
 /// [bottomSheetOffset] - percent of offset
 typedef FlexibleDraggableScrollableWidgetBuilder = Widget Function(
   BuildContext context,
-  InteractiveSheetScrollController scrollController,
+  FlexibleDraggableScrollableSheetScrollController scrollController,
   double bottomSheetOffset,
 );
 
@@ -54,7 +54,7 @@ typedef FlexibleDraggableScrollableWidgetBodyBuilder = SliverChildDelegate
 typedef ScrollStartCallback = bool Function(ScrollStartNotification);
 
 /// Scrolling
-typedef ScrollCallback = bool Function(InteractiveSheetNotification);
+typedef ScrollCallback = bool Function(FlexibleDraggableScrollableNotification);
 
 /// Scroll finished
 typedef ScrollEndCallback = bool Function(ScrollEndNotification);

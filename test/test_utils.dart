@@ -14,6 +14,13 @@
 
 import 'package:flutter/material.dart';
 
-Widget makeTestableWidget(Widget widget) {
-  return MaterialApp(home: Scaffold(body: SizedBox.expand(child: widget)));
+class TestableWidgetContainer extends StatelessWidget {
+  final Widget widget;
+
+  const TestableWidgetContainer(this.widget, {Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(home: Scaffold(body: SizedBox.expand(child: widget)));
+  }
 }

@@ -22,7 +22,7 @@ import 'test_utils.dart';
 void main() {
   group('Smoke tests', () {
     testWidgets('FlexibleDraggableScrollableSheet builds', (tester) async {
-      final widget = InteractiveSheet(
+      final widget = FlexibleDraggableScrollableSheet(
         builder: (context, scrollController) {
           return ListView.builder(
             controller: scrollController,
@@ -34,11 +34,11 @@ void main() {
         },
       );
 
-      await tester.pumpWidget(makeTestableWidget(widget));
+      await tester.pumpWidget(TestableWidgetContainer(widget));
     });
 
     testWidgets('FlexibleScrollNotifier builds', (tester) async {
-      final widget = InteractiveSheetNotifier(
+      final widget = FlexibleScrollNotifier(
         scrollStartCallback: (_) {
           return true;
         },
@@ -56,7 +56,7 @@ void main() {
         ),
       );
 
-      await tester.pumpWidget(makeTestableWidget(widget));
+      await tester.pumpWidget(TestableWidgetContainer(widget));
     });
   });
 
@@ -64,7 +64,7 @@ void main() {
     testWidgets('scroll callbacks', (tester) async {
       final result = <Scroll>[];
 
-      final widget = InteractiveSheetNotifier(
+      final widget = FlexibleScrollNotifier(
         scrollStartCallback: (_) {
           result.add(Scroll.start);
           return true;
@@ -77,7 +77,7 @@ void main() {
           result.add(Scroll.end);
           return true;
         },
-        child: InteractiveSheet(
+        child: FlexibleDraggableScrollableSheet(
           builder: (context, scrollController) {
             return ListView.builder(
               controller: scrollController,
@@ -90,7 +90,7 @@ void main() {
         ),
       );
 
-      await tester.pumpWidget(makeTestableWidget(widget));
+      await tester.pumpWidget(TestableWidgetContainer(widget));
 
       final gesture = await tester.startGesture(const Offset(250, 300));
 

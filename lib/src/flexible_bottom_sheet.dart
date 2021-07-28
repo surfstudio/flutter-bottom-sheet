@@ -118,7 +118,7 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
   bool _isKeyboardClosedNotified = false;
 
   late double _currentAnchor;
-  late InteractiveSheetScrollController _controller;
+  late FlexibleDraggableScrollableSheetScrollController _controller;
 
   late AnimationController _animationController;
   late Animation<double> _topTweenAnimation;
@@ -169,11 +169,11 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
   Widget build(BuildContext context) {
     _checkKeyboard();
 
-    return InteractiveSheetNotifier(
+    return FlexibleScrollNotifier(
       scrollStartCallback: _startScroll,
       scrollingCallback: _scrolling,
       scrollEndCallback: _endScroll,
-      child: InteractiveSheet(
+      child: FlexibleDraggableScrollableSheet(
         maxChildSize: widget.maxHeight,
         minChildSize: widget.minHeight,
         initialChildSize: widget.initHeight,
@@ -197,7 +197,8 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
     BuildContext context,
     ScrollController controller,
   ) {
-    _controller = controller as InteractiveSheetScrollController;
+    _controller =
+        controller as FlexibleDraggableScrollableSheetScrollController;
 
     return AnimatedPadding(
       duration: const Duration(milliseconds: 100),
@@ -303,7 +304,7 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
     return false;
   }
 
-  bool _scrolling(InteractiveSheetNotification notification) {
+  bool _scrolling(FlexibleDraggableScrollableNotification notification) {
     if (_isClosing) return false;
 
     if (widget.isCollapsible && !_isClosing) {

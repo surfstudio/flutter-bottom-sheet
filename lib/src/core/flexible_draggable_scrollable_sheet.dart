@@ -78,7 +78,7 @@ import 'package:flutter/material.dart';
 /// }
 /// ```
 /// {@end-tool}
-class InteractiveSheet extends StatefulWidget {
+class FlexibleDraggableScrollableSheet extends StatefulWidget {
   /// The initial fractional value of the parent container's height to use when
   /// displaying the widget.
   ///
@@ -116,7 +116,7 @@ class InteractiveSheet extends StatefulWidget {
   ///
   /// The [builder], [initialChildSize], [minChildSize], [maxChildSize] and
   /// [expand] parameters must not be null.
-  const InteractiveSheet({
+  const FlexibleDraggableScrollableSheet({
     required this.builder,
     Key? key,
     this.initialChildSize = 0.5,
@@ -130,23 +130,26 @@ class InteractiveSheet extends StatefulWidget {
         super(key: key);
 
   @override
-  InteractiveSheetState createState() => InteractiveSheetState();
+  FlexibleDraggableScrollableSheetState createState() =>
+      FlexibleDraggableScrollableSheetState();
 }
 
-class InteractiveSheetState extends State<InteractiveSheet> {
-  late InteractiveSheetScrollController _scrollController;
-  late InteractiveContainerExtent _extent;
+class FlexibleDraggableScrollableSheetState
+    extends State<FlexibleDraggableScrollableSheet> {
+  late FlexibleDraggableScrollableSheetScrollController _scrollController;
+  late FlexibleDraggableSheetExtent _extent;
 
   @override
   void initState() {
     super.initState();
-    _extent = InteractiveContainerExtent(
+    _extent = FlexibleDraggableSheetExtent(
       minExtent: widget.minChildSize,
       maxExtent: widget.maxChildSize,
       initialExtent: widget.initialChildSize,
       listener: _setExtent,
     );
-    _scrollController = InteractiveSheetScrollController(extent: _extent);
+    _scrollController =
+        FlexibleDraggableScrollableSheetScrollController(extent: _extent);
   }
 
   @override

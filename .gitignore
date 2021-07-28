@@ -28,6 +28,7 @@
 .pub-cache/
 .pub/
 build/
+*.lock
 
 # Android related
 **/android/**/gradle-wrapper.jar
@@ -71,3 +72,13 @@ build/
 !**/ios/**/default.pbxuser
 !**/ios/**/default.perspectivev3
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
+
+# Support file for ci
+~changed_list_file
+packages/template/ios/Flutter/flutter_export_environment.sh
+.last_build_id
+
+# Unit test runner related
+**/coverage/**.info
+fake_test.dart
+examples/cat_facts/test/golden/app/failures
