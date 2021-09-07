@@ -126,7 +126,6 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         );
       },
-
       builder: (context, offset) {
         return SliverChildListDelegate(
           _getChildren(offset, isShowPosition: false),
