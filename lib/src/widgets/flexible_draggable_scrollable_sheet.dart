@@ -540,59 +540,59 @@ class _FlexibleDraggableScrollableSheetScrollPosition
   }
 }
 
-/// A widget that can notify a descendent [FlexibleDraggableScrollableSheet]
-/// that it should reset its position to the initial state.
-///
-/// The [Scaffold] uses this widget to notify a persistent bottom sheet that
-/// the user has tapped back if the sheet has started to cover more of the body
-/// than when at its initial position. This is important for users of assistive
-/// technology, where dragging may be difficult to communicate.
-class FlexibleDraggableScrollableActuator extends StatelessWidget {
-  /// Creates a widget that can notify descendent
-  /// [FlexibleDraggableScrollableSheet]s to reset to their initial position.
-  ///
-  /// The [child] parameter is required.
-  FlexibleDraggableScrollableActuator({
-    required this.child,
-    Key? key,
-  }) : super(key: key);
-
-  /// This child's [FlexibleDraggableScrollableSheet] descendant will be reset
-  /// when the [reset] method is applied to a context that includes it.
-  ///
-  /// Must not be null.
-  final Widget child;
-
-  final _ResetNotifier _notifier = _ResetNotifier();
-
-  /// Notifies any descendant [FlexibleDraggableScrollableSheet] that it should
-  /// reset to its initial position.
-  ///
-  /// Returns `true` if a [FlexibleDraggableScrollableActuator] is available and
-  /// some [FlexibleDraggableScrollableSheet] is listening for updates, `false`
-  /// otherwise.
-  static bool reset(BuildContext context) {
-    final notifier =
-        context.dependOnInheritedWidgetOfExactType<_InheritedResetNotifier>();
-    if (notifier == null) {
-      return false;
-    }
-    return notifier._sendReset();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return _InheritedResetNotifier(
-      notifier: _notifier,
-      child: child,
-    );
-  }
-}
+// /// A widget that can notify a descendent [FlexibleDraggableScrollableSheet]
+// /// that it should reset its position to the initial state.
+// ///
+// /// The [Scaffold] uses this widget to notify a persistent bottom sheet that
+// /// the user has tapped back if the sheet has started to cover more of the body
+// /// than when at its initial position. This is important for users of assistive
+// /// technology, where dragging may be difficult to communicate.
+//class FlexibleDraggableScrollableActuator extends StatelessWidget {
+//  /// Creates a widget that can notify descendent
+//  /// [FlexibleDraggableScrollableSheet]s to reset to their initial position.
+//  ///
+//  /// The [child] parameter is required.
+//  FlexibleDraggableScrollableActuator({
+//    required this.child,
+//    Key? key,
+//  }) : super(key: key);
+//
+//  /// This child's [FlexibleDraggableScrollableSheet] descendant will be reset
+//  /// when the [reset] method is applied to a context that includes it.
+//  ///
+//  /// Must not be null.
+//  final Widget child;
+//
+//  final _ResetNotifier _notifier = _ResetNotifier();
+//
+//  /// Notifies any descendant [FlexibleDraggableScrollableSheet] that it should
+//  /// reset to its initial position.
+//  ///
+//  /// Returns `true` if a [FlexibleDraggableScrollableActuator] is available and
+//  /// some [FlexibleDraggableScrollableSheet] is listening for updates, `false`
+//  /// otherwise.
+//  static bool reset(BuildContext context) {
+//    final notifier =
+//        context.dependOnInheritedWidgetOfExactType<_InheritedResetNotifier>();
+//    if (notifier == null) {
+//      return false;
+//    }
+//    return notifier._sendReset();
+//  }
+//
+//  @override
+//  Widget build(BuildContext context) {
+//    return _InheritedResetNotifier(
+//      notifier: _notifier,
+//      child: child,
+//    );
+//  }
+//}
 
 /// A [ChangeNotifier] to use with InheritedResetNotifyer to notify
 /// descendants that they should reset to initial state.
 class _ResetNotifier extends ChangeNotifier {
-  /// Whether someone called [sendReset] or not.
+ // /// Whether someone called [sendReset] or not.
   ///
   /// This flag should be reset after checking it.
   bool _wasCalled = false;
@@ -600,14 +600,14 @@ class _ResetNotifier extends ChangeNotifier {
   /// Fires a reset notification to descendants.
   ///
   /// Returns false if there are no listeners.
-  bool sendReset() {
-    if (!hasListeners) {
-      return false;
-    }
-    _wasCalled = true;
-    notifyListeners();
-    return true;
-  }
+// bool sendReset() {
+//   if (!hasListeners) {
+//     return false;
+//   }
+//   _wasCalled = true;
+//   notifyListeners();
+//   return true;
+// }
 }
 
 class _InheritedResetNotifier extends InheritedNotifier<_ResetNotifier> {
@@ -623,7 +623,7 @@ class _InheritedResetNotifier extends InheritedNotifier<_ResetNotifier> {
   }) : super(key: key, child: child, notifier: notifier);
 
   // use "!" because notifier is required in overload constructor
-  bool _sendReset() => notifier!.sendReset();
+ // bool _sendReset() => notifier!.sendReset();
 
   /// Specifies whether the [FlexibleDraggableScrollableSheet] should reset to
   /// its initial position.
