@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import 'package:bottom_sheet/bottom_sheet.dart';
-import 'package:bottom_sheet/src/widgets/flexible_bottom_sheet_scroll_notifyer.dart';
+import 'package:bottom_sheet/src/widgets/flexible_bottom_sheet_scroll_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -39,11 +39,11 @@ void main() {
     });
 
     testWidgets('FlexibleScrollNotifyer builds', (tester) async {
-      final widget = FlexibleScrollNotifyer(
+      final widget = FlexibleScrollNotifier(
         scrollStartCallback: (_) {
           return true;
         },
-        scrollingCallback: (_) {
+        scrollCallback: (_) {
           return true;
         },
         scrollEndCallback: (_) {
@@ -65,12 +65,12 @@ void main() {
     testWidgets('scroll callbacks', (tester) async {
       final result = <Scroll>[];
 
-      final widget = FlexibleScrollNotifyer(
+      final widget = FlexibleScrollNotifier(
         scrollStartCallback: (_) {
           result.add(Scroll.start);
           return true;
         },
-        scrollingCallback: (_) {
+        scrollCallback: (_) {
           result.add(Scroll.scrolling);
           return true;
         },
