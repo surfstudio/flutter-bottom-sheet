@@ -24,7 +24,7 @@ typedef ScrollCallback = bool Function(FlexibleDraggableScrollableNotification);
 /// Scroll finished.
 typedef ScrollEndCallback = bool Function(ScrollEndNotification);
 
-/// Listen drag-notifications.
+/// Listen drag-notifier.
 class FlexibleScrollNotifier extends StatelessWidget {
   final Widget child;
 

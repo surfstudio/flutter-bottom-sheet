@@ -14,6 +14,7 @@
 
 import 'package:flutter/widgets.dart';
 
+/// Delegate for configuring a [SliverPersistentHeader].
 class FlexibleBottomSheetHeaderDelegate extends SliverPersistentHeaderDelegate {
   final Widget child;
   final double minHeight;

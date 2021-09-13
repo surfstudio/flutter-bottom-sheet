@@ -131,7 +131,7 @@ class _MyHomePageState extends State<MyHomePage> {
           _getChildren(offset, isShowPosition: false),
         );
       },
-      anchors: [.2, 0.5, .8],
+      anchors: [0.5, .8],
     );
   }
 
