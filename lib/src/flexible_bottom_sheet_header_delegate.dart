@@ -14,17 +14,10 @@
 
 import 'package:flutter/widgets.dart';
 
+/// Delegate for configuring a [SliverPersistentHeader].
 class FlexibleBottomSheetHeaderDelegate extends SliverPersistentHeaderDelegate {
-  FlexibleBottomSheetHeaderDelegate({
-    required this.maxHeight,
-    required this.child,
-    this.minHeight = 0,
-  });
-
   final Widget child;
-
   final double minHeight;
-
   final double maxHeight;
 
   @override
@@ -32,6 +25,12 @@ class FlexibleBottomSheetHeaderDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   double get maxExtent => maxHeight;
+
+  FlexibleBottomSheetHeaderDelegate({
+    required this.maxHeight,
+    required this.child,
+    this.minHeight = 0,
+  });
 
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => true;

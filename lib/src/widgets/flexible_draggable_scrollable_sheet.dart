@@ -118,23 +118,6 @@ typedef FlexibleDraggableScrollableWidgetBodyBuilder = SliverChildDelegate
 /// ```
 /// {@end-tool}
 class FlexibleDraggableScrollableSheet extends StatefulWidget {
-  /// Creates a widget that can be dragged and scrolled in a single gesture.
-  ///
-  /// The [builder], [initialChildSize], [minChildSize], [maxChildSize] and
-  /// [expand] parameters must not be null.
-  const FlexibleDraggableScrollableSheet({
-    required this.builder,
-    Key? key,
-    this.initialChildSize = 0.5,
-    this.minChildSize = 0.25,
-    this.maxChildSize = 1.0,
-    this.expand = true,
-  })  : assert(minChildSize >= 0.0),
-        assert(maxChildSize <= 1.0),
-        assert(minChildSize <= initialChildSize),
-        assert(initialChildSize <= maxChildSize),
-        super(key: key);
-
   /// The initial fractional value of the parent container's height to use when
   /// displaying the widget.
   ///
@@ -168,6 +151,23 @@ class FlexibleDraggableScrollableSheet extends StatefulWidget {
   /// of the contents.
   final ScrollableWidgetBuilder builder;
 
+  /// Creates a widget that can be dragged and scrolled in a single gesture.
+  ///
+  /// The [builder], [initialChildSize], [minChildSize], [maxChildSize] and
+  /// [expand] parameters must not be null.
+  const FlexibleDraggableScrollableSheet({
+    required this.builder,
+    Key? key,
+    this.initialChildSize = 0.5,
+    this.minChildSize = 0.25,
+    this.maxChildSize = 1.0,
+    this.expand = true,
+  })  : assert(minChildSize >= 0.0),
+        assert(maxChildSize <= 1.0),
+        assert(minChildSize <= initialChildSize),
+        assert(initialChildSize <= maxChildSize),
+        super(key: key);
+
   @override
   _FlexibleDraggableScrollableSheetState createState() =>
       _FlexibleDraggableScrollableSheetState();
@@ -198,24 +198,6 @@ class FlexibleDraggableScrollableSheet extends StatefulWidget {
 /// [FloatingActionButton] as the bottom sheet scrolls up.
 class FlexibleDraggableScrollableNotification extends Notification
     with ViewportNotificationMixin {
-  /// Creates a notification that the extent of a
-  /// [FlexibleDraggableScrollableSheet] has
-  /// changed.
-  ///
-  /// All parameters are required. The [minExtent] must be >= 0. The [maxExtent]
-  /// must be <= 1.0.  The [extent] must be between [minExtent] and [maxExtent].
-  FlexibleDraggableScrollableNotification({
-    required this.extent,
-    required this.minExtent,
-    required this.maxExtent,
-    required this.initialExtent,
-    this.context,
-  })  : assert(0.0 <= minExtent),
-        assert(maxExtent <= 1.0),
-        assert(minExtent <= extent),
-        assert(minExtent <= initialExtent),
-        assert(extent <= maxExtent),
-        assert(initialExtent <= maxExtent);
 
   /// The current value of the extent, between [minExtent] and [maxExtent].
   final double extent;
@@ -235,6 +217,25 @@ class FlexibleDraggableScrollableNotification extends Notification
   /// of the viewport, for instance. A listener can only assume this context
   /// is live when it first gets the notification.
   final BuildContext? context;
+
+  /// Creates a notification that the extent of a
+  /// [FlexibleDraggableScrollableSheet] has
+  /// changed.
+  ///
+  /// All parameters are required. The [minExtent] must be >= 0. The [maxExtent]
+  /// must be <= 1.0.  The [extent] must be between [minExtent] and [maxExtent].
+  FlexibleDraggableScrollableNotification({
+    required this.extent,
+    required this.minExtent,
+    required this.maxExtent,
+    required this.initialExtent,
+    this.context,
+  })  : assert(0.0 <= minExtent),
+        assert(maxExtent <= 1.0),
+        assert(minExtent <= extent),
+        assert(minExtent <= initialExtent),
+        assert(extent <= maxExtent),
+        assert(initialExtent <= maxExtent);
 
   @override
   void debugFillDescription(List<String> description) {
@@ -256,19 +257,6 @@ class FlexibleDraggableScrollableNotification extends Notification
 /// The [currentExtent] will never be null.
 /// The [availablePixels] will never be null, but may be `double.infinity`.
 class FlexibleDraggableSheetExtent {
-  FlexibleDraggableSheetExtent({
-    required this.minExtent,
-    required this.maxExtent,
-    required this.initialExtent,
-    required VoidCallback listener,
-  })  : assert(minExtent >= 0),
-        assert(maxExtent <= 1),
-        assert(minExtent <= initialExtent),
-        assert(initialExtent <= maxExtent),
-        _currentExtent = ValueNotifier<double>(initialExtent)
-          ..addListener(listener),
-        availablePixels = double.infinity;
-
   final double minExtent;
   final double maxExtent;
   final double initialExtent;
@@ -287,6 +275,19 @@ class FlexibleDraggableSheetExtent {
   double get additionalMinExtent => isAtMin ? 0.0 : 1.0;
 
   double get additionalMaxExtent => isAtMax ? 0.0 : 1.0;
+
+  FlexibleDraggableSheetExtent({
+    required this.minExtent,
+    required this.maxExtent,
+    required this.initialExtent,
+    required VoidCallback listener,
+  })  : assert(minExtent >= 0),
+        assert(maxExtent <= 1),
+        assert(minExtent <= initialExtent),
+        assert(initialExtent <= maxExtent),
+        _currentExtent = ValueNotifier<double>(initialExtent)
+          ..addListener(listener),
+        availablePixels = double.infinity;
 
   /// The scroll position gets inputs in terms of pixels, but the extent is
   /// expected to be expressed as a number between 0..1.
@@ -323,12 +324,6 @@ class _FlexibleDraggableScrollableSheetState
         FlexibleDraggableScrollableSheetScrollController(extent: _extent);
   }
 
-  void _setExtent() {
-    setState(() {
-      // _extent has been updated when this is called.
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -349,6 +344,12 @@ class _FlexibleDraggableScrollableSheetState
   void dispose() {
     _scrollController.dispose();
     super.dispose();
+  }
+
+  void _setExtent() {
+    setState(() {
+      // _extent has been updated when this is called.
+    });
   }
 }
 
@@ -371,6 +372,8 @@ class _FlexibleDraggableScrollableSheetState
 ///    descendants.
 class FlexibleDraggableScrollableSheetScrollController
     extends ScrollController {
+  final FlexibleDraggableSheetExtent extent;
+
   FlexibleDraggableScrollableSheetScrollController({
     required this.extent,
     double initialScrollOffset = 0.0,
@@ -379,8 +382,6 @@ class FlexibleDraggableScrollableSheetScrollController
           debugLabel: debugLabel,
           initialScrollOffset: initialScrollOffset,
         );
-
-  final FlexibleDraggableSheetExtent extent;
 
   @override
   _FlexibleDraggableScrollableSheetScrollPosition createScrollPosition(
@@ -418,6 +419,12 @@ class FlexibleDraggableScrollableSheetScrollController
 /// its [ScrollPosition].
 class _FlexibleDraggableScrollableSheetScrollPosition
     extends ScrollPositionWithSingleContext {
+  final FlexibleDraggableSheetExtent extent;
+
+  bool get listShouldScroll => pixels > 0.0;
+
+  VoidCallback? _dragCancelCallback;
+
   _FlexibleDraggableScrollableSheetScrollPosition({
     required ScrollPhysics physics,
     required ScrollContext context,
@@ -434,11 +441,6 @@ class _FlexibleDraggableScrollableSheetScrollPosition
           oldPosition: oldPosition,
           debugLabel: debugLabel,
         );
-
-  VoidCallback? _dragCancelCallback;
-  final FlexibleDraggableSheetExtent extent;
-
-  bool get listShouldScroll => pixels > 0.0;
 
   @override
   bool applyContentDimensions(double minScrollExtent, double maxScrollExtent) {
