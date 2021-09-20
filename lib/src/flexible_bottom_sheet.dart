@@ -295,11 +295,6 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
       initVal = currentVal;
     }
 
-    if (widget.animationController != null) {
-      widget.animationController!.value =
-          (1 + (currentVal - initVal) / initVal).clamp(0.0, 1.0);
-    }
-
     _checkNeedCloseBottomSheet();
 
     return false;
