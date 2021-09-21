@@ -35,12 +35,12 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
+  final String title;
+
   const MyHomePage({
     required this.title,
     Key? key,
   }) : super(key: key);
-
-  final String title;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
