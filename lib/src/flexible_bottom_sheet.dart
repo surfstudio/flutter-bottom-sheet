@@ -390,6 +390,7 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
   }
 }
 
+/// Content for [FlexibleBottomSheet].
 class _Content extends StatelessWidget {
   final FlexibleDraggableScrollableWidgetBuilder? builder;
   final FlexibleDraggableScrollableSheetScrollController controller;
