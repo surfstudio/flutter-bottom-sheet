@@ -31,7 +31,7 @@ There are 2 type of BottomSheet:
 
 #### Simple BottomSheet
 
-![](media/bs1.gif)
+![](media/open_bottom_sheet.gif)
 
 To show bottomSheet, use :
 
@@ -64,7 +64,7 @@ Widget _buildBottomSheet(
 
 #### Sticky BottomSheet
 
-![](media/bs2.gif)
+![](media/open_stiky_bottom_sheet.gif)
 
 To show sticky BottomSheet, use:  
 **You should return SliverChildListDelegate from builder !!!**
