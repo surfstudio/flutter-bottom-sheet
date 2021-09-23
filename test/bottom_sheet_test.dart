@@ -78,17 +78,7 @@ void main() {
           result.add(Scroll.end);
           return true;
         },
-        child: FlexibleDraggableScrollableSheet(
-          builder: (context, scrollController) {
-            return ListView.builder(
-              controller: scrollController,
-              itemCount: 25,
-              itemBuilder: (context, index) {
-                return ListTile(title: Text('Item $index'));
-              },
-            );
-          },
-        ),
+        child: const FlexibleBottomSheet(),
       );
 
       await tester.pumpWidget(makeTestableWidget(widget));
