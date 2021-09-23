@@ -18,7 +18,7 @@ Custom bottom sheet widget, that can resize by drag and then scroll.
 Main classes:
 
 1. [FlexibleBottomSheet](lib/src/flexible_bottom_sheet.dart)
-2. [BottomSheetRoute and Showing methods](lib/src/flexible_bottom_sheet_route.dart)
+2. [BottomSheetRoute and showing methods](lib/src/flexible_bottom_sheet_route.dart)
 
 Flexible and scrollable bottom sheet.
 
@@ -112,7 +112,7 @@ For issues, file directly in the Issues section.
 
 ## Contribute
 
-If you would like to contribute to the package (e.g. by improving the documentation, solving a bug or adding a cool new feature), please review our [contribution guide](../../CONTRIBUTING.md) first and send us your pull request.
+If you would like to contribute to the package (e.g. by improving the documentation, solving a bug or adding a cool new feature), please review our [contribution guide](./CONTRIBUTING.md) first and send us your pull request.
 
 Your PRs are always welcome.
 
