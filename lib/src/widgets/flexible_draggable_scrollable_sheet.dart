@@ -27,7 +27,7 @@ import 'package:flutter/material.dart';
 /// as a [SingleChildScrollView], [ListView] or [GridView], to have the whole
 /// sheet be draggable.
 ///
-/// [bottomSheetOffset] - percent of offset
+/// [bottomSheetOffset] - fractional value of offset.
 typedef FlexibleDraggableScrollableWidgetBuilder = Widget Function(
   BuildContext context,
   FlexibleDraggableScrollableSheetScrollController scrollController,
@@ -36,8 +36,8 @@ typedef FlexibleDraggableScrollableWidgetBuilder = Widget Function(
 
 /// The signature of the method that provides [BuildContext]
 /// and [bottomSheetOffset] for determining the position of the BottomSheet
-/// relative to the upper border of the screen
-///
+/// relative to the upper border of the screen.
+/// [bottomSheetOffset] - fractional value of offset.
 typedef FlexibleDraggableScrollableHeaderWidgetBuilder = Widget Function(
   BuildContext context,
   double bottomSheetOffset,
@@ -45,9 +45,8 @@ typedef FlexibleDraggableScrollableHeaderWidgetBuilder = Widget Function(
 
 /// The signature of a method that provides a [BuildContext]
 /// and [bottomSheetOffset] for determining the position of the BottomSheet
-/// relative to the upper border of the screen
-/// [bottomSheetOffset] - percent of offset
-///
+/// relative to the upper border of the screen.
+/// [bottomSheetOffset] - fractional value of offset.
 typedef FlexibleDraggableScrollableWidgetBodyBuilder = SliverChildDelegate
     Function(
   BuildContext context,
@@ -139,7 +138,7 @@ class FlexibleDraggableScrollableSheet extends StatefulWidget {
   /// Whether the widget should expand to fill the available space in its parent
   /// or not.
   ///
-  /// In most cases, this should be true. However, in the case of a parent
+  /// In most cases, this should be true. However, in the case of a parent's
   /// widget that will position this one based on its desired size (such as a
   /// [Center]), this should be set to false.
   ///
@@ -222,8 +221,10 @@ class FlexibleDraggableScrollableNotification extends Notification
   /// [FlexibleDraggableScrollableSheet] has
   /// changed.
   ///
-  /// All parameters are required. The [minExtent] must be >= 0. The [maxExtent]
-  /// must be <= 1.0.  The [extent] must be between [minExtent] and [maxExtent].
+  /// All parameters are required.
+  /// The [minExtent] must be >= 0.
+  /// The [maxExtent] must be <= 1.0.
+  /// The [extent] must be between [minExtent] and [maxExtent].
   FlexibleDraggableScrollableNotification({
     required this.extent,
     required this.minExtent,
@@ -364,12 +365,10 @@ class _FlexibleDraggableScrollableSheetState
 /// See also:
 ///
 ///  * [_FlexibleDraggableScrollableSheetScrollPosition], which manages the
-/// positioning logic for
-///    this controller.
+/// positioning logic for this controller.
 ///  * [PrimaryScrollController], which can be used to establish a
 ///    [_FlexibleDraggableScrollableSheetScrollController] as the primary
-/// controller for
-///    descendants.
+/// controller for descendants.
 class FlexibleDraggableScrollableSheetScrollController
     extends ScrollController {
   final FlexibleDraggableSheetExtent extent;
@@ -473,7 +472,7 @@ class _FlexibleDraggableScrollableSheetScrollPosition
       super.goBallistic(velocity);
       return;
     }
-    //Scrollable expects that we will dispose of its current _dragCancelCallback
+    //Scrollable expects that we will dispose of its current _dragCancelCallback.
     _dragCancelCallback?.call();
     _dragCancelCallback = null;
 

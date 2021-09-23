@@ -20,12 +20,12 @@ const Duration _bottomSheetDuration = Duration(milliseconds: 500);
 
 /// Shows a flexible bottom sheet.
 ///
-/// [builder] - content's builder
-/// [minHeight] - min height in percent for bottom sheet. e.g. 0.1
-/// [initHeight] - init height in percent for bottom sheet. e.g. 0.5
-/// [maxHeight] - init height in percent for bottom sheet. e.g. 0.5
-/// [isModal] - if true, overlay background with dark color
-/// [anchors] - percent height that bottom sheet can be
+/// [builder] - content's builder.
+/// [minHeight] - min height in fractional value for bottom sheet. e.g. 0.1.
+/// [initHeight] - init height in fractional value for bottom sheet. e.g. 0.5.
+/// [maxHeight] - init height in fractional value for bottom sheet. e.g. 0.5.
+/// [isModal] - if true, overlay background with dark color.
+/// [anchors] - list of sizes in fractional value that the bottom sheet can accept.
 Future<T?> showFlexibleBottomSheet<T>({
   required BuildContext context,
   required FlexibleDraggableScrollableWidgetBuilder builder,
@@ -58,21 +58,20 @@ Future<T?> showFlexibleBottomSheet<T>({
 }
 
 /// Shows a flexible bottom sheet with the ability to scroll content
-/// even without a list
+/// even without a list.
 ///
-/// [bodyBuilder] - content's builder
-/// [minHeight] - min height in percent for bottom sheet. e.g. 0.1
-/// [initHeight] - init height in percent for bottom sheet. e.g. 0.5
-/// [maxHeight] - init height in percent for bottom sheet. e.g. 0.5
-/// [isModal] - if true, overlay background with dark color
-/// [anchors] - percent height that bottom sheet can be
-/// isPinnedHeader - can the header scroll
-/// [decoration] - BottomSheet decoration
-/// [minHeaderHeight] - minimum head size
-/// [maxHeaderHeight] - maximum head size
+/// [bodyBuilder] - content's builder.
+/// [minHeight] - min height in fractional value for bottom sheet. e.g. 0.1.
+/// [initHeight] - init height in fractional value for bottom sheet. e.g. 0.5.
+/// [maxHeight] - init height in fractional value for bottom sheet. e.g. 0.5.
+/// [isModal] - if true, overlay background with dark color.
+/// [anchors] - list of sizes in fractional value that the bottom sheet can accept.
+/// [decoration] - BottomSheet decoration.
+/// [minHeaderHeight] - minimum head size.
+/// [maxHeaderHeight] - maximum head size.
 /// [headerHeight] - head size.
-/// decoratedBox - decoration for header and content
-/// Sets both [minHeaderHeight] and [maxHeaderHeight]
+/// Set both [minHeaderHeight] and [maxHeaderHeight].
+/// Set one ([maxHeaderHeight] or [headerHeight]).
 Future<T?> showStickyFlexibleBottomSheet<T>({
   required BuildContext context,
   required FlexibleDraggableScrollableHeaderWidgetBuilder headerBuilder,
@@ -116,7 +115,6 @@ Future<T?> showStickyFlexibleBottomSheet<T>({
 
 /// A modal route with flexible bottom sheet.
 class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
-
   final FlexibleDraggableScrollableWidgetBuilder? builder;
   final FlexibleDraggableScrollableHeaderWidgetBuilder? headerBuilder;
   final FlexibleDraggableScrollableWidgetBodyBuilder? bodyBuilder;
