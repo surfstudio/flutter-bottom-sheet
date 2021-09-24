@@ -20,22 +20,25 @@ import 'package:flutter_test/flutter_test.dart';
 import 'scroll.dart';
 import 'test_utils.dart';
 
+final _flexibleDraggableScrollableSheet = FlexibleDraggableScrollableSheet(
+  builder: (context, scrollController) {
+    return ListView.builder(
+      controller: scrollController,
+      itemCount: 25,
+      itemBuilder: (context, index) {
+        return ListTile(title: Text('Item $index'));
+      },
+    );
+  },
+);
+
 void main() {
   group('Smoke tests', () {
     testWidgets('FlexibleDraggableScrollableSheet builds', (tester) async {
-      final widget = FlexibleDraggableScrollableSheet(
-        builder: (context, scrollController) {
-          return ListView.builder(
-            controller: scrollController,
-            itemCount: 25,
-            itemBuilder: (context, index) {
-              return ListTile(title: Text('Item $index'));
-            },
-          );
-        },
-      );
+      await tester
+          .pumpWidget(makeTestableWidget(_flexibleDraggableScrollableSheet));
 
-      await tester.pumpWidget(makeTestableWidget(widget));
+      expect(() => _flexibleDraggableScrollableSheet, returnsNormally);
     });
 
     testWidgets('FlexibleScrollNotifyer builds', (tester) async {
@@ -49,15 +52,12 @@ void main() {
         scrollEndCallback: (_) {
           return true;
         },
-        child: ListView.builder(
-          itemCount: 25,
-          itemBuilder: (context, index) {
-            return ListTile(title: Text('Item $index'));
-          },
-        ),
+        child: _flexibleDraggableScrollableSheet,
       );
 
       await tester.pumpWidget(makeTestableWidget(widget));
+
+      expect(() => widget, returnsNormally);
     });
   });
 
@@ -94,6 +94,44 @@ void main() {
       await gesture.up();
 
       expect(result.last, equals(Scroll.end));
+    });
+  });
+
+  group('FlexibleBottomSheet', () {
+    testWidgets('Availability widgets', (tester) async {
+      await tester.pumpWidget(
+        makeTestableWidget(
+          const FlexibleBottomSheet(),
+        ),
+      );
+
+      final flexibleScrollNotifier = find.byType(FlexibleScrollNotifier);
+      expect(flexibleScrollNotifier, findsOneWidget);
+
+      final flexibleDraggableScrollableSheet =
+          find.byType(FlexibleDraggableScrollableSheet);
+      expect(flexibleDraggableScrollableSheet, findsOneWidget);
+    });
+
+    testWidgets('Size', (tester) async {
+      await tester.pumpWidget(
+        makeTestableWidget(
+          const FlexibleBottomSheet(
+            maxHeight: 0.8,
+            minHeight: 0.2,
+          ),
+        ),
+      );
+      tester.binding.window.physicalSizeTestValue = const Size(42, 42);
+
+      final BuildContext context = tester.element(
+        find.byType(FlexibleBottomSheet),
+      );
+
+      //final screenHeight = MediaQuery.of(context).size.height;
+      final sizeWidget = tester.getSize(find.byType(Scaffold)).height;
+      //final heightWidget = sizeWidget / screenHeight;
+      expect(sizeWidget, equals(0.8));
     });
   });
 }
