@@ -15,8 +15,6 @@
 import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
-// ignore_for_file: avoid-returning-widgets
-
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
@@ -76,7 +74,12 @@ class _MyHomePageState extends State<MyHomePage> {
       initHeight: 0.5,
       maxHeight: 1,
       context: context,
-      builder: _buildBottomSheet,
+      builder: (context, controller, offset) {
+        return _BottomSheet(
+          scrollController: controller,
+          bottomSheetOffset: offset,
+        );
+      },
       anchors: [0, 0.5, 1],
     );
   }
@@ -128,57 +131,26 @@ class _MyHomePageState extends State<MyHomePage> {
       },
       bodyBuilder: (context, offset) {
         return SliverChildListDelegate(
-          _getChildren(offset, isShowPosition: false),
+          _children,
         );
       },
       anchors: [.2, 0.5, .8],
     );
   }
+}
 
-  List<Widget> _getChildren(
-    double bottomSheetOffset, {
-    required bool isShowPosition,
-  }) =>
-      [
-        if (isShowPosition)
-          Text(
-            'position $bottomSheetOffset',
-            style: Theme.of(context).textTheme.headline6,
-          ),
-        _buildTextField(),
-        _testContainer(const Color(0xEEFFFF00)),
-        _buildTextField(),
-        _testContainer(const Color(0xDD99FF00)),
-        _buildTextField(),
-        _testContainer(const Color(0xCC00FFFF)),
-        _buildTextField(),
-        _testContainer(const Color(0xBB555555)),
-        _buildTextField(),
-        _testContainer(const Color(0xAAFF5555)),
-        _buildTextField(),
-        _testContainer(const Color(0x9900FF00)),
-        _buildTextField(),
-        _testContainer(const Color(0x8800FF00)),
-        _buildTextField(),
-        _testContainer(const Color(0x7700FF00)),
-        _buildTextField(),
-      ];
+class _BottomSheet extends StatelessWidget {
+  final ScrollController scrollController;
+  final double bottomSheetOffset;
 
-  Widget _testContainer(Color color) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        height: 100,
-        color: color,
-      ),
-    );
-  }
+  const _BottomSheet({
+    required this.scrollController,
+    required this.bottomSheetOffset,
+    Key? key,
+  }) : super(key: key);
 
-  Widget _buildBottomSheet(
-    BuildContext context,
-    ScrollController scrollController,
-    double bottomSheetOffset,
-  ) {
+  @override
+  Widget build(BuildContext context) {
     return SafeArea(
       child: Material(
         child: Container(
@@ -192,17 +164,72 @@ class _MyHomePageState extends State<MyHomePage> {
           child: ListView(
             padding: EdgeInsets.zero,
             controller: scrollController,
-            children: _getChildren(bottomSheetOffset, isShowPosition: true),
+            children: [
+              Text(
+                'position $bottomSheetOffset',
+                style: Theme.of(context).textTheme.headline6,
+              ),
+              Column(
+                children: _children,
+              ),
+            ],
           ),
         ),
       ),
     );
   }
+}
 
-  Widget _buildTextField() => const TextField(
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          hintText: 'Enter a search term',
-        ),
-      );
+List<Widget> _children = [
+  const _TextField(),
+  const _TestContainer(color: Color(0xEEFFFF00)),
+  const _TextField(),
+  const _TestContainer(color: Color(0xDD99FF00)),
+  const _TextField(),
+  const _TestContainer(color: Color(0xCC00FFFF)),
+  const _TextField(),
+  const _TestContainer(color: Color(0xBB555555)),
+  const _TextField(),
+  const _TestContainer(color: Color(0xAAFF5555)),
+  const _TextField(),
+  const _TestContainer(color: Color(0x9900FF00)),
+  const _TextField(),
+  const _TestContainer(color: Color(0x8800FF00)),
+  const _TextField(),
+  const _TestContainer(color: Color(0x7700FF00)),
+  const _TextField(),
+];
+
+class _TextField extends StatelessWidget {
+  const _TextField({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const TextField(
+      decoration: InputDecoration(
+        border: InputBorder.none,
+        hintText: 'Enter a search term',
+      ),
+    );
+  }
+}
+
+class _TestContainer extends StatelessWidget {
+  final Color color;
+
+  const _TestContainer({
+    required this.color,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        height: 100,
+        color: color,
+      ),
+    );
+  }
 }
