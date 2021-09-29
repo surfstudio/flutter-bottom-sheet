@@ -5,55 +5,175 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 
-const _devicesWithTolerance = {
-  Device.phone: 5.1,
-  Device.iphone11: 3.4,
-  Device.tabletPortrait: 1.0,
-  Device.tabletLandscape: 1.0,
-};
-
-Future<void> testExecutable(FutureOr<void> Function() testMain) async {
-  return GoldenToolkit.runWithConfiguration(
-    () async {
-      await loadAppFonts();
-      await testMain();
-    },
-    config: GoldenToolkitConfiguration(
-      defaultDevices: _devicesWithTolerance.keys.toList(),
-      enableRealShadows: true,
-    ),
-  );
-}
-
-late BuildContext savedContext;
-
 void main() {
-  testGoldens(
-    'FlexibleBottomSheet',
-    (tester) async {
-      final builder = GoldenBuilder.column()
-        ..addScenario(
-          'Swipe down',
-          MaterialApp(
-            home: Builder(
-              builder: (context) {
-                savedContext = context;
-                return FlexibleBottomSheet(
-                  builder: (context, controller, offset) {
-                    return ListView();
-                  },
-                );
-              },
-            ),
-          ),
-        );
+  testGoldens('C1test', (tester) async {
+    late final BuildContext ctx;
 
-      await tester.pumpWidgetBuilder(
-        builder.build(),
-        surfaceSize: const Size(400, 286),
-      );
+    const scaffold = Scaffold();
 
-      await screenMatchesGolden(tester, 'FlexibleBottomSheet');
-    },
-  );
+    await tester.pumpWidgetBuilder(
+      MaterialApp(
+        home: Builder(
+          builder: (context) {
+            ctx = context;
+            return scaffold;
+          },
+        ),
+      ),
+    );
+
+    unawaited(
+      showFlexibleBottomSheet<void>(
+        minHeight: 0,
+        initHeight: 0.5,
+        maxHeight: 1,
+        context: ctx,
+        builder: (context, controller, offset) {
+          return ListView(
+            controller: controller,
+            children: [
+              Container(
+                height: 200,
+                width: double.infinity,
+                color: Colors.red,
+              ),
+              Container(
+                height: 200,
+                width: double.infinity,
+                color: Colors.black,
+              ),
+              Container(
+                height: 200,
+                width: double.infinity,
+                color: Colors.green,
+              ),
+              Container(
+                height: 200,
+                width: double.infinity,
+                color: Colors.blue,
+              ),
+            ],
+          );
+        },
+        anchors: [0, 0.5, 1],
+      ),
+    );
+
+    await tester.pumpAndSettle();
+
+    await tester.drag(
+      find.byType(
+        FlexibleBottomSheet,
+      ),
+      const Offset(50, 300.0),
+    );
+
+    await tester.pumpAndSettle();
+
+    await screenMatchesGolden(tester, 'bsh');
+  });
 }
+//
+// void main() {
+//   // testGoldens(
+//   //   'FlexibleBottomSheet',
+//   //   (tester) async {
+//   //     final builder = GoldenBuilder.column()
+//   //       ..addScenario(
+//   //         'Swipe down',
+//   //         MaterialApp(
+//   //           home: Builder(
+//   //             builder: (context) {
+//   //               savedContext = context;
+//   //               return FlexibleBottomSheet(
+//   //                 builder: (context, controller, offset) {
+//   //                   return ListView(
+//   //                     children: [
+//   //                       Container(
+//   //                         height: 200,
+//   //                         width: double.infinity,
+//   //                         color: Colors.red,
+//   //                       ),
+//   //                       Container(
+//   //                         height: 200,
+//   //                         width: double.infinity,
+//   //                         color: Colors.black,
+//   //                       ),
+//   //                       Container(
+//   //                         height: 200,
+//   //                         width: double.infinity,
+//   //                         color: Colors.red,
+//   //                       ),
+//   //                       Container(
+//   //                         height: 200,
+//   //                         width: double.infinity,
+//   //                         color: Colors.black,
+//   //                       ),
+//   //                     ],
+//   //                   );
+//   //                 },
+//   //               );
+//   //             },
+//   //           ),
+//   //         ),
+//   //       );
+//   //
+//   //
+//   //     await screenMatchesGolden(tester, 'FlexibleBottomSheet');
+//   //   },
+//   // );
+//
+//   testGoldens('C1test', (tester) async {
+//     late final BuildContext ctx;
+//
+//     await tester.pumpWidgetBuilder(
+//       MaterialApp(
+//         home: Builder(
+//             builder: (context) {
+//               ctx = context;
+//               return const Scaffold();
+//             },
+//         ),
+//       ),
+//     );
+//
+//
+//     await showFlexibleBottomSheet<void>(
+//       minHeight: 0,
+//       initHeight: 0.5,
+//       maxHeight: 1,
+//       context: ctx,
+//       builder: (context, controller, offset) {
+//         return ListView(
+//           children: [
+//             Container(
+//               height: 200,
+//               width: double.infinity,
+//               color: Colors.red,
+//             ),
+//             Container(
+//               height: 200,
+//               width: double.infinity,
+//               color: Colors.black,
+//             ),
+//             Container(
+//               height: 200,
+//               width: double.infinity,
+//               color: Colors.red,
+//             ),
+//             Container(
+//               height: 200,
+//               width: double.infinity,
+//               color: Colors.black,
+//             ),
+//           ],
+//         );
+//       },
+//       anchors: [0, 0.5, 1],
+//     );
+//
+//     await tester.pump();
+//
+//     await screenMatchesGolden(tester, 'bsh');
+//   });
+// }
