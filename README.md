@@ -17,15 +17,12 @@ Custom bottom sheet widget, that can resize by drag and then scroll.
 
 Main classes:
 
-1. [FlexibleBottomSheetController](lib/src/flexible_bottom_sheet_controller.dart)
-2. [FlexibleBottomSheetOwner](lib/src/flexible_bottom_sheet_owner.dart)
-3. [BottomSheetRoute and Showing methods](lib/src/flexible_bottom_sheet_route.dart)
+1. [FlexibleBottomSheet](lib/src/flexible_bottom_sheet.dart)
+2. [BottomSheetRoute and showing methods](lib/src/flexible_bottom_sheet_route.dart)
 
 Flexible and scrollable bottom sheet.
 
 You can show it if call `showFlexibleBottomSheet()`, then it will be show as popup like a modal bottom sheet with resize by drag and scrollable.
-
-Also you can use `FlexibleBottomSheetController` to show it. For this call you must create `FlexibleBottomSheetController` and give to controller.
 
 There are 2 type of BottomSheet:  
 
@@ -34,7 +31,7 @@ There are 2 type of BottomSheet:
 
 #### Simple BottomSheet
 
-![](media/bs1.gif)
+![](media/open_bottom_sheet.gif)
 
 To show bottomSheet, use :
 
@@ -67,7 +64,7 @@ Widget _buildBottomSheet(
 
 #### Sticky BottomSheet
 
-![](media/bs2.gif)
+![](media/open_stiky_bottom_sheet.gif)
 
 To show sticky BottomSheet, use:  
 **You should return SliverChildListDelegate from builder !!!**
@@ -115,7 +112,7 @@ For issues, file directly in the Issues section.
 
 ## Contribute
 
-If you would like to contribute to the package (e.g. by improving the documentation, solving a bug or adding a cool new feature), please review our [contribution guide](../../CONTRIBUTING.md) first and send us your pull request.
+If you would like to contribute to the package (e.g. by improving the documentation, solving a bug or adding a cool new feature), please review our [contribution guide](./CONTRIBUTING.md) first and send us your pull request.
 
 Your PRs are always welcome.
 
