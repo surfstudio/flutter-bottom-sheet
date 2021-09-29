@@ -12,33 +12,44 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'dart:ui';
+
 import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:bottom_sheet/src/widgets/flexible_bottom_sheet_scroll_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:surf_lint_rules/surf_lint_rules.dart';
 
 import 'scroll.dart';
 import 'test_utils.dart';
 
-final _flexibleDraggableScrollableSheet = FlexibleDraggableScrollableSheet(
-  builder: (context, scrollController) {
-    return ListView.builder(
-      controller: scrollController,
-      itemCount: 25,
-      itemBuilder: (context, index) {
-        return ListTile(title: Text('Item $index'));
+class _FlexibleDraggableScrollableSheet extends StatelessWidget {
+  const _FlexibleDraggableScrollableSheet({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FlexibleDraggableScrollableSheet(
+      builder: (context, scrollController) {
+        return ListView.builder(
+          controller: scrollController,
+          itemCount: 25,
+          itemBuilder: (context, index) {
+            return ListTile(title: Text('Item $index'));
+          },
+        );
       },
     );
-  },
-);
+  }
+}
 
 void main() {
   group('Smoke tests', () {
     testWidgets('FlexibleDraggableScrollableSheet builds', (tester) async {
-      await tester
-          .pumpWidget(makeTestableWidget(_flexibleDraggableScrollableSheet));
+      await tester.pumpWidget(
+        makeTestableWidget(const _FlexibleDraggableScrollableSheet()),
+      );
 
-      expect(() => _flexibleDraggableScrollableSheet, returnsNormally);
+      expect(() => _FlexibleDraggableScrollableSheet, returnsNormally);
     });
 
     testWidgets('FlexibleScrollNotifyer builds', (tester) async {
@@ -52,7 +63,7 @@ void main() {
         scrollEndCallback: (_) {
           return true;
         },
-        child: _flexibleDraggableScrollableSheet,
+        child: const _FlexibleDraggableScrollableSheet(),
       );
 
       await tester.pumpWidget(makeTestableWidget(widget));
@@ -113,25 +124,95 @@ void main() {
       expect(flexibleDraggableScrollableSheet, findsOneWidget);
     });
 
-    testWidgets('Size', (tester) async {
+    testWidgets('Build', (tester) async {
+      late BuildContext savedContext;
+
       await tester.pumpWidget(
-        makeTestableWidget(
-          const FlexibleBottomSheet(
-            maxHeight: 0.8,
-            minHeight: 0.2,
+        MaterialApp(
+          home: Builder(
+            builder: (context) {
+              savedContext = context;
+              return Container();
+            },
           ),
         ),
       );
-      tester.binding.window.physicalSizeTestValue = const Size(42, 42);
 
-      final BuildContext context = tester.element(
-        find.byType(FlexibleBottomSheet),
+      await tester.pump();
+      expect(find.byType(FlexibleBottomSheet), findsNothing);
+
+      unawaited(
+        showFlexibleBottomSheet<void>(
+          minHeight: 0,
+          initHeight: 0.5,
+          maxHeight: 1,
+          context: savedContext,
+          builder: (savedContext, controller, offset) {
+            return ListView();
+          },
+          anchors: [0, 0.5, 1],
+        ),
       );
 
-      //final screenHeight = MediaQuery.of(context).size.height;
-      final sizeWidget = tester.getSize(find.byType(Scaffold)).height;
-      //final heightWidget = sizeWidget / screenHeight;
-      expect(sizeWidget, equals(0.8));
+      await tester.pumpAndSettle();
+      expect(find.byType(FlexibleBottomSheet), findsOneWidget);
+
+      // Tap on the bottom sheet does not close it.
+      await tester.tap(find.byType(FlexibleBottomSheet));
+      await tester.pumpAndSettle();
+      expect(find.byType(FlexibleBottomSheet), findsOneWidget);
+
+      // Tap above the bottom sheet to dismiss it.
+      await tester.tapAt(const Offset(20.0, 20.0));
+      await tester.pumpAndSettle();
+      expect(find.byType(FlexibleBottomSheet), findsNothing);
+
+      //final screenHeight = tester.getSize(find.byType(MaterialApp)).height;
+      //final widgetHeight =
+      //    tester.getSize(find.byType(FlexibleBottomSheet)).height;
+      //final heightWidget = widgetHeight / screenHeight;
+      //expect(heightWidget, equals(0.5));
+    });
+
+    testWidgets('Swipe down', (tester) async {
+      late BuildContext savedContext;
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Builder(
+            builder: (context) {
+              savedContext = context;
+              return Container();
+            },
+          ),
+        ),
+      );
+
+      unawaited(
+        showFlexibleBottomSheet<void>(
+          minHeight: 0,
+          initHeight: 0.5,
+          maxHeight: 1,
+          context: savedContext,
+          builder: (context, controller, offset) {
+            return ListView();
+          },
+          anchors: [0, 0.5, 1],
+        ),
+      );
+
+      await tester.pumpAndSettle();
+      expect(find.byType(FlexibleBottomSheet), findsOneWidget);
+
+      await tester.drag(
+        find.byType(
+          FlexibleBottomSheet,
+          skipOffstage: false,
+        ),
+        const Offset(0.0, 300.0),
+      );
+      await tester.pumpAndSettle();
+      expect(find.byType(FlexibleBottomSheet), findsNothing);
     });
   });
 }

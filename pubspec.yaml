@@ -12,6 +12,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   surf_lint_rules: ^1.0.0
+  golden_toolkit: ^0.10.0
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
