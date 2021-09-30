@@ -33,6 +33,7 @@ Future<T?> showFlexibleBottomSheet<T>({
   double? initHeight,
   double? maxHeight,
   bool isCollapsible = true,
+  bool isDismissible = true,
   bool isExpand = true,
   bool useRootNavigator = false,
   bool isModal = true,
@@ -49,6 +50,7 @@ Future<T?> showFlexibleBottomSheet<T>({
       initHeight: initHeight ?? 0.5,
       maxHeight: maxHeight ?? 1,
       isCollapsible: isCollapsible,
+      isDismissible: isDismissible,
       isExpand: isExpand,
       builder: builder,
       isModal: isModal,
@@ -65,6 +67,8 @@ Future<T?> showFlexibleBottomSheet<T>({
 /// [initHeight] - init height in fractional value for bottom sheet. e.g. 0.5.
 /// [maxHeight] - init height in fractional value for bottom sheet. e.g. 0.5.
 /// [isModal] - if true, overlay background with dark color.
+/// [isCollapsible] - will the bottom sheet collapse.
+/// [isDismissible] - the bottom sheet will be dismissed when user taps on the scrim.
 /// [anchors] - list of sizes in fractional value that the bottom sheet can accept.
 /// [decoration] - BottomSheet decoration.
 /// [minHeaderHeight] - minimum head size.
@@ -80,6 +84,7 @@ Future<T?> showStickyFlexibleBottomSheet<T>({
   double? initHeight,
   double? maxHeight,
   bool isCollapsible = true,
+  bool isDismissible = true,
   bool isExpand = true,
   bool useRootNavigator = false,
   bool isModal = true,
@@ -101,6 +106,7 @@ Future<T?> showStickyFlexibleBottomSheet<T>({
       initHeight: initHeight ?? 0.5,
       maxHeight: maxHeight ?? 1,
       isCollapsible: isCollapsible,
+      isDismissible: isDismissible,
       isExpand: isExpand,
       bodyBuilder: bodyBuilder,
       headerBuilder: headerBuilder,
@@ -122,6 +128,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
   final double initHeight;
   final double maxHeight;
   final bool isCollapsible;
+  final bool isDismissible;
   final bool isExpand;
   final bool isModal;
   final List<double>? anchors;
@@ -137,7 +144,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
   Duration get transitionDuration => _bottomSheetDuration;
 
   @override
-  bool get barrierDismissible => true;
+  bool get barrierDismissible => isDismissible;
 
   @override
   Color? get barrierColor => isModal ? Colors.black54 : const Color(0x00FFFFFF);
@@ -149,6 +156,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
     required this.initHeight,
     required this.maxHeight,
     required this.isCollapsible,
+    required this.isDismissible,
     required this.isExpand,
     required this.isModal,
     this.builder,
