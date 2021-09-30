@@ -16,6 +16,7 @@ import 'dart:ui';
 
 import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:bottom_sheet/src/widgets/flexible_bottom_sheet_scroll_notifier.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:surf_lint_rules/surf_lint_rules.dart';
@@ -24,6 +25,8 @@ import 'scroll.dart';
 import 'test_utils.dart';
 
 void main() {
+  const listViewKey = Key('ListView');
+
   late BuildContext savedContext;
 
   final app = MaterialApp(
@@ -35,15 +38,17 @@ void main() {
     ),
   );
 
-  Future<void> showBottomSheet({bool? isCollapsible}) {
+  Future<void> showBottomSheet({bool? isCollapsible, bool? isDismissible}) {
     return showFlexibleBottomSheet<void>(
       minHeight: 0,
       initHeight: 0.5,
-      maxHeight: 1,
+      maxHeight: 0.8,
       context: savedContext,
-      isCollapsible: isCollapsible?? true,
+      isCollapsible: isCollapsible ?? true,
+      isDismissible: isDismissible ?? true,
       builder: (context, controller, offset) {
         return ListView(
+          key: listViewKey,
           controller: controller,
           children: [
             Container(
@@ -69,8 +74,15 @@ void main() {
           ],
         );
       },
-      anchors: [0, 0.5, 1],
+      anchors: [0, 0.5, 0.8],
     );
+  }
+
+  double getFractionalHeight(WidgetTester tester){
+    final screenHeight = tester.getSize(find.byType(MaterialApp)).height;
+    final headOffset = tester.getTopLeft(find.byKey(listViewKey));
+
+    return (screenHeight - headOffset.dy) / screenHeight;
   }
 
   group('Smoke tests', () {
@@ -156,7 +168,7 @@ void main() {
         expect(flexibleDraggableScrollableSheet, findsOneWidget);
       });
 
-      testWidgets('Tap above and on the BottomSheet', (tester) async {
+      testWidgets('Tap on the BottomSheet', (tester) async {
         await tester.pumpWidget(app);
 
         unawaited(showBottomSheet());
@@ -169,16 +181,47 @@ void main() {
         await tester.pumpAndSettle();
         expect(find.byType(FlexibleBottomSheet), findsOneWidget);
 
-        // Tap above the bottom sheet to dismiss it.
-        await tester.tapAt(const Offset(20.0, 20.0));
-        await tester.pumpAndSettle();
-        expect(find.byType(FlexibleBottomSheet), findsNothing);
-
         //final screenHeight = tester.getSize(find.byType(MaterialApp)).height;
         //final widgetHeight =
         //    tester.getSize(find.byType(FlexibleBottomSheet)).height;
         //final heightWidget = widgetHeight / screenHeight;
         //expect(heightWidget, equals(0.5));
+      });
+
+      group('Tap above BottomSheet', () {
+        testWidgets(
+          'Tap above BottomSheet, isDismissible true',
+          (tester) async {
+            await tester.pumpWidget(app);
+
+            unawaited(showBottomSheet());
+
+            await tester.pumpAndSettle();
+            expect(find.byType(FlexibleBottomSheet), findsOneWidget);
+
+            // Tap above the bottom sheet to dismiss it.
+            await tester.tapAt(const Offset(20.0, 20.0));
+            await tester.pumpAndSettle();
+            expect(find.byType(FlexibleBottomSheet), findsNothing);
+          },
+        );
+
+        testWidgets(
+          'Tap above BottomSheet, isDismissible false',
+          (tester) async {
+            await tester.pumpWidget(app);
+
+            unawaited(showBottomSheet(isDismissible: false));
+
+            await tester.pumpAndSettle();
+            expect(find.byType(FlexibleBottomSheet), findsOneWidget);
+
+            // Tap above the bottom sheet,  it shouldn't close it.
+            await tester.tapAt(const Offset(20.0, 20.0));
+            await tester.pumpAndSettle();
+            expect(find.byType(FlexibleBottomSheet), findsOneWidget);
+          },
+        );
       });
 
       testWidgets(
@@ -207,7 +250,7 @@ void main() {
 
       testWidgets(
         'Swipe down isCollapsible false',
-            (tester) async {
+        (tester) async {
           await tester.pumpWidget(app);
 
           unawaited(showBottomSheet(isCollapsible: false));
@@ -230,6 +273,69 @@ void main() {
       );
     },
   );
+
+  testWidgets(
+    'When scrolling up, the size of the bottom sheet is maxHeight ',
+    (tester) async {
+      await tester.pumpWidget(app);
+
+      unawaited(showBottomSheet(isCollapsible: false));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(FlexibleBottomSheet), findsOneWidget);
+
+      await tester.drag(
+        find.byType(FlexibleBottomSheet),
+        const Offset(0, -800),
+      );
+
+      await tester.pumpAndSettle();
+
+      final fractionalHeight = getFractionalHeight(tester);
+
+      expect(fractionalHeight, moreOrLessEquals(0.8));
+    },
+  );
+
+group('Anchors', () {
+  testWidgets('Anchors', (tester) async {
+    await tester.pumpWidget(app);
+
+    unawaited(showBottomSheet());
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(listViewKey), findsOneWidget);
+
+    // When scrolling down 200, the bottom sheet should be 0.5 (because the anchor is 0.5).
+    await tester.timedDrag(
+      find.byType(
+        FlexibleBottomSheet,
+      ),
+      const Offset(0, 20.0),
+     const Duration(milliseconds: 50),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byType(FlexibleBottomSheet), findsOneWidget);
+
+    final fractionalHeight = getFractionalHeight(tester);
+
+    expect(fractionalHeight, moreOrLessEquals(0.5));
+
+    // When scrolling down 210, the bottom sheet should be close.
+    await tester.timedDrag(
+      find.byType(
+        FlexibleBottomSheet,
+      ),
+      const Offset(0, 210.0),
+      const Duration(milliseconds: 50),
+    );
+
+    await tester.pumpAndSettle();
+
+    expect(find.byType(FlexibleBottomSheet), findsNothing);
+  });
+});
 }
 
 class _FlexibleDraggableScrollableSheet extends StatelessWidget {

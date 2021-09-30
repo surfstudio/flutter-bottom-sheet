@@ -26,7 +26,7 @@ void main() {
       showFlexibleBottomSheet<void>(
         minHeight: 0,
         initHeight: 0.5,
-        maxHeight: 1,
+        maxHeight: 0.8,
         context: ctx,
         builder: (context, controller, offset) {
           return ListView(
@@ -55,17 +55,18 @@ void main() {
             ],
           );
         },
-        anchors: [0, 0.5, 1],
+        anchors: [0, 0.5, 0.8],
       ),
     );
 
     await tester.pumpAndSettle();
 
-    await tester.drag(
+    await tester.timedDrag(
       find.byType(
         FlexibleBottomSheet,
       ),
-      const Offset(50, 300.0),
+      const Offset(0, 210.0),
+      const Duration(milliseconds: 50),
     );
 
     await tester.pumpAndSettle();
