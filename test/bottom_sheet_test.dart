@@ -92,18 +92,28 @@ void main() {
     return (screenHeight - headOffset.dy) / screenHeight;
   }
 
-  group('FlexibleDraggableScrollableSheet', () {
-    testWidgets(
-      'FlexibleDraggableScrollableSheet builds normally',
-      (tester) async {
-        await tester.pumpWidget(
-          makeTestableWidget(const _FlexibleDraggableScrollableSheet()),
-        );
+  testWidgets(
+    'FlexibleDraggableScrollableSheet builds normally',
+    (tester) async {
+      await tester.pumpWidget(
+        makeTestableWidget(
+          FlexibleDraggableScrollableSheet(
+            builder: (context, scrollController) {
+              return ListView.builder(
+                controller: scrollController,
+                itemCount: 25,
+                itemBuilder: (context, index) {
+                  return ListTile(title: Text('Item $index'));
+                },
+              );
+            },
+          ),
+        ),
+      );
 
-        expect(() => _FlexibleDraggableScrollableSheet, returnsNormally);
-      },
-    );
-  });
+      expect(tester.takeException(), isNull);
+    },
+  );
 
   group('FlexibleScrollNotifier', () {
     testWidgets('FlexibleScrollNotifier builds normally', (tester) async {
@@ -117,7 +127,7 @@ void main() {
         scrollEndCallback: (_) {
           return true;
         },
-        child: const _FlexibleDraggableScrollableSheet(),
+        child: const SingleChildScrollView(),
       );
 
       await tester.pumpWidget(makeTestableWidget(widget));
@@ -183,7 +193,7 @@ void main() {
         },
       );
 
-      testWidgets('Tap on the BottomSheet', (tester) async {
+      testWidgets('Tap on the BottomSheet should not close it', (tester) async {
         await tester.pumpWidget(app);
 
         unawaited(showBottomSheet());
@@ -191,191 +201,141 @@ void main() {
         await tester.pumpAndSettle();
         expect(find.byType(FlexibleBottomSheet), findsOneWidget);
 
-        // Tap on the bottom sheet does not close it.
         await tester.tap(find.byType(FlexibleBottomSheet));
         await tester.pumpAndSettle();
         expect(find.byType(FlexibleBottomSheet), findsOneWidget);
       });
 
-      group('Tap above BottomSheet isDismissible true/false', () {
-        testWidgets(
-          'Tap above BottomSheet, isDismissible true',
-          (tester) async {
-            await tester.pumpWidget(app);
+      testWidgets(
+        'Tap above BottomSheet should have correct behaviour',
+        (tester) async {
+          await tester.pumpWidget(app);
 
-            unawaited(showBottomSheet());
+          unawaited(showBottomSheet(
+            isDismissible: defaultBoolTestVariant.currentValue,
+          ));
 
-            await tester.pumpAndSettle();
-            expect(find.byType(FlexibleBottomSheet), findsOneWidget);
+          await tester.pumpAndSettle();
+          expect(find.byType(FlexibleBottomSheet), findsOneWidget);
 
-            // Tap above the bottom sheet to dismiss it.
-            await tester.tapAt(const Offset(20.0, 20.0));
-            await tester.pumpAndSettle();
-            expect(find.byType(FlexibleBottomSheet), findsNothing);
-          },
-        );
-
-        testWidgets(
-          'Tap above BottomSheet, isDismissible false',
-          (tester) async {
-            await tester.pumpWidget(app);
-
-            unawaited(showBottomSheet(isDismissible: false));
-
-            await tester.pumpAndSettle();
-            expect(find.byType(FlexibleBottomSheet), findsOneWidget);
-
-            // Tap above the bottom sheet,  it shouldn't close it.
-            await tester.tapAt(const Offset(20.0, 20.0));
-            await tester.pumpAndSettle();
-            expect(find.byType(FlexibleBottomSheet), findsOneWidget);
-          },
-        );
-      });
-
-      group('Swipe down isCollapsible true/false', () {
-        testWidgets(
-          'Swipe down isCollapsible true',
-          (tester) async {
-            await tester.pumpWidget(app);
-
-            unawaited(showBottomSheet());
-            await tester.pumpAndSettle();
-
-            expect(find.byType(FlexibleBottomSheet), findsOneWidget);
-
-            // Swipe the bottom sheet to dismiss it.
-            await tester.drag(
-              find.byType(
-                FlexibleBottomSheet,
-                skipOffstage: false,
-              ),
-              const Offset(0.0, 300.0),
-            );
-            await tester.pumpAndSettle();
-
-            expect(find.byType(FlexibleBottomSheet), findsNothing);
-          },
-        );
-
-        testWidgets(
-          'Swipe down isCollapsible false',
-          (tester) async {
-            await tester.pumpWidget(app);
-
-            unawaited(showBottomSheet(isCollapsible: false));
-            await tester.pumpAndSettle();
-
-            expect(find.byType(FlexibleBottomSheet), findsOneWidget);
-
-            // Swipe over the bottom sheet, it shouldn't close it.
-            await tester.drag(
-              find.byType(
-                FlexibleBottomSheet,
-                skipOffstage: false,
-              ),
-              const Offset(0.0, 300.0),
-            );
-            await tester.pumpAndSettle();
-
-            expect(find.byType(FlexibleBottomSheet), findsOneWidget);
-          },
-        );
-      });
-    },
-  );
-
-  testWidgets(
-    'When scrolling up, the size of the bottom sheet is maxHeight',
-    (tester) async {
-      await tester.pumpWidget(app);
-
-      unawaited(showBottomSheet(isCollapsible: false));
-      await tester.pumpAndSettle();
-
-      expect(find.byType(FlexibleBottomSheet), findsOneWidget);
-
-      await tester.drag(
-        find.byType(FlexibleBottomSheet),
-        const Offset(0, -800),
+          await tester.tapAt(const Offset(20.0, 20.0));
+          await tester.pumpAndSettle();
+          expect(
+            find.byType(FlexibleBottomSheet),
+            defaultBoolTestVariant.currentValue!
+                ? findsNothing
+                : findsOneWidget,
+          );
+        },
+        variant: defaultBoolTestVariant,
       );
 
-      await tester.pumpAndSettle();
+      testWidgets(
+        'Swipe down should have behaviour by isCollapsible property',
+        (tester) async {
+          await tester.pumpWidget(app);
 
-      final fractionalHeight = getFractionalHeight(tester);
+          unawaited(showBottomSheet(
+            isCollapsible: defaultBoolTestVariant.currentValue,
+          ));
+          await tester.pumpAndSettle();
 
-      expect(fractionalHeight, moreOrLessEquals(0.8));
+          expect(find.byType(FlexibleBottomSheet), findsOneWidget);
+
+          // Swipe the bottom sheet to dismiss it.
+          await tester.drag(
+            find.byType(
+              FlexibleBottomSheet,
+              skipOffstage: false,
+            ),
+            const Offset(0.0, 300.0),
+          );
+          await tester.pumpAndSettle();
+
+          expect(
+            find.byType(FlexibleBottomSheet),
+            defaultBoolTestVariant.currentValue!
+                ? findsNothing
+                : findsOneWidget,
+          );
+        },
+        variant: defaultBoolTestVariant,
+      );
+
+      testWidgets(
+        'Scroll more than available space should make bottom sheet max height',
+        (tester) async {
+          await tester.pumpWidget(app);
+
+          unawaited(showBottomSheet(isCollapsible: false));
+          await tester.pumpAndSettle();
+
+          expect(find.byType(FlexibleBottomSheet), findsOneWidget);
+
+          await tester.drag(
+            find.byType(FlexibleBottomSheet),
+            const Offset(0, -800),
+          );
+
+          await tester.pumpAndSettle();
+
+          final fractionalHeight = getFractionalHeight(tester);
+
+          expect(fractionalHeight, moreOrLessEquals(0.8));
+        },
+      );
+
+      testWidgets(
+        'Drag bottom sheet with anchors should have correct behaviour',
+            (tester) async {
+          final offset = _dragAnchorsVariants.currentValue!.offset;
+          final expectedResult =
+              _dragAnchorsVariants.currentValue!.expectedResult;
+
+          await tester.pumpWidget(app);
+
+          unawaited(showBottomSheet(anchors: [0.2, 0.5, 0.8]));
+          await tester.pumpAndSettle();
+
+          expect(find.byKey(listViewKey), findsOneWidget);
+
+          await tester.drag(
+            find.byType(
+              FlexibleBottomSheet,
+            ),
+            offset,
+          );
+          await tester.pumpAndSettle();
+
+          expect(find.byType(FlexibleBottomSheet), findsOneWidget);
+
+          final fractionalHeight = getFractionalHeight(tester);
+
+          expect(fractionalHeight, moreOrLessEquals(expectedResult));
+        },
+        variant: _dragAnchorsVariants,
+      );
     },
   );
-
-  group('Anchors', () {
-    testWidgets(
-      'Anchors swipe',
-      (tester) async {
-        final offset = variants.currentValue!.offset;
-        final expectedResult = variants.currentValue!.expectedResult;
-
-        await tester.pumpWidget(app);
-
-        unawaited(showBottomSheet(anchors: [0.2, 0.5, 0.8]));
-        await tester.pumpAndSettle();
-
-        expect(find.byKey(listViewKey), findsOneWidget);
-
-        await tester.drag(
-          find.byType(
-            FlexibleBottomSheet,
-          ),
-          offset,
-        );
-        await tester.pumpAndSettle();
-
-        expect(find.byType(FlexibleBottomSheet), findsOneWidget);
-
-        final fractionalHeight = getFractionalHeight(tester);
-
-        expect(fractionalHeight, moreOrLessEquals(expectedResult));
-      },
-      variant: variants,
-    );
-  });
 }
 
-class _FlexibleDraggableScrollableSheet extends StatelessWidget {
-  const _FlexibleDraggableScrollableSheet({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return FlexibleDraggableScrollableSheet(
-      builder: (context, scrollController) {
-        return ListView.builder(
-          controller: scrollController,
-          itemCount: 25,
-          itemBuilder: (context, index) {
-            return ListTile(title: Text('Item $index'));
-          },
-        );
-      },
-    );
-  }
-}
-
-class DragTestScenario {
+class _DragAnchorTestScenario {
   final Offset offset;
   final double expectedResult;
 
-  DragTestScenario(this.offset, this.expectedResult);
+  _DragAnchorTestScenario(this.offset, this.expectedResult);
 }
 
-final ValueVariant<DragTestScenario> variants = ValueVariant<DragTestScenario>(
+final ValueVariant<_DragAnchorTestScenario> _dragAnchorsVariants =
+    ValueVariant<_DragAnchorTestScenario>(
   {
     // When scrolling down 35, the bottom sheet should be 0.5.
-    DragTestScenario(const Offset(0, 35), 0.5),
+    _DragAnchorTestScenario(const Offset(0, 35), 0.5),
     // When scrolling down 38, the bottom sheet should be 0.2.
-    DragTestScenario(const Offset(0, 38), 0.2),
+    _DragAnchorTestScenario(const Offset(0, 38), 0.2),
     // When scrolling down -35, the bottom sheet should be 0.5.
-    DragTestScenario(const Offset(0, -35), 0.5),
+    _DragAnchorTestScenario(const Offset(0, -35), 0.5),
     // When scrolling down -38, the bottom sheet should be 0.8.
-    DragTestScenario(const Offset(0, -38), 0.8),
+    _DragAnchorTestScenario(const Offset(0, -38), 0.8),
   },
 );
