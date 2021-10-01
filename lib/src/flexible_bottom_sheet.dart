@@ -131,11 +131,11 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
   double get _currentExtent => _controller.extent.currentExtent;
 
   List<double> get _screenAnchors => {
-    if (widget.anchors != null) ...widget.anchors!,
-    widget.maxHeight,
-    widget.minHeight,
-    widget.initHeight,
-  }.toList();
+        if (widget.anchors != null) ...widget.anchors!,
+        widget.maxHeight,
+        widget.minHeight,
+        widget.initHeight,
+      }.toList();
 
   @override
   void initState() {
