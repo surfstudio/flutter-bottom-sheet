@@ -12,7 +12,6 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  golden_toolkit: ^0.10.0
   surf_lint_rules: ^1.0.0
 
 
