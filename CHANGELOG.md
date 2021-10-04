@@ -1,5 +1,18 @@
 # Changelog
 
+## next release
+
+* Todo
+
+## 1.0.2 - 2021-10-04
+
+* Useless classes has been removed
+* Fix wrong behaviour when isCollapsible = true
+* Added isDismissible property
+* Migrate to AndroidX for example
+* Fix some dirty code
+* Fix extent counting
+
 ## 1.0.1 - 2021-06-01
 
 * Stable release
