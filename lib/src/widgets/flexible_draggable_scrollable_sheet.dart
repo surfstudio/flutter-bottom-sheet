@@ -197,7 +197,6 @@ class FlexibleDraggableScrollableSheet extends StatefulWidget {
 /// [FloatingActionButton] as the bottom sheet scrolls up.
 class FlexibleDraggableScrollableNotification extends Notification
     with ViewportNotificationMixin {
-
   /// The current value of the extent, between [minExtent] and [maxExtent].
   final double extent;
 
