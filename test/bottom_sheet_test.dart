@@ -21,7 +21,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:surf_lint_rules/surf_lint_rules.dart';
 
-import 'scroll.dart';
 import 'test_utils.dart';
 
 void main() {
@@ -92,84 +91,6 @@ void main() {
     return (screenHeight - headOffset.dy) / screenHeight;
   }
 
-  testWidgets(
-    'FlexibleDraggableScrollableSheet builds normally',
-    (tester) async {
-      await tester.pumpWidget(
-        makeTestableWidget(
-          FlexibleDraggableScrollableSheet(
-            builder: (context, scrollController) {
-              return ListView.builder(
-                controller: scrollController,
-                itemCount: 25,
-                itemBuilder: (context, index) {
-                  return ListTile(title: Text('Item $index'));
-                },
-              );
-            },
-          ),
-        ),
-      );
-
-      expect(tester.takeException(), isNull);
-    },
-  );
-
-  group('FlexibleScrollNotifier', () {
-    testWidgets('FlexibleScrollNotifier builds normally', (tester) async {
-      final widget = FlexibleScrollNotifier(
-        scrollStartCallback: (_) {
-          return true;
-        },
-        scrollCallback: (_) {
-          return true;
-        },
-        scrollEndCallback: (_) {
-          return true;
-        },
-        child: const SingleChildScrollView(),
-      );
-
-      await tester.pumpWidget(makeTestableWidget(widget));
-
-      expect(() => widget, returnsNormally);
-    });
-
-    testWidgets('Scroll callbacks', (tester) async {
-      final result = <Scroll>[];
-
-      final widget = FlexibleScrollNotifier(
-        scrollStartCallback: (_) {
-          result.add(Scroll.start);
-          return true;
-        },
-        scrollCallback: (_) {
-          result.add(Scroll.scrolling);
-          return true;
-        },
-        scrollEndCallback: (_) {
-          result.add(Scroll.end);
-          return true;
-        },
-        child: const FlexibleBottomSheet(),
-      );
-
-      await tester.pumpWidget(makeTestableWidget(widget));
-
-      final gesture = await tester.startGesture(const Offset(250, 300));
-
-      expect(result, [Scroll.start]);
-
-      await gesture.moveBy(const Offset(0, 50));
-
-      expect(result, contains(Scroll.scrolling));
-
-      await gesture.up();
-
-      expect(result.last, equals(Scroll.end));
-    });
-  });
-
   group(
     'FlexibleBottomSheet',
     () {
@@ -178,7 +99,7 @@ void main() {
         (tester) async {
           await tester.pumpWidget(
             makeTestableWidget(
-              const FlexibleBottomSheet(),
+              FlexibleBottomSheet(),
             ),
           );
 
@@ -242,7 +163,6 @@ void main() {
 
           expect(find.byType(FlexibleBottomSheet), findsOneWidget);
 
-          // Swipe the bottom sheet to dismiss it.
           await tester.drag(
             find.byType(
               FlexibleBottomSheet,
@@ -285,36 +205,59 @@ void main() {
         },
       );
 
-      testWidgets(
-        'Drag bottom sheet with anchors should have correct behaviour',
-            (tester) async {
-          final offset = _dragAnchorsVariants.currentValue!.offset;
-          final expectedResult =
-              _dragAnchorsVariants.currentValue!.expectedResult;
+      group('Anchors', () {
+        testWidgets(
+          'Anchors must be correct',
+          (tester) async {
+            await tester.pumpWidget(app);
 
-          await tester.pumpWidget(app);
+            unawaited(showBottomSheet(
+              maxHeight: _anchorsTestVariants.currentValue!.maxHeight,
+              minHeight: _anchorsTestVariants.currentValue!.minHeight,
+              anchors: _anchorsTestVariants.currentValue!.anchors,
+              isCollapsible: _anchorsTestVariants.currentValue!.isCollapsible,
+            ));
+            await tester.pumpAndSettle();
 
-          unawaited(showBottomSheet(anchors: [0.2, 0.5, 0.8]));
-          await tester.pumpAndSettle();
+            expect(
+              tester.takeException(),
+              _anchorsTestVariants.currentValue!.matcher,
+            );
+          },
+          variant: _anchorsTestVariants,
+        );
 
-          expect(find.byKey(listViewKey), findsOneWidget);
+        testWidgets(
+          'Drag bottom sheet with anchors should have correct behaviour',
+          (tester) async {
+            final offset = _dragAnchorsVariants.currentValue!.offset;
+            final expectedResult =
+                _dragAnchorsVariants.currentValue!.expectedResult;
 
-          await tester.drag(
-            find.byType(
-              FlexibleBottomSheet,
-            ),
-            offset,
-          );
-          await tester.pumpAndSettle();
+            await tester.pumpWidget(app);
 
-          expect(find.byType(FlexibleBottomSheet), findsOneWidget);
+            unawaited(showBottomSheet(anchors: [0.2, 0.5, 0.8]));
+            await tester.pumpAndSettle();
 
-          final fractionalHeight = getFractionalHeight(tester);
+            expect(find.byKey(listViewKey), findsOneWidget);
 
-          expect(fractionalHeight, moreOrLessEquals(expectedResult));
-        },
-        variant: _dragAnchorsVariants,
-      );
+            await tester.drag(
+              find.byType(
+                FlexibleBottomSheet,
+              ),
+              offset,
+            );
+            await tester.pumpAndSettle();
+
+            expect(find.byType(FlexibleBottomSheet), findsOneWidget);
+
+            final fractionalHeight = getFractionalHeight(tester);
+
+            expect(fractionalHeight, moreOrLessEquals(expectedResult));
+          },
+          variant: _dragAnchorsVariants,
+        );
+      });
     },
   );
 }
@@ -323,7 +266,10 @@ class _DragAnchorTestScenario {
   final Offset offset;
   final double expectedResult;
 
-  _DragAnchorTestScenario(this.offset, this.expectedResult);
+  _DragAnchorTestScenario(
+    this.offset,
+    this.expectedResult,
+  );
 }
 
 final ValueVariant<_DragAnchorTestScenario> _dragAnchorsVariants =
@@ -337,5 +283,44 @@ final ValueVariant<_DragAnchorTestScenario> _dragAnchorsVariants =
     _DragAnchorTestScenario(const Offset(0, -35), 0.5),
     // When scrolling down -38, the bottom sheet should be 0.8.
     _DragAnchorTestScenario(const Offset(0, -38), 0.8),
+  },
+);
+
+class _AnchorsTestScenario {
+  final List<double> anchors;
+  final double maxHeight;
+  final double? minHeight;
+  final bool isCollapsible;
+  final Matcher matcher;
+
+  _AnchorsTestScenario({
+    required this.anchors,
+    required this.maxHeight,
+    required this.matcher,
+    this.minHeight,
+    this.isCollapsible = true,
+  });
+}
+
+final ValueVariant<_AnchorsTestScenario> _anchorsTestVariants =
+    ValueVariant<_AnchorsTestScenario>(
+  {
+    _AnchorsTestScenario(
+      anchors: [0.2, 0.5, 1],
+      maxHeight: 1,
+      matcher: isNull,
+    ),
+    _AnchorsTestScenario(
+      anchors: [0.2, 0.5, 1],
+      maxHeight: 0.8,
+      matcher: isInstanceOf<AssertionError>(),
+    ),
+    _AnchorsTestScenario(
+      anchors: [0.2, 0.5, 1],
+      maxHeight: 1,
+      minHeight: 0.3,
+      isCollapsible: false,
+      matcher: isInstanceOf<AssertionError>(),
+    ),
   },
 );
