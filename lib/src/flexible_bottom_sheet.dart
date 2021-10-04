@@ -56,7 +56,7 @@ class FlexibleBottomSheet extends StatefulWidget {
   final Decoration? decoration;
   final VoidCallback? onDismiss;
 
-  const FlexibleBottomSheet({
+  FlexibleBottomSheet({
     Key? key,
     this.minHeight = 0,
     this.initHeight = 0.5,
@@ -76,9 +76,11 @@ class FlexibleBottomSheet extends StatefulWidget {
         assert(maxHeight > 0 && maxHeight <= 1),
         assert(maxHeight > minHeight),
         assert(!isCollapsible || minHeight == 0),
+        assert(anchors == null || !anchors.any((anchor) => anchor > maxHeight)),
+        assert(anchors == null || !anchors.any((anchor) => anchor < minHeight)),
         super(key: key);
 
-  const FlexibleBottomSheet.collapsible({
+  FlexibleBottomSheet.collapsible({
     Key? key,
     double initHeight = 0.5,
     double maxHeight = 1,
