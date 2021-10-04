@@ -21,7 +21,7 @@ import 'test_utils.dart';
 void main() {
   testWidgets(
     'FlexibleDraggableScrollableSheet builds normally',
-        (tester) async {
+    (tester) async {
       await tester.pumpWidget(
         makeTestableWidget(
           FlexibleDraggableScrollableSheet(

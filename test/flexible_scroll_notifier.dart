@@ -19,9 +19,8 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'test_utils.dart';
 
-void main(){
-  group
-    ('FlexibleScrollNotifier', () {
+void main() {
+  group('FlexibleScrollNotifier', () {
     testWidgets('FlexibleScrollNotifier builds normally', (tester) async {
       final widget = FlexibleScrollNotifier(
         scrollStartCallback: (_) {
