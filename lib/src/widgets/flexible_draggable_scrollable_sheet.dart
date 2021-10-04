@@ -497,10 +497,10 @@ class _FlexibleDraggableScrollableSheetScrollPosition
         // Make sure we pass along enough velocity to keep scrolling - otherwise
         // we just "bounce" off the top making it look like the list doesn't
         // have more to scroll.
-        // ignore: parameter_assignments
-        velocity = ballisticController.velocity +
+
+        final newVelocity = ballisticController.velocity +
             (physics.tolerance.velocity * ballisticController.velocity.sign);
-        super.goBallistic(velocity);
+        super.goBallistic(newVelocity);
         ballisticController.stop();
       } else if (ballisticController.isCompleted) {
         super.goBallistic(0);
