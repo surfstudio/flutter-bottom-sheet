@@ -56,32 +56,32 @@ void main() {
         return ListView(
           key: listViewKey,
           controller: controller,
-          children: [
-            Container(
-              height: 200,
-              width: double.infinity,
-              color: Colors.red,
-            ),
-            Container(
-              height: 200,
-              width: double.infinity,
-              color: Colors.black,
-            ),
-            Container(
-              height: 200,
-              width: double.infinity,
-              color: Colors.green,
-            ),
-            Container(
-              height: 200,
-              width: double.infinity,
-              color: Colors.blue,
-            ),
-          ],
+          children: _listWidgets,
         );
       },
       anchors: anchors ?? [0, 0.5, 0.8],
     );
+  }
+
+  Future<void> showStickyBottomSheet() {
+    return showStickyFlexibleBottomSheet(
+        context: savedContext,
+        headerBuilder: (context, offset) {
+          return const SizedBox(
+            height: 200,
+            child: Center(child: Text('Header')),
+          );
+        },
+        headerHeight: 200,
+        bodyBuilder: (context, offset) {
+          return SliverChildBuilderDelegate(
+            (context, _) {
+              return Column(
+                children: _listWidgets,
+              );
+            },
+          );
+        });
   }
 
   double getFractionalHeight(WidgetTester tester) {
@@ -258,6 +258,23 @@ void main() {
           variant: _dragAnchorsVariants,
         );
       });
+      testWidgets('StickyBottomSheet, when drug header must remain visible', (tester) async {
+        await tester.pumpWidget(app);
+
+        unawaited(showStickyBottomSheet());
+
+        await tester.pumpAndSettle();
+
+        await tester.drag(
+          find.byType(
+            FlexibleBottomSheet,
+            skipOffstage: false,
+          ),
+          const Offset(0, -800),
+        );
+
+        expect(find.text('Header'), findsOneWidget);
+      });
     },
   );
 }
@@ -285,6 +302,29 @@ final ValueVariant<_DragAnchorTestScenario> _dragAnchorsVariants =
     _DragAnchorTestScenario(const Offset(0, -38), 0.8),
   },
 );
+
+final _listWidgets = [
+  Container(
+    height: 200,
+    width: double.infinity,
+    color: Colors.red,
+  ),
+  Container(
+    height: 200,
+    width: double.infinity,
+    color: Colors.black,
+  ),
+  Container(
+    height: 200,
+    width: double.infinity,
+    color: Colors.green,
+  ),
+  Container(
+    height: 200,
+    width: double.infinity,
+    color: Colors.blue,
+  ),
+];
 
 class _AnchorsTestScenario {
   final List<double> anchors;
