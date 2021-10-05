@@ -33,7 +33,12 @@ jobs:
         run: flutter format --set-exit-if-changed .
 
       - name: Run tests ⚙️
-        run: flutter test
+        env:
+          CODECOV_TOKEN: ${{secrets.CODECOV_TOKEN}}
+        if: success()
+        run: |
+          flutter test --coverage
+          bash <(curl -s https://codecov.io/bash) -f coverage/lcov.info
 
   package-analysis:
     runs-on: ubuntu-latest
