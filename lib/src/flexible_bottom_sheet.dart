@@ -384,7 +384,7 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
   void _dismiss() {
     if (widget.isCollapsible) {
       if (widget.onDismiss != null) widget.onDismiss!();
-      Navigator.pop(context);
+      Navigator.maybePop(context);
     }
   }
 }
