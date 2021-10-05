@@ -1,5 +1,9 @@
 # Changelog
 
+## next
+
+* Fix double pop navigator(tnx Renesanse).
+
 ## 1.0.3 - 2021-10-04
 
 * Coverage integration.
