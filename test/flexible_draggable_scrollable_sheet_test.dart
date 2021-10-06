@@ -13,8 +13,10 @@
 // limitations under the License.
 
 import 'package:bottom_sheet/bottom_sheet.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 
 import 'test_utils.dart';
 
@@ -41,4 +43,54 @@ void main() {
       expect(tester.takeException(), isNull);
     },
   );
+
+  test('FlexibleDraggableScrollableNotification toString', () {
+    const extent = 0.5;
+    const initialExtent = 0.4;
+    const maxExtent = 1.0;
+    const minExtent = 0.3;
+
+    const expectedResult =
+        'FlexibleDraggableScrollableNotification(depth: 0 (local), '
+        'minExtent: 0.3, extent: 0.5, maxExtent: 1.0, initialExtent: 0.4)';
+
+    final widget = FlexibleDraggableScrollableNotification(
+      extent: extent,
+      initialExtent: initialExtent,
+      maxExtent: maxExtent,
+      minExtent: minExtent,
+    );
+
+    final result = widget.toString();
+
+    expect(
+      result,
+      equals(
+        expectedResult,
+      ),
+    );
+  });
+
+  test('FlexibleDraggableScrollableSheetScrollController toString', () {
+    final extent = FakeFlexibleDraggableSheetExtent();
+
+    final controller = FlexibleDraggableScrollableSheetScrollController(
+      extent: extent,
+    );
+
+    final expectedResult =
+        'FlexibleDraggableScrollableSheetScrollController#${shortHash(controller)}(no clients, extent: FakeFlexibleDraggableSheetExtent)';
+
+    final result = controller.toString();
+
+    expect(
+      result,
+      equals(
+        expectedResult,
+      ),
+    );
+  });
 }
+
+class FakeFlexibleDraggableSheetExtent extends Mock
+    implements FlexibleDraggableSheetExtent {}
