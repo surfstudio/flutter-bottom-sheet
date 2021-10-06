@@ -63,27 +63,6 @@ void main() {
     );
   }
 
-  Future<void> showStickyBottomSheet() {
-    return showStickyFlexibleBottomSheet(
-        context: savedContext,
-        headerBuilder: (context, offset) {
-          return const SizedBox(
-            height: 200,
-            child: Center(child: Text('Header')),
-          );
-        },
-        headerHeight: 200,
-        bodyBuilder: (context, offset) {
-          return SliverChildBuilderDelegate(
-            (context, _) {
-              return Column(
-                children: _listWidgets,
-              );
-            },
-          );
-        });
-  }
-
   double getFractionalHeight(WidgetTester tester) {
     final screenHeight = tester.getSize(find.byType(MaterialApp)).height;
     final headOffset = tester.getTopLeft(find.byKey(listViewKey));
@@ -257,23 +236,6 @@ void main() {
           },
           variant: _dragAnchorsVariants,
         );
-      });
-      testWidgets('StickyBottomSheet, when drug header must remain visible', (tester) async {
-        await tester.pumpWidget(app);
-
-        unawaited(showStickyBottomSheet());
-
-        await tester.pumpAndSettle();
-
-        await tester.drag(
-          find.byType(
-            FlexibleBottomSheet,
-            skipOffstage: false,
-          ),
-          const Offset(0, -800),
-        );
-
-        expect(find.text('Header'), findsOneWidget);
       });
     },
   );

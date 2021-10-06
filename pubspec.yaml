@@ -7,7 +7,6 @@ issue_tracker: "https://github.com/surfstudio/flutter-bottom-sheet/issues"
 dependencies:
   flutter:
     sdk: flutter
-  mocktail: ^0.1.4
 
 dev_dependencies:
   flutter_test:
