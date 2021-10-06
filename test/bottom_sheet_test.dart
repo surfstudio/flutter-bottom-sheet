@@ -236,6 +236,42 @@ void main() {
           },
           variant: _dragAnchorsVariants,
         );
+
+        testWidgets(
+          'Drag bottom sheet from the last anchor down should close it',
+          (tester) async {
+            await tester.pumpWidget(app);
+
+            unawaited(showBottomSheet(
+              anchors: [0.2, 0.5, 0.8],
+            ));
+
+            await tester.pumpAndSettle();
+
+            expect(find.byKey(listViewKey), findsOneWidget);
+
+            await tester.drag(
+              find.byKey(listViewKey),
+              const Offset(0, 38),
+            );
+            await tester.pumpAndSettle();
+
+            expect(find.byKey(listViewKey), findsOneWidget);
+
+            final fractionalHeight = getFractionalHeight(tester);
+
+            expect(fractionalHeight, moreOrLessEquals(0.2));
+
+            await tester.drag(
+              find.byKey(listViewKey),
+              const Offset(0, 40),
+            );
+
+            await tester.pumpAndSettle();
+
+            expect(find.byKey(listViewKey), findsNothing);
+          },
+        );
       });
     },
   );
