@@ -11,7 +11,7 @@ This package is part of the [SurfGear](https://github.com/surfstudio/SurfGear) t
 
 ## About
 
-Custom bottom sheet widget, that can resize by drag and then scroll.
+Custom bottom sheet widget that can be resized in response to drag gestures and then scrolled.
 
 ## Usage
 
@@ -22,9 +22,9 @@ Main classes:
 
 Flexible and scrollable bottom sheet.
 
-You can show it if call `showFlexibleBottomSheet()`, then it will be show as popup like a modal bottom sheet with resize by drag and scrollable.
+All you have to do is call `showFlexibleBottomSheet()` and you'll get a popup that looks like a modal bottom sheet and can be resized by dragging it up and down and scrolled when expanded.
 
-There are 2 type of BottomSheet:  
+There are 2 types of BottomSheets:  
 
 1. BottomSheet
 2. StickyBottomSheet
@@ -67,7 +67,7 @@ Widget _buildBottomSheet(
 ![](media/open_stiky_bottom_sheet.gif)
 
 To show sticky BottomSheet, use:  
-**You should return SliverChildListDelegate from builder !!!**
+**You have to return SliverChildListDelegate from builder !!!**
 
 ```dart
 showStickyFlexibleBottomSheet(
@@ -108,11 +108,11 @@ All notable changes to this project will be documented in [this file](./CHANGELO
 
 ## Issues
 
-For issues, file directly in the Issues section.
+To report your issues,  submit them directly in the [Issues](https://github.com/surfstudio/flutter-bottom-sheet/issues) section.
 
 ## Contribute
 
-If you would like to contribute to the package (e.g. by improving the documentation, solving a bug or adding a cool new feature), please review our [contribution guide](./CONTRIBUTING.md) first and send us your pull request.
+If you would like to contribute to the package (e.g. by improving the documentation, fixing a bug or adding a cool new feature), please read our [contribution guide](./CONTRIBUTING.md) first and send us your pull request.
 
 Your PRs are always welcome.
 
