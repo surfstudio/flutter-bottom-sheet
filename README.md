@@ -13,7 +13,7 @@ This package is part of the [SurfGear](https://github.com/surfstudio/SurfGear) t
 
 Custom bottom sheet widget, that can resize by drag and then scroll.
 
-## Usage
+## Description
 
 Main classes:
 
@@ -29,10 +29,10 @@ There are 2 type of BottomSheet:
 1. BottomSheet
 2. StickyBottomSheet
 
-#### Simple BottomSheet
 
 ![](media/open_bottom_sheet.gif)
 
+## Example
 To show bottomSheet, use :
 
 ```dart
@@ -66,6 +66,7 @@ Widget _buildBottomSheet(
 
 ![](media/open_stiky_bottom_sheet.gif)
 
+## Example
 To show sticky BottomSheet, use:  
 **You should return SliverChildListDelegate from builder !!!**
 
