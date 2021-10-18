@@ -16,29 +16,32 @@ import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'test_utils.dart';
-
 void main() {
-  testWidgets(
-    'FlexibleDraggableScrollableSheet builds normally',
-    (tester) async {
-      await tester.pumpWidget(
-        makeTestableWidget(
-          FlexibleDraggableScrollableSheet(
-            builder: (context, scrollController) {
-              return ListView.builder(
-                controller: scrollController,
-                itemCount: 25,
-                itemBuilder: (context, index) {
-                  return ListTile(title: Text('Item $index'));
-                },
-              );
-            },
-          ),
-        ),
-      );
-
-      expect(tester.takeException(), isNull);
-    },
+  final delegate = FlexibleBottomSheetHeaderDelegate(
+    maxHeight: 1,
+    minHeight: 0.2,
+    child: Container(),
   );
+
+  final anotherDelegate = FlexibleBottomSheetHeaderDelegate(
+    maxHeight: 0.8,
+    child: Container(),
+  );
+
+  final context = Context();
+
+  test('The methods FlexibleBottomSheetHeaderDelegate work correctly', () {
+    final child = delegate.build(
+      context,
+      0.6,
+      true,
+    );
+
+    expect(delegate.maxExtent, same(delegate.maxHeight));
+    expect(delegate.minExtent, same(delegate.minHeight));
+    expect(child, same(delegate.child));
+    expect(delegate.shouldRebuild(anotherDelegate), isTrue);
+  });
 }
+
+class Context extends Fake implements BuildContext {}

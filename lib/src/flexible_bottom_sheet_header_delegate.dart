@@ -33,7 +33,7 @@ class FlexibleBottomSheetHeaderDelegate extends SliverPersistentHeaderDelegate {
   });
 
   @override
-  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => true;
+  bool shouldRebuild(FlexibleBottomSheetHeaderDelegate oldDelegate) => true;
 
   @override
   Widget build(
