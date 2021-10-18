@@ -29,10 +29,10 @@ There are 2 type of BottomSheet:
 1. BottomSheet
 2. StickyBottomSheet
 
-
-![](media/open_bottom_sheet.gif)
+![image](media/open_bottom_sheet.gif)
 
 ## Example
+
 To show bottomSheet, use :
 
 ```dart
@@ -62,11 +62,12 @@ Widget _buildBottomSheet(
   }
 ```
 
-#### Sticky BottomSheet
+### Sticky BottomSheet
 
-![](media/open_stiky_bottom_sheet.gif)
+![image](media/open_stiky_bottom_sheet.gif)
 
 ## Example
+
 To show sticky BottomSheet, use:  
 **You should return SliverChildListDelegate from builder !!!**
 
