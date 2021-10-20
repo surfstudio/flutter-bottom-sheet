@@ -23,6 +23,9 @@ ios/Runner/GeneratedPluginRegistrant.*
 .idea/
 
 # Visual Studio Code related
+.classpath
+.project
+.settings/
 .vscode/
 
 # Flutter/Dart/Pub related
@@ -70,6 +73,9 @@ ios/Runner/GeneratedPluginRegistrant.*
 **/ios/Flutter/flutter_assets/
 **/ios/ServiceDefinitions.json
 **/ios/Runner/GeneratedPluginRegistrant.*
+
+# Coverage
+coverage/
 
 # Exceptions to above rules.
 !**/ios/**/default.mode1v3
