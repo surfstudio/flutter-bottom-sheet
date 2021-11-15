@@ -74,9 +74,15 @@ jobs:
       - name: Install dependencies 
         run: flutter pub get
 
-      - name: Run tests 
-        run: flutter test
-  
+      - name: Run tests
+        env:
+          CODECOV_TOKEN: ${{secrets.CODECOV_TOKEN}}
+        if: success()
+        run: |
+          flutter test --coverage
+          bash <(curl -s https://codecov.io/bash) -f coverage/lcov.info
+
+
   build_android_example:
     needs: analysis
     runs-on: ubuntu-latest
