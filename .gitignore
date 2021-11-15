@@ -1,12 +1,6 @@
-.idea
-
-build/
-ios/.generated/
-ios/Flutter/Generated.xcconfig
-ios/Runner/GeneratedPluginRegistrant.*
-
 # Miscellaneous
 *.class
+*.lock
 *.log
 *.pyc
 *.swp
@@ -32,11 +26,11 @@ ios/Runner/GeneratedPluginRegistrant.*
 **/doc/api/
 .dart_tool/
 .flutter-plugins
+.flutter-plugins-dependencies
 .packages
 .pub-cache/
 .pub/
-/build/
-*.lock
+build/
 
 # Android related
 **/android/**/gradle-wrapper.jar
@@ -82,4 +76,3 @@ coverage/
 !**/ios/**/default.mode2v3
 !**/ios/**/default.pbxuser
 !**/ios/**/default.perspectivev3
-!/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
