@@ -24,14 +24,15 @@ Flexible and scrollable bottom sheet.
 
 All you have to do is call `showFlexibleBottomSheet()` and you'll get a popup that looks like a modal bottom sheet and can be resized by dragging it up and down and scrolled when expanded.
 
-There are 2 types of BottomSheets:  
+There are 2 types of BottomSheets:
 
 1. BottomSheet
 2. StickyBottomSheet
 
-![image](media/open_bottom_sheet.gif)
-
 ## Example
+#### Simple BottomSheet
+
+![](media/open_bottom_sheet.gif)
 
 To show bottomSheet, use :
 
@@ -62,35 +63,33 @@ Widget _buildBottomSheet(
   }
 ```
 
-### Sticky BottomSheet
+#### Sticky BottomSheet
 
-![image](media/open_stiky_bottom_sheet.gif)
-
-## Example
+![](media/open_stiky_bottom_sheet.gif)
 
 To show sticky BottomSheet, use:  
 **You have to return SliverChildListDelegate from builder !!!**
 
 ```dart
 showStickyFlexibleBottomSheet(
-      minHeight: 0,
-      initHeight: 0.5,
-      maxHeight: 1,
-      headerHeight: 200,
-      context: context,
-      backgroundColor: Colors.white,
-      headerBuilder: (BuildContext context, double offset) {
-        return Container(
-          ...
-        );
-      },
-      builder: (BuildContext context, double offset) {
-        return SliverChildListDelegate(
-          <Widget>[...],
-        );
-      },
-      anchors: [0, 0.5, 1],
+  minHeight: 0,
+  initHeight: 0.5,
+  maxHeight: 1,
+  headerHeight: 200,
+  context: context,
+  backgroundColor: Colors.white,
+  headerBuilder: (BuildContext context, double offset) {
+    return Container(
+      ...
     );
+  },
+  builder: (BuildContext context, double offset) {
+    return SliverChildListDelegate(
+      <Widget>[...],
+    );
+  },
+  anchors: [0, 0.5, 1],
+);
 ```
 
 ## Installation
