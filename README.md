@@ -97,10 +97,10 @@ Add `bottom_sheet` to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  bottom_sheet: ^1.0.0
+  bottom_sheet: $currentVersion$
 ```
 
-You can use both `stable` and `dev` versions of the package listed above in the badges bar.
+<p>At this moment, the current version of <code>bottom_sheet</code> is <a href="https://pub.dev/packages/bottom_sheet"><img style="vertical-align:middle;" src="https://img.shields.io/pub/v/bottom_sheet.svg" alt="bottom_sheet version"></a>.</p>
 
 ## Changelog
 
