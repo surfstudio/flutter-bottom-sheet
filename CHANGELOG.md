@@ -1,14 +1,14 @@
 # Changelog
 
-## next
+## 1.0.4
 
 * Fix double pop navigator(tnx Renesanse).
 
-## 1.0.3 - 2021-10-04
+## 1.0.3
 
 * Coverage integration.
 
-## 1.0.2 - 2021-10-04
+## 1.0.2
 
 * Useless classes has been removed
 * Fix wrong behaviour when isCollapsible = true
@@ -17,15 +17,15 @@
 * Fix some dirty code
 * Fix extent counting
 
-## 1.0.1 - 2021-06-01
+## 1.0.1
 
 * Stable release
 
-## 1.0.1-dev.2 - 2021-05-29
+## 1.0.1-dev.2
 
 * Remove animation listeners.
 
-## 1.0.1-dev.1 - 2021-05-24
+## 1.0.1-dev.1
 
 * Apply new lint rules.
 
