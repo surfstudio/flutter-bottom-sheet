@@ -9,6 +9,8 @@
 
 This package is part of the [SurfGear](https://github.com/surfstudio/SurfGear) toolkit made by [Surf](https://surf.ru).
 
+[![Bottom sheet](https://i.ibb.co/MZqkwTv/bottom-sheet.png)](https://github.com/surfstudio/SurfGear)
+
 ## About
 
 Custom bottom sheet widget that can be resized in response to drag gestures and then scrolled.
@@ -32,7 +34,7 @@ There are 2 types of BottomSheets:
 ## Example
 #### Simple BottomSheet
 
-![](media/open_bottom_sheet.gif)
+![](https://i.ibb.co/QHKYTTS/open-bottom-sheet.gif)
 
 To show bottomSheet, use :
 
@@ -65,7 +67,7 @@ Widget _buildBottomSheet(
 
 #### Sticky BottomSheet
 
-![](media/open_stiky_bottom_sheet.gif)
+![](https://i.ibb.co/rGnSmks/open-stiky-bottom-sheet.gif)
 
 To show sticky BottomSheet, use:  
 **You have to return SliverChildListDelegate from builder !!!**
