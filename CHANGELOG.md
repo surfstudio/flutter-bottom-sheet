@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.5
+
+* Docs improvement.
+
 ## 1.0.4
 
 * Fix double pop navigator(tnx Renesanse).
