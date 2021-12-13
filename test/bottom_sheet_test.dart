@@ -12,11 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import 'dart:ui';
-
 import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:bottom_sheet/src/widgets/flexible_bottom_sheet_scroll_notifier.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:surf_lint_rules/surf_lint_rules.dart';
