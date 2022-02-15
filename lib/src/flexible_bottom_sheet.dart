@@ -138,7 +138,8 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
         ) {
           return ChangeInsetsDetector(
             child: AnimatedPadding(
-              padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
               duration: const Duration(milliseconds: 200),
               curve: Curves.ease,
               onEnd: () {
@@ -216,7 +217,8 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
     final widgetOffset = FocusManager.instance.primaryFocus!.offset.dy;
     final screenHeight = MediaQuery.of(context).size.height;
 
-    final targetWidgetOffset = screenHeight - keyboardHeight - widgetHeight - 20;
+    final targetWidgetOffset =
+        screenHeight - keyboardHeight - widgetHeight - 20;
     final valueToScroll = widgetOffset - targetWidgetOffset;
     final currentOffset = controller.offset;
 
