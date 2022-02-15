@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'dart:ui';
+
 import 'package:bottom_sheet/bottom_sheet.dart';
-import 'package:bottom_sheet/src/widgets/flexible_bottom_sheet_scroll_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:surf_lint_rules/surf_lint_rules.dart';
@@ -81,12 +82,12 @@ void main() {
 
           expect(() => FlexibleBottomSheet, returnsNormally);
 
-          final flexibleScrollNotifier = find.byType(FlexibleScrollNotifier);
+          final flexibleScrollNotifier =
+              find.byType(NotificationListener<DraggableScrollableNotification>);
           expect(flexibleScrollNotifier, findsOneWidget);
 
-          final flexibleDraggableScrollableSheet =
-              find.byType(FlexibleDraggableScrollableSheet);
-          expect(flexibleDraggableScrollableSheet, findsOneWidget);
+          final draggableScrollableSheet = find.byType(DraggableScrollableSheet);
+          expect(draggableScrollableSheet, findsOneWidget);
         },
       );
 
@@ -119,9 +120,7 @@ void main() {
           await tester.pumpAndSettle();
           expect(
             find.byType(FlexibleBottomSheet),
-            defaultBoolTestVariant.currentValue!
-                ? findsNothing
-                : findsOneWidget,
+            defaultBoolTestVariant.currentValue! ? findsNothing : findsOneWidget,
           );
         },
         variant: defaultBoolTestVariant,
@@ -150,9 +149,7 @@ void main() {
 
           expect(
             find.byType(FlexibleBottomSheet),
-            defaultBoolTestVariant.currentValue!
-                ? findsNothing
-                : findsOneWidget,
+            defaultBoolTestVariant.currentValue! ? findsNothing : findsOneWidget,
           );
         },
         variant: defaultBoolTestVariant,
@@ -207,8 +204,7 @@ void main() {
           'Drag bottom sheet with anchors should have correct behaviour',
           (tester) async {
             final offset = _dragAnchorsVariants.currentValue!.offset;
-            final expectedResult =
-                _dragAnchorsVariants.currentValue!.expectedResult;
+            final expectedResult = _dragAnchorsVariants.currentValue!.expectedResult;
 
             await tester.pumpWidget(app);
 
@@ -249,7 +245,7 @@ void main() {
 
             await tester.drag(
               find.byKey(listViewKey),
-              const Offset(0, 38),
+              const Offset(0, 100),
             );
             await tester.pumpAndSettle();
 
@@ -257,16 +253,66 @@ void main() {
 
             final fractionalHeight = getFractionalHeight(tester);
 
-            expect(fractionalHeight, moreOrLessEquals(0.2));
+            expect(
+              double.parse(fractionalHeight.toStringAsFixed(2)),
+              moreOrLessEquals(0.2),
+            );
 
             await tester.drag(
               find.byKey(listViewKey),
-              const Offset(0, 40),
+              const Offset(0, 200),
             );
 
             await tester.pumpAndSettle();
 
             expect(find.byKey(listViewKey), findsNothing);
+          },
+        );
+
+        testWidgets(
+          'When keyboard open, height of sheet should set to max',
+          (tester) async {
+            await tester.pumpWidget(app);
+
+            unawaited(showBottomSheet(
+              anchors: [0.2, 0.5, 0.8],
+            ));
+
+            await tester.pumpAndSettle();
+
+            final testBinding = tester.binding;
+            testBinding.window.viewInsetsTestValue = const FakeWindowPadding();
+
+            await tester.pumpAndSettle();
+
+            final fractionalHeight = getFractionalHeight(tester);
+
+            expect(
+              fractionalHeight,
+              moreOrLessEquals(0.8),
+            );
+          },
+        );
+
+        testWidgets(
+          'When keyboard opend before open sheet, sheet shoul open with max height',
+          (tester) async {
+            await tester.pumpWidget(app);
+
+            final testBinding = tester.binding;
+            testBinding.window.viewInsetsTestValue = const FakeWindowPadding();
+
+            unawaited(showBottomSheet(
+              anchors: [0.2, 0.5, 0.8],
+            ));
+            await tester.pumpAndSettle();
+
+            final fractionalHeight = getFractionalHeight(tester);
+
+            expect(
+              fractionalHeight,
+              moreOrLessEquals(0.8),
+            );
           },
         );
       });
@@ -289,12 +335,12 @@ final ValueVariant<_DragAnchorTestScenario> _dragAnchorsVariants =
   {
     // When scrolling down 35, the bottom sheet should be 0.5.
     _DragAnchorTestScenario(const Offset(0, 35), 0.5),
-    // When scrolling down 38, the bottom sheet should be 0.2.
-    _DragAnchorTestScenario(const Offset(0, 38), 0.2),
+    // When scrolling down 150, the bottom sheet should be 0.2.
+    _DragAnchorTestScenario(const Offset(0, 150), 0.2),
     // When scrolling down -35, the bottom sheet should be 0.5.
     _DragAnchorTestScenario(const Offset(0, -35), 0.5),
-    // When scrolling down -38, the bottom sheet should be 0.8.
-    _DragAnchorTestScenario(const Offset(0, -38), 0.8),
+    // When scrolling down -150, the bottom sheet should be 0.8.
+    _DragAnchorTestScenario(const Offset(0, -150), 0.8),
   },
 );
 
@@ -337,8 +383,7 @@ class _AnchorsTestScenario {
   });
 }
 
-final ValueVariant<_AnchorsTestScenario> _anchorsTestVariants =
-    ValueVariant<_AnchorsTestScenario>(
+final ValueVariant<_AnchorsTestScenario> _anchorsTestVariants = ValueVariant<_AnchorsTestScenario>(
   {
     _AnchorsTestScenario(
       anchors: [0.2, 0.5, 1],
@@ -359,3 +404,24 @@ final ValueVariant<_AnchorsTestScenario> _anchorsTestVariants =
     ),
   },
 );
+
+class FakeWindowPadding implements WindowPadding {
+  @override
+  final double left;
+
+  @override
+  final double top;
+
+  @override
+  final double right;
+
+  @override
+  final double bottom;
+
+  const FakeWindowPadding({
+    this.left = 0.0,
+    this.top = 0.0,
+    this.right = 0.0,
+    this.bottom = 20.0,
+  });
+}
