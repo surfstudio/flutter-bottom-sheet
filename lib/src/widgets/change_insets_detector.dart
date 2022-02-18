@@ -30,14 +30,14 @@ class _ChangeInsetsDetectorState extends State<ChangeInsetsDetector> {
 
   @override
   void didChangeDependencies() {
+    super.didChangeDependencies();
     final newInsets = MediaQuery.of(context).viewInsets.bottom;
     final delta = lastInsets == null ? 0.0 : newInsets - lastInsets!;
-    if (MediaQuery.of(context).viewInsets.bottom != lastInsets) {
+    if (newInsets != lastInsets) {
       if (widget.handler != null) {
         widget.handler!.call(delta, newInsets);
       }
     }
     lastInsets = newInsets;
-    super.didChangeDependencies();
   }
 }

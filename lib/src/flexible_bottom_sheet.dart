@@ -13,8 +13,41 @@
 // limitations under the License.
 import 'package:bottom_sheet/src/flexible_bottom_sheet_header_delegate.dart';
 import 'package:bottom_sheet/src/widgets/change_insets_detector.dart';
-import 'package:bottom_sheet/src/widgets/flexible_draggable_scrollable_sheet.dart';
 import 'package:flutter/material.dart';
+
+/// The signature of a method that provides a [BuildContext] and
+/// [ScrollController] for building a widget that may overflow the draggable
+/// [Axis] of the containing FlexibleDraggableScrollSheet.
+///
+/// Users should apply the [scrollController] to a [ScrollView] subclass, such
+/// as a [SingleChildScrollView], [ListView] or [GridView], to have the whole
+/// sheet be draggable.
+///
+/// [bottomSheetOffset] - fractional value of offset.
+typedef FlexibleDraggableScrollableWidgetBuilder = Widget Function(
+  BuildContext context,
+  ScrollController scrollController,
+  double bottomSheetOffset,
+);
+
+/// The signature of the method that provides [BuildContext]
+/// and [bottomSheetOffset] for determining the position of the BottomSheet
+/// relative to the upper border of the screen.
+/// [bottomSheetOffset] - fractional value of offset.
+typedef FlexibleDraggableScrollableHeaderWidgetBuilder = Widget Function(
+  BuildContext context,
+  double bottomSheetOffset,
+);
+
+/// The signature of a method that provides a [BuildContext]
+/// and [bottomSheetOffset] for determining the position of the BottomSheet
+/// relative to the upper border of the screen.
+/// [bottomSheetOffset] - fractional value of offset.
+typedef FlexibleDraggableScrollableWidgetBodyBuilder = SliverChildDelegate
+    Function(
+  BuildContext context,
+  double bottomSheetOffset,
+);
 
 /// Flexible and scrollable bottom sheet.
 ///
@@ -137,9 +170,26 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
           controller,
         ) {
           return ChangeInsetsDetector(
+            handler: (delta, inset) {
+              if (delta > 0) {
+                _animateToFocused(controller);
+                _animateToMaxHeigt();
+              }
+              // checking for openness of the keyboard before opening the sheet
+              if (delta == 0 && inset != 0) {
+                WidgetsBinding.instance!.addPostFrameCallback(
+                  (_) {
+                    setState(() {
+                      initialChildSize = widget.maxHeight;
+                    });
+                  },
+                );
+              }
+            },
             child: AnimatedPadding(
               padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom),
+                bottom: MediaQuery.of(context).viewInsets.bottom,
+              ),
               duration: const Duration(milliseconds: 200),
               curve: Curves.ease,
               onEnd: () {
@@ -157,22 +207,6 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
                 scrollController: controller,
               ),
             ),
-            handler: (delta, inset) {
-              if (delta > 0) {
-                _animateToFocused(controller);
-                _animateToMaxHeigt();
-              }
-              // checking the case when the keyboard is open
-              if (delta == 0 && inset != 0) {
-                WidgetsBinding.instance!.addPostFrameCallback(
-                  (_) {
-                    setState(() {
-                      initialChildSize = widget.maxHeight;
-                    });
-                  },
-                );
-              }
-            },
           );
         },
       ),
@@ -185,7 +219,7 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
     setState(() {});
   }
 
-  /// scroll callback
+  /// Method will be called when scrolling
   bool _scrolling(DraggableScrollableNotification notification) {
     if (_isClosing) return false;
 

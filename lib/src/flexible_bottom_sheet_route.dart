@@ -13,7 +13,6 @@
 // limitations under the License.
 
 import 'package:bottom_sheet/src/flexible_bottom_sheet.dart';
-import 'package:bottom_sheet/src/widgets/flexible_draggable_scrollable_sheet.dart';
 import 'package:flutter/material.dart';
 
 const Duration _bottomSheetDuration = Duration(milliseconds: 500);
