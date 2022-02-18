@@ -1,4 +1,10 @@
 # Changelog
+## 2.0.0
+* Replacing part of the functionality with DraggableScrollableSheet
+* Removed FlexibleScrollNotifier
+* In FlexibleDraggableScrollableWidgetBuilder change FlexibleDraggableScrollableSheetScrollController to ScrollController
+* Fix LateInitializationError when open bottom_sheet with opened keyboard
+
 
 ## 1.0.5
 
