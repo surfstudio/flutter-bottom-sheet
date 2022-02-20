@@ -14,7 +14,8 @@ dev_dependencies:
   surf_lint_rules: ^1.0.0
 
 environment:
-  sdk: ">=2.16.0 <3.0.0"
+  sdk: ">=2.15.0 <3.0.0"
+  flutter: ^2.10.0
 
 flutter:
   uses-material-design: true
