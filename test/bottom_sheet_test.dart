@@ -260,7 +260,7 @@ void main() {
             final fractionalHeight = getFractionalHeight(tester);
 
             expect(
-              double.parse(fractionalHeight.toStringAsFixed(2)),
+              fractionalHeight,
               moreOrLessEquals(0.2),
             );
 
