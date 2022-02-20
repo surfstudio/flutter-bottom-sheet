@@ -1,5 +1,16 @@
 # Changelog
 
+## [Unreleased]
+
+## 2.0.0
+### Fixed
+* LateInitializationError when bottom sheet appear with an open keyboard;
+### Changed
+* DraggableScrollableSheet from Flutter used as core;
+* FlexibleDraggableScrollableWidgetBuilder uses ScrollController instead FlexibleDraggableScrollableSheetScrollController;
+### Removed
+* FlexibleScrollNotifier;
+
 ## 1.0.5
 
 * Docs improvement.
