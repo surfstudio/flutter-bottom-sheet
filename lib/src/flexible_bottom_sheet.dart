@@ -72,6 +72,8 @@ typedef FlexibleDraggableScrollableWidgetBodyBuilder = SliverChildDelegate
 /// animation, it is not just a passive observer.
 ///
 /// [initHeight] - relevant height for init bottom sheet
+///
+/// [keyboardBarrierColor] - color for the space behind the keyboard
 class FlexibleBottomSheet extends StatefulWidget {
   final double minHeight;
   final double initHeight;
@@ -87,6 +89,7 @@ class FlexibleBottomSheet extends StatefulWidget {
   final double? maxHeaderHeight;
   final Decoration? decoration;
   final VoidCallback? onDismiss;
+  final Color? keyboardBarrierColor;
 
   FlexibleBottomSheet({
     Key? key,
@@ -104,6 +107,7 @@ class FlexibleBottomSheet extends StatefulWidget {
     this.maxHeaderHeight,
     this.decoration,
     this.onDismiss,
+    this.keyboardBarrierColor,
   })  : assert(minHeight >= 0 && minHeight <= 1),
         assert(maxHeight > 0 && maxHeight <= 1),
         assert(maxHeight > minHeight),
@@ -125,6 +129,7 @@ class FlexibleBottomSheet extends StatefulWidget {
     double? minHeaderHeight,
     double? maxHeaderHeight,
     Decoration? decoration,
+    Color? keyboardBarrierColor,
   }) : this(
           key: key,
           maxHeight: maxHeight,
@@ -140,6 +145,7 @@ class FlexibleBottomSheet extends StatefulWidget {
           minHeaderHeight: minHeaderHeight,
           maxHeaderHeight: maxHeaderHeight,
           decoration: decoration,
+          keyboardBarrierColor: keyboardBarrierColor,
         );
 
   @override
@@ -150,8 +156,10 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
     with SingleTickerProviderStateMixin {
   final _controller = DraggableScrollableController();
 
+  final ValueNotifier<double> _bottomInsetNotifier = ValueNotifier(0.0);
   late double initialChildSize = widget.initHeight;
   bool _isClosing = false;
+  bool _isAnimatingToMaxHeight = false;
 
   @override
   Widget build(BuildContext context) {
@@ -171,12 +179,17 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
         ) {
           return ChangeInsetsDetector(
             handler: (delta, inset) {
+              _bottomInsetNotifier.value = inset;
               if (delta > 0) {
-                _animateToFocused(controller);
                 _animateToMaxHeigt();
+                WidgetsBinding.instance!.addPostFrameCallback(
+                  (_) {
+                    _animateToFocused(controller);
+                  },
+                );
               }
               // checking for openness of the keyboard before opening the sheet
-              if (delta == 0 && inset != 0) {
+              if (delta == 0 && inset > 0) {
                 WidgetsBinding.instance!.addPostFrameCallback(
                   (_) {
                     setState(() {
@@ -186,26 +199,31 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
                 );
               }
             },
-            child: AnimatedPadding(
-              padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom,
-              ),
-              duration: const Duration(milliseconds: 200),
-              curve: Curves.ease,
-              onEnd: () {
-                _animateToFocused(controller);
-                _updateState();
-              },
-              child: _Content(
-                builder: widget.builder,
-                decoration: widget.decoration,
-                bodyBuilder: widget.bodyBuilder,
-                headerBuilder: widget.headerBuilder,
-                minHeaderHeight: widget.minHeaderHeight,
-                maxHeaderHeight: widget.maxHeaderHeight,
-                currentExtent: _controller.size,
-                scrollController: controller,
-              ),
+            child: Column(
+              children: [
+                Expanded(
+                  child: _Content(
+                    builder: widget.builder,
+                    decoration: widget.decoration,
+                    bodyBuilder: widget.bodyBuilder,
+                    headerBuilder: widget.headerBuilder,
+                    minHeaderHeight: widget.minHeaderHeight,
+                    maxHeaderHeight: widget.maxHeaderHeight,
+                    currentExtent: _controller.size,
+                    scrollController: controller,
+                  ),
+                ),
+                ValueListenableBuilder<double>(
+                  valueListenable: _bottomInsetNotifier,
+                  builder: (_, data, __) {
+                    return Container(
+                      height: data,
+                      color: widget.keyboardBarrierColor ??
+                          Theme.of(context).scaffoldBackgroundColor,
+                    );
+                  },
+                ),
+              ],
             ),
           );
         },
@@ -213,10 +231,10 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
     );
   }
 
-  /// Update state
-  /// explicit application [initialChildSize]
-  void _updateState() {
-    setState(() {});
+  @override
+  void dispose() {
+    _bottomInsetNotifier.dispose();
+    super.dispose();
   }
 
   /// Method will be called when scrolling
@@ -233,12 +251,17 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
   /// Make bottom sheet max height
   void _animateToMaxHeigt() {
     final currPosition = _controller.size;
-    if (currPosition != widget.maxHeight) {
-      _controller.animateTo(
-        widget.maxHeight,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.ease,
-      );
+    if (currPosition != widget.maxHeight && !_isAnimatingToMaxHeight) {
+      _isAnimatingToMaxHeight = true;
+      _controller
+          .animateTo(
+            widget.maxHeight,
+            duration: const Duration(milliseconds: 200),
+            curve: Curves.ease,
+          )
+          .whenComplete(
+            () => _isAnimatingToMaxHeight = false,
+          );
     }
   }
 
@@ -246,25 +269,24 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
   void _animateToFocused(ScrollController controller) {
     if (FocusManager.instance.primaryFocus == null || _isClosing) return;
 
-    final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
-    final widgetHeight = FocusManager.instance.primaryFocus!.size.height;
-    final widgetOffset = FocusManager.instance.primaryFocus!.offset.dy;
-    final screenHeight = MediaQuery.of(context).size.height;
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
+      final widgetHeight = FocusManager.instance.primaryFocus!.size.height;
+      final widgetOffset = FocusManager.instance.primaryFocus!.offset.dy;
+      final screenHeight = MediaQuery.of(context).size.height;
 
-    final targetWidgetOffset =
-        screenHeight - keyboardHeight - widgetHeight - 20;
-    final valueToScroll = widgetOffset - targetWidgetOffset;
-    final currentOffset = controller.offset;
-
-    if (valueToScroll > 0) {
-      WidgetsBinding.instance!.addPostFrameCallback((_) {
+      final targetWidgetOffset =
+          screenHeight - keyboardHeight - widgetHeight - 20;
+      final valueToScroll = widgetOffset - targetWidgetOffset;
+      final currentOffset = controller.offset;
+      if (valueToScroll > 0) {
         controller.animateTo(
           currentOffset + valueToScroll,
           duration: const Duration(milliseconds: 200),
           curve: Curves.ease,
         );
-      });
-    }
+      }
+    });
   }
 
   /// checking if the bottom sheet needs to be closed

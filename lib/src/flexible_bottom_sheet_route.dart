@@ -37,6 +37,7 @@ Future<T?> showFlexibleBottomSheet<T>({
   bool useRootNavigator = false,
   bool isModal = true,
   List<double>? anchors,
+  Color? keyboardBarrierColor,
 }) {
   assert(debugCheckHasMediaQuery(context));
   assert(debugCheckHasMaterialLocalizations(context));
@@ -54,6 +55,7 @@ Future<T?> showFlexibleBottomSheet<T>({
       builder: builder,
       isModal: isModal,
       anchors: anchors,
+      keyboardBarrierColor: keyboardBarrierColor,
     ),
   );
 }
@@ -92,6 +94,7 @@ Future<T?> showStickyFlexibleBottomSheet<T>({
   double? maxHeaderHeight,
   double? headerHeight,
   Decoration? decoration,
+  Color? keyboardBarrierColor,
 }) {
   assert(maxHeaderHeight != null || headerHeight != null);
   assert(debugCheckHasMediaQuery(context));
@@ -114,6 +117,7 @@ Future<T?> showStickyFlexibleBottomSheet<T>({
       minHeaderHeight: minHeaderHeight ?? headerHeight ?? maxHeaderHeight! / 2,
       maxHeaderHeight: maxHeaderHeight ?? headerHeight!,
       decoration: decoration,
+      keyboardBarrierColor: keyboardBarrierColor,
     ),
   );
 }
@@ -135,6 +139,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
   final double? maxHeaderHeight;
   final Decoration? decoration;
   final ThemeData? theme;
+  final Color? keyboardBarrierColor;
 
   @override
   final String? barrierLabel;
@@ -167,6 +172,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
     this.minHeaderHeight,
     this.maxHeaderHeight,
     this.decoration,
+    this.keyboardBarrierColor,
     RouteSettings? settings,
   }) : super(settings: settings);
 
@@ -203,6 +209,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
               minHeaderHeight: minHeaderHeight,
               maxHeaderHeight: maxHeaderHeight,
               decoration: decoration,
+              keyboardBarrierColor: keyboardBarrierColor,
             )
           : FlexibleBottomSheet(
               minHeight: minHeight,
@@ -217,6 +224,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
               minHeaderHeight: minHeaderHeight,
               maxHeaderHeight: maxHeaderHeight,
               decoration: decoration,
+              keyboardBarrierColor: keyboardBarrierColor,
             ),
     );
 

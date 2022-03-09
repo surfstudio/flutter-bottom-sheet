@@ -293,6 +293,8 @@ void main() {
 
             final fractionalHeight = getFractionalHeight(tester);
 
+            await tester.pumpAndSettle();
+
             expect(
               fractionalHeight,
               moreOrLessEquals(0.8),
@@ -429,6 +431,6 @@ class FakeWindowPadding implements WindowPadding {
     this.left = 0.0,
     this.top = 0.0,
     this.right = 0.0,
-    this.bottom = 20.0,
+    this.bottom = 30.0,
   });
 }
