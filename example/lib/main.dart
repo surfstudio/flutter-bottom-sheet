@@ -151,29 +151,27 @@ class _BottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Material(
-        child: Container(
-          decoration: const BoxDecoration(
-            color: Color(0xFFFFFFFF),
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(16),
-              topRight: Radius.circular(16),
+    return Material(
+      child: DecoratedBox(
+        decoration: const BoxDecoration(
+          color: Color(0xFFFFFFFF),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(16),
+            topRight: Radius.circular(16),
+          ),
+        ),
+        child: ListView(
+          padding: EdgeInsets.zero,
+          controller: scrollController,
+          children: [
+            Text(
+              'position $bottomSheetOffset',
+              style: Theme.of(context).textTheme.headline6,
             ),
-          ),
-          child: ListView(
-            padding: EdgeInsets.zero,
-            controller: scrollController,
-            children: [
-              Text(
-                'position $bottomSheetOffset',
-                style: Theme.of(context).textTheme.headline6,
-              ),
-              Column(
-                children: _children,
-              ),
-            ],
-          ),
+            Column(
+              children: _children,
+            ),
+          ],
         ),
       ),
     );

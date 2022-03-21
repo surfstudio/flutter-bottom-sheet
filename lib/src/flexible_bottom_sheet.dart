@@ -178,7 +178,10 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
           controller,
         ) {
           return ChangeInsetsDetector(
-            handler: (delta, inset) {
+            handler: (change) {
+              final inset = change.currentInset;
+              final delta = change.delta;
+
               _bottomInsetNotifier.value = inset;
               if (delta > 0) {
                 _animateToMaxHeigt();
@@ -342,8 +345,8 @@ class _Content extends StatelessWidget {
 
     return Material(
       type: MaterialType.transparency,
-      child: Container(
-        decoration: decoration,
+      child: DecoratedBox(
+        decoration: decoration ?? const BoxDecoration(),
         child: CustomScrollView(
           controller: scrollController,
           slivers: <Widget>[
