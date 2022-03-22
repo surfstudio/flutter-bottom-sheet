@@ -4,7 +4,7 @@
 
 ## 2.1.0
 ### Fixed
-* Fixed hole between keyboard and bottom sheet;
+* Hole between keyboard and bottom sheet;
 ### Added
 * keyboardBarrierColor parameter that sets the color for the space behind the keyboard;
 ### Changed
