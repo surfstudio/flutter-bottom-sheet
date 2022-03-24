@@ -1,4 +1,4 @@
-package com.example.example
+package surf.example.bottomsheetexample
 
 import io.flutter.embedding.android.FlutterActivity
 

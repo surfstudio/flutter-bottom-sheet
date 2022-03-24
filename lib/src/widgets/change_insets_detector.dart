@@ -1,15 +1,10 @@
+import 'package:bottom_inset_observer/bottom_inset_observer.dart';
 import 'package:flutter/material.dart';
-
-/// The signature of the method that provides [delta]
-/// and [inset] for determining bottom inset status.
-/// [delta] - value of delata previous inset and new.
-/// [inset] - value of bottom insets.
-typedef OnInsetsChange = void Function(double delta, double inset);
 
 /// Widget that calls [handler] when viewInsets.bottom changes
 class ChangeInsetsDetector extends StatefulWidget {
   final Widget child;
-  final OnInsetsChange? handler;
+  final BottomInsetChangeListener? handler;
   const ChangeInsetsDetector({
     required this.child,
     Key? key,
@@ -21,7 +16,7 @@ class ChangeInsetsDetector extends StatefulWidget {
 }
 
 class _ChangeInsetsDetectorState extends State<ChangeInsetsDetector> {
-  double? lastInsets;
+  final BottomInsetObserver _insetObserver = BottomInsetObserver();
 
   @override
   Widget build(BuildContext context) {
@@ -29,15 +24,18 @@ class _ChangeInsetsDetectorState extends State<ChangeInsetsDetector> {
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final newInsets = MediaQuery.of(context).viewInsets.bottom;
-    final delta = lastInsets == null ? 0.0 : newInsets - lastInsets!;
-    if (newInsets != lastInsets) {
-      if (widget.handler != null) {
-        widget.handler!.call(delta, newInsets);
-      }
-    }
-    lastInsets = newInsets;
+  void initState() {
+    super.initState();
+    _insetObserver.addListener(_insetChangeHandler);
+  }
+
+  @override
+  void dispose() {
+    _insetObserver.dispose();
+    super.dispose();
+  }
+
+  void _insetChangeHandler(BottomInsetChanges change) {
+    widget.handler?.call(change);
   }
 }

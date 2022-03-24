@@ -2,6 +2,14 @@
 
 ## [Unreleased]
 
+## 2.1.0
+### Fixed
+* Hole between keyboard and bottom sheet;
+### Added
+* keyboardBarrierColor parameter that sets the color for the space behind the keyboard;
+### Changed
+* ChangeInsetsDetector used BottomInsetObserver;
+
 ## 2.0.0
 ### Fixed
 * LateInitializationError when bottom sheet appear with an open keyboard;
