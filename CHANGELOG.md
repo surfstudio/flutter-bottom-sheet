@@ -1,8 +1,6 @@
 # Changelog
 
 ## [Unreleased]
-
-## 2.1.0
 ### Fixed
 * Hole between keyboard and bottom sheet;
 ### Added
