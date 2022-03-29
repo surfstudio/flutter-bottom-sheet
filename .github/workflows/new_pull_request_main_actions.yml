@@ -1,0 +1,36 @@
+# This workflow is triggered when when a pull request opened, edited, reopened,
+# converted_to_draft and ready_for_review.
+#
+# There is no WIP in the title, there is no WIP label and the pull request is not a draft the
+# new pull request label is added.
+# If either of these is true then remove the label new pull request if there is one.
+
+name: Pull-request tracking
+on:
+  pull_request_target:
+    types:
+      - opened
+      - edited
+      - reopened
+      - converted_to_draft
+      - ready_for_review
+
+jobs:
+  pull_request:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Add label pull request
+        if: "!contains(github.event.pull_request.title, 'WIP') && !contains(github.event.pull_request.labels.*.name, 'WIP') && (github.event.pull_request.draft == false)"
+        uses: andymckay/labeler@e6c4322d0397f3240f0e7e30a33b5c5df2d39e90
+        with:
+          add-labels: "new pull request"
+          repo-token: ${{ secrets.SECRET_ISSUES }}
+
+      - name: Remove label pull request
+        if: "contains(github.event.pull_request.title, 'WIP') || contains(github.event.pull_request.labels.*.name, 'WIP') || (github.event.pull_request.draft == true)"
+        uses: andymckay/labeler@e6c4322d0397f3240f0e7e30a33b5c5df2d39e90
+        with:
+          remove-labels: "new pull request"
+          repo-token: ${{ secrets.SECRET_ISSUES }}

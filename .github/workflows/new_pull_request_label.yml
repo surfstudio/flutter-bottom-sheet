@@ -1,0 +1,31 @@
+# This workflow is triggered when a WIP label is added to an open pull request.
+# When deleting the WIP label, the new_pull_request label is added.
+# When adding a WIP label, the new_pull_request label is removed if there is one.
+
+name: Pull-request label tracking
+on:
+  pull_request_target:
+    types:
+      - labeled
+      - unlabeled
+
+jobs:
+  label_pull_request:
+    if: ${{ github.event.label.name == 'WIP' }}
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Add label pull request
+        if: "!contains(github.event.pull_request.title, 'WIP') && !contains(github.event.pull_request.labels.*.name, 'WIP') && (github.event.pull_request.draft == false)"
+        uses: andymckay/labeler@e6c4322d0397f3240f0e7e30a33b5c5df2d39e90
+        with:
+          add-labels: "new pull request"
+          repo-token: ${{ secrets.SECRET_ISSUES }}
+
+      - name: Remove label pull request
+        if: "contains(github.event.pull_request.title, 'WIP') || contains(github.event.pull_request.labels.*.name, 'WIP') || (github.event.pull_request.draft == true)"
+        uses: andymckay/labeler@e6c4322d0397f3240f0e7e30a33b5c5df2d39e90
+        with:
+          remove-labels: "new pull request"
+          repo-token: ${{ secrets.SECRET_ISSUES }}
