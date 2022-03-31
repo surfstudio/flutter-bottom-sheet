@@ -38,6 +38,7 @@ Future<T?> showFlexibleBottomSheet<T>({
   bool isModal = true,
   List<double>? anchors,
   Color? keyboardBarrierColor,
+  Duration? duration,
 }) {
   assert(debugCheckHasMediaQuery(context));
   assert(debugCheckHasMaterialLocalizations(context));
@@ -56,6 +57,7 @@ Future<T?> showFlexibleBottomSheet<T>({
       isModal: isModal,
       anchors: anchors,
       keyboardBarrierColor: keyboardBarrierColor,
+      duration: duration,
     ),
   );
 }
@@ -95,6 +97,7 @@ Future<T?> showStickyFlexibleBottomSheet<T>({
   double? headerHeight,
   Decoration? decoration,
   Color? keyboardBarrierColor,
+  Duration? duration,
 }) {
   assert(maxHeaderHeight != null || headerHeight != null);
   assert(debugCheckHasMediaQuery(context));
@@ -118,6 +121,7 @@ Future<T?> showStickyFlexibleBottomSheet<T>({
       maxHeaderHeight: maxHeaderHeight ?? headerHeight!,
       decoration: decoration,
       keyboardBarrierColor: keyboardBarrierColor,
+      duration: duration,
     ),
   );
 }
@@ -140,12 +144,13 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
   final Decoration? decoration;
   final ThemeData? theme;
   final Color? keyboardBarrierColor;
+  final Duration? duration;
 
   @override
   final String? barrierLabel;
 
   @override
-  Duration get transitionDuration => _bottomSheetDuration;
+  Duration get transitionDuration => duration ?? _bottomSheetDuration;
 
   @override
   bool get barrierDismissible => isDismissible;
@@ -173,6 +178,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
     this.maxHeaderHeight,
     this.decoration,
     this.keyboardBarrierColor,
+    this.duration,
     RouteSettings? settings,
   }) : super(settings: settings);
 
