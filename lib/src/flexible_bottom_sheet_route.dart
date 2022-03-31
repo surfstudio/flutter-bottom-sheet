@@ -23,8 +23,13 @@ const Duration _bottomSheetDuration = Duration(milliseconds: 500);
 /// [minHeight] - min height in fractional value for bottom sheet. e.g. 0.1.
 /// [initHeight] - init height in fractional value for bottom sheet. e.g. 0.5.
 /// [maxHeight] - init height in fractional value for bottom sheet. e.g. 0.5.
+/// [isCollapsible] - will the bottom sheet collapse.
+/// [isDismissible] - the bottom sheet will be dismissed when user taps on the scrim.
+/// [isExpand] - whether the widget should expand to fill the available space in its parent or not.
 /// [isModal] - if true, overlay background with dark color.
 /// [anchors] - list of sizes in fractional value that the bottom sheet can accept.
+/// [keyboardBarrierColor] - keyboard color.
+/// [duration] - animation speed when opening bottom sheet.
 Future<T?> showFlexibleBottomSheet<T>({
   required BuildContext context,
   required FlexibleDraggableScrollableWidgetBuilder builder,
@@ -79,6 +84,8 @@ Future<T?> showFlexibleBottomSheet<T>({
 /// [headerHeight] - head size.
 /// Set both [minHeaderHeight] and [maxHeaderHeight].
 /// Set one ([maxHeaderHeight] or [headerHeight]).
+/// [keyboardBarrierColor] - keyboard color.
+/// [duration] - animation speed when opening bottom sheet.
 Future<T?> showStickyFlexibleBottomSheet<T>({
   required BuildContext context,
   required FlexibleDraggableScrollableHeaderWidgetBuilder headerBuilder,
