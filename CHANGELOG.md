@@ -5,6 +5,7 @@
 * Hole between keyboard and bottom sheet;
 ### Added
 * keyboardBarrierColor parameter that sets the color for the space behind the keyboard;
+* the ability to set the duration animation bottom sheet;
 ### Changed
 * ChangeInsetsDetector used BottomInsetObserver;
 
