@@ -19,7 +19,7 @@ const Duration _bottomSheetDuration = Duration(milliseconds: 500);
 
 /// Shows a flexible bottom sheet.
 ///
-/// [builder] - content's builder.
+/// [builder] - must return a scrollable widget.
 /// [minHeight] - min height in fractional value for bottom sheet. e.g. 0.1.
 /// [initHeight] - init height in fractional value for bottom sheet. e.g. 0.5.
 /// [maxHeight] - init height in fractional value for bottom sheet. e.g. 0.5.
