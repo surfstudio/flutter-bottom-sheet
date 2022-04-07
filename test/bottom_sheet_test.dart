@@ -303,7 +303,7 @@ void main() {
         );
 
         testWidgets(
-          'When keyboard opend before open sheet, sheet shoul open with max height',
+          'When keyboard opend before open sheet, sheet should open with max height',
           (tester) async {
             await tester.pumpWidget(app);
 

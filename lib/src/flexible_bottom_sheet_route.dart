@@ -43,6 +43,7 @@ Future<T?> showFlexibleBottomSheet<T>({
   bool isModal = true,
   List<double>? anchors,
   Color? keyboardBarrierColor,
+  Color? bottomSheetColor,
   Duration? duration,
 }) {
   assert(debugCheckHasMediaQuery(context));
@@ -62,6 +63,7 @@ Future<T?> showFlexibleBottomSheet<T>({
       isModal: isModal,
       anchors: anchors,
       keyboardBarrierColor: keyboardBarrierColor,
+      bottomSheetColor: bottomSheetColor,
       duration: duration,
     ),
   );
@@ -104,6 +106,7 @@ Future<T?> showStickyFlexibleBottomSheet<T>({
   double? headerHeight,
   Decoration? decoration,
   Color? keyboardBarrierColor,
+  Color? bottomSheetColor,
   Duration? duration,
 }) {
   assert(maxHeaderHeight != null || headerHeight != null);
@@ -128,6 +131,7 @@ Future<T?> showStickyFlexibleBottomSheet<T>({
       maxHeaderHeight: maxHeaderHeight ?? headerHeight!,
       decoration: decoration,
       keyboardBarrierColor: keyboardBarrierColor,
+      bottomSheetColor: bottomSheetColor,
       duration: duration,
     ),
   );
@@ -151,6 +155,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
   final Decoration? decoration;
   final ThemeData? theme;
   final Color? keyboardBarrierColor;
+  final Color? bottomSheetColor;
   final Duration? duration;
 
   @override
@@ -185,6 +190,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
     this.maxHeaderHeight,
     this.decoration,
     this.keyboardBarrierColor,
+    this.bottomSheetColor,
     this.duration,
     RouteSettings? settings,
   }) : super(settings: settings);
@@ -223,6 +229,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
               maxHeaderHeight: maxHeaderHeight,
               decoration: decoration,
               keyboardBarrierColor: keyboardBarrierColor,
+              bottomSheetColor: bottomSheetColor,
             )
           : FlexibleBottomSheet(
               minHeight: minHeight,
@@ -238,6 +245,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
               maxHeaderHeight: maxHeaderHeight,
               decoration: decoration,
               keyboardBarrierColor: keyboardBarrierColor,
+              bottomSheetColor: bottomSheetColor,
             ),
     );
 

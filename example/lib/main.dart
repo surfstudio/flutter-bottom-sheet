@@ -71,16 +71,17 @@ class _MyHomePageState extends State<MyHomePage> {
   void _showSheet() {
     showFlexibleBottomSheet<void>(
       minHeight: 0,
-      initHeight: 0.5,
+      initHeight: 1,
       maxHeight: 1,
       context: context,
+      isExpand: false,
       builder: (context, controller, offset) {
         return _BottomSheet(
           scrollController: controller,
           bottomSheetOffset: offset,
         );
       },
-      anchors: [0, 0.5, 1],
+     // anchors: [0, 0.5, 1],
     );
   }
 
@@ -98,6 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
           topRight: Radius.circular(40.0),
         ),
       ),
+      bottomSheetColor: Colors.transparent,
       headerBuilder: (context, offset) {
         return AnimatedContainer(
           duration: const Duration(milliseconds: 300),
@@ -161,6 +163,7 @@ class _BottomSheet extends StatelessWidget {
           ),
         ),
         child: ListView(
+          shrinkWrap: true,
           padding: EdgeInsets.zero,
           controller: scrollController,
           children: [
