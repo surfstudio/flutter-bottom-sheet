@@ -184,7 +184,7 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
 
               _bottomInsetNotifier.value = inset;
               if (delta > 0) {
-                _animateToMaxHeigt();
+                _animateToMaxHeight();
                 WidgetsBinding.instance!.addPostFrameCallback(
                   (_) {
                     _animateToFocused(controller);
@@ -252,7 +252,7 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
   }
 
   /// Make bottom sheet max height
-  void _animateToMaxHeigt() {
+  void _animateToMaxHeight() {
     final currPosition = _controller.size;
     if (currPosition != widget.maxHeight && !_isAnimatingToMaxHeight) {
       _isAnimatingToMaxHeight = true;
