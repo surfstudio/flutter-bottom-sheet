@@ -263,17 +263,15 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
     final currPosition = _controller.size;
     if (currPosition != widget.maxHeight && !_isAnimatingToMaxHeight) {
       _isAnimatingToMaxHeight = true;
-      final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
-      final position = _currentMaxChildSize + keyboardHeight;
       _controller
           .animateTo(
-            position,
-            duration: const Duration(milliseconds: 200),
-            curve: Curves.ease,
-          )
+        widget.maxHeight,
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.ease,
+      )
           .whenComplete(
             () => _isAnimatingToMaxHeight = false,
-          );
+      );
     }
   }
 
