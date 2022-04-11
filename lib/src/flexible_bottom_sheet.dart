@@ -192,60 +192,48 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
           context,
           controller,
         ) {
-          return ChangeInsetsDetector(
-            handler: (change) {
-              final inset = change.currentInset;
-              final delta = change.delta;
+          return Scaffold(
+            backgroundColor: widget.bottomSheetColor ??
+                Theme.of(context).bottomSheetTheme.backgroundColor,
+            body: ChangeInsetsDetector(
+              handler: (change) {
+                final inset = change.currentInset;
+                final delta = change.delta;
 
-              _bottomInsetNotifier.value = inset;
-              if (delta > 0) {
-                _animateToMaxHeight();
-                _widgetBinding.addPostFrameCallback(
-                  (_) {
-                    _animateToFocused(controller);
-                  },
-                );
-              }
-              // checking for openness of the keyboard before opening the sheet
-              if (delta == 0 && inset > 0) {
-                _widgetBinding.addPostFrameCallback(
-                  (_) {
-                    setState(
-                      () {
-                        _initialChildSize = widget.maxHeight;
-                      },
-                    );
-                  },
-                );
-              }
-            },
-            child: Column(
-              children: [
-                Expanded(
-                  child: _Content(
-                    builder: widget.builder,
-                    decoration: widget.decoration,
-                    bodyBuilder: widget.bodyBuilder,
-                    headerBuilder: widget.headerBuilder,
-                    minHeaderHeight: widget.minHeaderHeight,
-                    maxHeaderHeight: widget.maxHeaderHeight,
-                    currentExtent: _controller.size,
-                    scrollController: controller,
-                    getContentHeight:
-                        !widget.isExpand ? _changeInitAndMaxHeight : null,
-                  ),
-                ),
-                ValueListenableBuilder<double>(
-                  valueListenable: _bottomInsetNotifier,
-                  builder: (_, data, __) {
-                    return Container(
-                      height: data,
-                      color: widget.keyboardBarrierColor ??
-                          Theme.of(context).scaffoldBackgroundColor,
-                    );
-                  },
-                ),
-              ],
+                _bottomInsetNotifier.value = inset;
+                if (delta > 0) {
+                  _animateToMaxHeight();
+                  _widgetBinding.addPostFrameCallback(
+                    (_) {
+                      _animateToFocused(controller);
+                    },
+                  );
+                }
+                // checking for openness of the keyboard before opening the sheet
+                if (delta == 0 && inset > 0) {
+                  _widgetBinding.addPostFrameCallback(
+                    (_) {
+                      setState(
+                        () {
+                          _initialChildSize = widget.maxHeight;
+                        },
+                      );
+                    },
+                  );
+                }
+              },
+              child: _Content(
+                builder: widget.builder,
+                decoration: widget.decoration,
+                bodyBuilder: widget.bodyBuilder,
+                headerBuilder: widget.headerBuilder,
+                minHeaderHeight: widget.minHeaderHeight,
+                maxHeaderHeight: widget.maxHeaderHeight,
+                currentExtent: _controller.size,
+                scrollController: controller,
+                getContentHeight:
+                    !widget.isExpand ? _changeInitAndMaxHeight : null,
+              ),
             ),
           );
         },
@@ -411,7 +399,7 @@ class _ContentState extends State<_Content> {
       child: DecoratedBox(
         decoration: widget.decoration ?? const BoxDecoration(),
         child: CustomScrollView(
-         // shrinkWrap: true,
+          // shrinkWrap: true,
           key: _contentKey,
           controller: widget.scrollController,
           slivers: <Widget>[
