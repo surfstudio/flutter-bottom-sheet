@@ -71,17 +71,18 @@ class _MyHomePageState extends State<MyHomePage> {
   void _showSheet() {
     showFlexibleBottomSheet<void>(
       minHeight: 0,
-      initHeight: 1,
+      initHeight: 0.5,
       maxHeight: 1,
       context: context,
-     isExpand: false,
+     // isExpand: false,
+      // bottomSheetColor: Colors.transparent,
       builder: (context, controller, offset) {
         return _BottomSheet(
           scrollController: controller,
           bottomSheetOffset: offset,
         );
       },
-     // anchors: [0, 0.5, 1],
+      // anchors: [0, 0.5, 1],
     );
   }
 
@@ -104,7 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
         return AnimatedContainer(
           duration: const Duration(milliseconds: 300),
           width: double.infinity,
-          height: 200,
+          //height: 200,
           decoration: BoxDecoration(
             color: Colors.green,
             borderRadius: BorderRadius.only(
@@ -164,7 +165,6 @@ class _BottomSheet extends StatelessWidget {
         ),
         child: ListView(
           shrinkWrap: true,
-          padding: EdgeInsets.zero,
           controller: scrollController,
           children: [
             Text(
@@ -189,16 +189,16 @@ List<Widget> _children = [
   const _TextField(),
   const _TestContainer(color: Color(0xCC00FFFF)),
   const _TextField(),
-  // const _TestContainer(color: Color(0xBB555555)),
-  // const _TextField(),
-  // const _TestContainer(color: Color(0xAAFF5555)),
-  // const _TextField(),
-  // const _TestContainer(color: Color(0x9900FF00)),
-  // const _TextField(),
-  // const _TestContainer(color: Color(0x8800FF00)),
-  // const _TextField(),
-  // const _TestContainer(color: Color(0x7700FF00)),
-  // const _TextField(),
+  const _TestContainer(color: Color(0xBB555555)),
+  const _TextField(),
+  const _TestContainer(color: Color(0xAAFF5555)),
+  const _TextField(),
+  const _TestContainer(color: Color(0x9900FF00)),
+  const _TextField(),
+  const _TestContainer(color: Color(0x8800FF00)),
+  const _TextField(),
+  const _TestContainer(color: Color(0x7700FF00)),
+  const _TextField(),
 ];
 
 class _TextField extends StatelessWidget {

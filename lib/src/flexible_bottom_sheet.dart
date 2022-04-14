@@ -265,17 +265,17 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
       _isAnimatingToMaxHeight = true;
       _controller
           .animateTo(
-        widget.maxHeight,
-        duration: const Duration(milliseconds: 200),
-        curve: Curves.ease,
-      )
+            widget.maxHeight,
+            duration: const Duration(milliseconds: 200),
+            curve: Curves.ease,
+          )
           .whenComplete(
             () => _isAnimatingToMaxHeight = false,
-      );
+          );
     }
   }
 
-  /// scroll to focused widget
+  /// Scroll to focused widget.
   void _animateToFocused(ScrollController controller) {
     if (FocusManager.instance.primaryFocus == null || _isClosing) return;
 
@@ -299,7 +299,7 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
     });
   }
 
-  /// checking if the bottom sheet needs to be closed
+  /// Checking if the bottom sheet needs to be closed.
   void _checkNeedCloseBottomSheet(double extent) {
     if (widget.isCollapsible && !_isClosing) {
       if (extent - widget.minHeight <= 0.005) {
@@ -397,7 +397,6 @@ class _ContentState extends State<_Content> {
       child: DecoratedBox(
         decoration: widget.decoration ?? const BoxDecoration(),
         child: CustomScrollView(
-          // shrinkWrap: true,
           key: _contentKey,
           controller: widget.scrollController,
           slivers: <Widget>[
