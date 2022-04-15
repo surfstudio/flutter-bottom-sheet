@@ -178,24 +178,23 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
 
   @override
   Widget build(BuildContext context) {
-    return NotificationListener<DraggableScrollableNotification>(
-      onNotification: _scrolling,
-      child: DraggableScrollableSheet(
-        maxChildSize: _currentMaxChildSize,
-        minChildSize: widget.minHeight,
-        initialChildSize: _initialChildSize,
-        snap: widget.anchors != null,
-        controller: _controller,
-        snapSizes: widget.anchors,
-        expand: widget.isExpand,
-        builder: (
-          context,
-          controller,
-        ) {
-          return Scaffold(
-            backgroundColor: widget.bottomSheetColor ??
-                Theme.of(context).bottomSheetTheme.backgroundColor,
-            body: ChangeInsetsDetector(
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: NotificationListener<DraggableScrollableNotification>(
+        onNotification: _scrolling,
+        child: DraggableScrollableSheet(
+          maxChildSize: _currentMaxChildSize,
+          minChildSize: widget.minHeight,
+          initialChildSize: _initialChildSize,
+          snap: widget.anchors != null,
+          controller: _controller,
+          snapSizes: widget.anchors,
+          expand: widget.isExpand,
+          builder: (
+            context,
+            controller,
+          ) {
+            return ChangeInsetsDetector(
               handler: (change) {
                 final inset = change.currentInset;
                 final delta = change.delta;
@@ -203,11 +202,11 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
                 _bottomInsetNotifier.value = inset;
                 if (delta > 0) {
                   _animateToMaxHeight();
-                  _widgetBinding.addPostFrameCallback(
-                    (_) {
-                      _animateToFocused(controller);
-                    },
-                  );
+                  // _widgetBinding.addPostFrameCallback(
+                  //   (_) {
+                  //     _animateToFocused(controller);
+                  //   },
+                  // );
                 }
                 // checking for openness of the keyboard before opening the sheet
                 if (delta == 0 && inset > 0) {
@@ -234,9 +233,9 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
                 getContentHeight:
                     !widget.isExpand ? _changeInitAndMaxHeight : null,
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
