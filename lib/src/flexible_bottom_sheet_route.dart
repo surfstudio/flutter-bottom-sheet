@@ -45,6 +45,7 @@ Future<T?> showFlexibleBottomSheet<T>({
   Color? keyboardBarrierColor,
   Color? bottomSheetColor,
   Duration? duration,
+  bool isSafeArea = false,
 }) {
   assert(debugCheckHasMediaQuery(context));
   assert(debugCheckHasMaterialLocalizations(context));
@@ -65,6 +66,7 @@ Future<T?> showFlexibleBottomSheet<T>({
       keyboardBarrierColor: keyboardBarrierColor,
       bottomSheetColor: bottomSheetColor,
       duration: duration,
+      isSafeArea: isSafeArea,
     ),
   );
 }
@@ -108,6 +110,7 @@ Future<T?> showStickyFlexibleBottomSheet<T>({
   Color? keyboardBarrierColor,
   Color? bottomSheetColor,
   Duration? duration,
+  bool isSafeArea = false,
 }) {
   assert(maxHeaderHeight != null || headerHeight != null);
   assert(debugCheckHasMediaQuery(context));
@@ -133,6 +136,7 @@ Future<T?> showStickyFlexibleBottomSheet<T>({
       keyboardBarrierColor: keyboardBarrierColor,
       bottomSheetColor: bottomSheetColor,
       duration: duration,
+      isSafeArea: isSafeArea,
     ),
   );
 }
@@ -157,6 +161,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
   final Color? keyboardBarrierColor;
   final Color? bottomSheetColor;
   final Duration? duration;
+  final bool isSafeArea;
 
   @override
   final String? barrierLabel;
@@ -180,6 +185,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
     required this.isDismissible,
     required this.isExpand,
     required this.isModal,
+    required this.isSafeArea,
     this.builder,
     this.headerBuilder,
     this.bodyBuilder,
@@ -253,7 +259,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
       bottomSheet = Theme(data: theme!, child: bottomSheet);
     }
 
-    return bottomSheet;
+    return isSafeArea ? SafeArea(child: bottomSheet, bottom: false) : bottomSheet;
   }
 
   @override

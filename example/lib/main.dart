@@ -48,7 +48,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: Center(
         child: Column(
@@ -73,17 +72,15 @@ class _MyHomePageState extends State<MyHomePage> {
     showFlexibleBottomSheet<void>(
       minHeight: 0,
       initHeight: 0.5,
-      maxHeight: 0.5,
+      maxHeight: 1,
       context: context,
-     // isExpand: false,
-      // bottomSheetColor: Colors.transparent,
       builder: (context, controller, offset) {
         return _BottomSheet(
           scrollController: controller,
           bottomSheetOffset: offset,
         );
       },
-      // anchors: [0, 0.5, 1],
+      anchors: [0, 0.5, 1],
     );
   }
 
@@ -91,9 +88,8 @@ class _MyHomePageState extends State<MyHomePage> {
     showStickyFlexibleBottomSheet<void>(
       minHeight: 0,
       initHeight: 0.5,
-      maxHeight: 0.8,
-      maxHeaderHeight: 200,
-      minHeaderHeight: 200,
+      maxHeight: .8,
+      headerHeight: 200,
       context: context,
       decoration: const BoxDecoration(
         color: Colors.teal,
@@ -102,7 +98,6 @@ class _MyHomePageState extends State<MyHomePage> {
           topRight: Radius.circular(40.0),
         ),
       ),
-      bottomSheetColor: Colors.transparent,
       headerBuilder: (context, offset) {
         return AnimatedContainer(
           duration: const Duration(milliseconds: 300),
@@ -166,7 +161,7 @@ class _BottomSheet extends StatelessWidget {
           ),
         ),
         child: ListView(
-          shrinkWrap: true,
+          padding: EdgeInsets.zero,
           controller: scrollController,
           children: [
             Text(
