@@ -13,10 +13,13 @@
 // limitations under the License.
 
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+const textFieldKey = Key('Text field key');
 
 void main() {
   late BuildContext savedContext;
@@ -47,12 +50,8 @@ void main() {
         );
       },
       bodyBuilder: (context, offset) {
-        return SliverChildBuilderDelegate(
-          (context, _) {
-            return Column(
-              children: _listWidgets,
-            );
-          },
+        return SliverChildListDelegate(
+          _listWidgets,
         );
       },
     );
@@ -102,6 +101,38 @@ void main() {
     },
     variant: _headerHeightTestVariants,
   );
+
+  testWidgets(
+    'If the text field is at the bottom of the bottom sheet, after focusing'
+    ' on it and the keyboard appears, the text field widget should rise above '
+    'the keyboard.',
+    (tester) async {
+      await tester.pumpWidget(app);
+      unawaited(showStickyBottomSheet(headerHeight: 100));
+      await tester.pumpAndSettle();
+
+      expect(find.byKey(textFieldKey), findsNothing);
+
+      await tester.fling(
+        find.byType(
+          CustomScrollView,
+          skipOffstage: false,
+        ),
+        const Offset(0, -1000),
+        800,
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.byKey(textFieldKey), findsOneWidget);
+
+      final testBinding = tester.binding;
+      testBinding.window.viewInsetsTestValue = const FakeWindowPadding();
+      await tester.pump();
+      await tester.pumpAndSettle();
+
+      expect(find.byKey(textFieldKey), findsOneWidget);
+    },
+  );
 }
 
 final _listWidgets = [
@@ -125,6 +156,12 @@ final _listWidgets = [
     width: double.infinity,
     color: Colors.blue,
   ),
+  Container(
+    height: 200,
+    width: double.infinity,
+    color: Colors.red,
+  ),
+  const TextField(key: textFieldKey),
 ];
 
 class _HeaderHeightTestScenario {
@@ -147,3 +184,24 @@ final ValueVariant<_HeaderHeightTestScenario> _headerHeightTestVariants =
     matcher: throwsAssertionError,
   ),
 });
+
+class FakeWindowPadding implements WindowPadding {
+  @override
+  final double left;
+
+  @override
+  final double top;
+
+  @override
+  final double right;
+
+  @override
+  final double bottom;
+
+  const FakeWindowPadding({
+    this.left = 0.0,
+    this.top = 0.0,
+    this.right = 0.0,
+    this.bottom = 330.0,
+  });
+}
