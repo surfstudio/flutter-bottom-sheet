@@ -34,7 +34,7 @@ class _StandardExampleState extends State<StandardExample> {
                 value: isUseSafeArea,
                 onChanged: (isSwitched) {
                   setState(
-                        () {
+                    () {
                       isUseSafeArea = isSwitched;
                     },
                   );
@@ -54,6 +54,7 @@ class _StandardExampleState extends State<StandardExample> {
       maxHeight: 1,
       context: context,
       isSafeArea: isUseSafeArea,
+      bottomSheetColor: Colors.white,
       builder: (context, controller, offset) {
         return _BottomSheet(
           scrollController: controller,
@@ -133,29 +134,18 @@ class _BottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: DecoratedBox(
-        decoration: const BoxDecoration(
-          color: Color(0xFFFFFFFF),
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(16),
-            topRight: Radius.circular(16),
-          ),
+    return ListView(
+      padding: EdgeInsets.zero,
+      controller: scrollController,
+      children: [
+        Text(
+          'position $bottomSheetOffset',
+          style: Theme.of(context).textTheme.headline6,
         ),
-        child: ListView(
-          padding: EdgeInsets.zero,
-          controller: scrollController,
-          children: [
-            Text(
-              'position $bottomSheetOffset',
-              style: Theme.of(context).textTheme.headline6,
-            ),
-            Column(
-              children: _children,
-            ),
-          ],
+        Column(
+          children: _children,
         ),
-      ),
+      ],
     );
   }
 }

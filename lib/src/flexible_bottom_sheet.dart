@@ -75,6 +75,18 @@ typedef FlexibleDraggableScrollableWidgetBodyBuilder = SliverChildDelegate
 /// [initHeight] - relevant height for init bottom sheet
 ///
 /// [keyboardBarrierColor] - color for the space behind the keyboard
+///
+/// [isExpand] - should your bottom sheet expand. By default, [isExpand] is true,
+/// which means that the bottom sheet will have the height you specify
+/// ([initHeight] and [maxHeight]) regardless of the height of the content in it.
+/// If [isExpand] is false, [maxHeight] and [initHeight] must be equal,
+/// in which case the bottom sheet will calculate its height based on the content,
+/// but no more than [maxHeight] and [initHeight]. [anchors] in this case must be null.
+/// ShrinkWrap content widget must be true.
+///
+/// [bottomSheetColor] - bottom sheet color. If you want to make rounded edges,
+/// pass a [Colors.transparent] here, and set the color and border radius of
+/// the bottom sheet in the [decoration].
 class FlexibleBottomSheet extends StatefulWidget {
   final double minHeight;
   final double initHeight;
@@ -398,12 +410,18 @@ class _ContentState extends State<_Content> {
   @override
   Widget build(BuildContext context) {
     if (widget.builder != null) {
-      return SizedBox(
-        key: _contentKey,
-        child: widget.builder!(
-          context,
-          widget.scrollController,
-          widget.currentExtent,
+      return Material(
+        type: MaterialType.transparency,
+        child: DecoratedBox(
+          decoration: widget.decoration ?? const BoxDecoration(),
+          child: SizedBox(
+            key: _contentKey,
+            child: widget.builder!(
+              context,
+              widget.scrollController,
+              widget.currentExtent,
+            ),
+          ),
         ),
       );
     }
