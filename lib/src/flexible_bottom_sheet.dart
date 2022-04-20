@@ -14,6 +14,7 @@
 import 'package:bottom_sheet/src/flexible_bottom_sheet_header_delegate.dart';
 import 'package:bottom_sheet/src/widgets/change_insets_detector.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 /// The signature of a method that provides a [BuildContext] and
 /// [ScrollController] for building a widget that may overflow the draggable
@@ -200,13 +201,11 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
               _bottomInsetNotifier.value = inset;
               if (delta > 0) {
                 _animateToMaxHeight();
-                if (widget.headerBuilder != null) {
-                  _widgetBinding.addPostFrameCallback(
-                    (_) {
-                      _animateToFocused(controller);
-                    },
-                  );
-                }
+                _widgetBinding.addPostFrameCallback(
+                  (_) {
+                    _animateToFocused(controller);
+                  },
+                );
               }
               // checking for openness of the keyboard before opening the sheet
               if (delta == 0 && inset > 0) {
@@ -234,7 +233,9 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
                 maxHeaderHeight: widget.maxHeaderHeight,
                 currentExtent: _controller.size,
                 scrollController: controller,
-                cacheExtent: _calculateCacheExtent(),
+                cacheExtent: _calculateCacheExtent(
+                  MediaQuery.of(context).viewInsets.bottom,
+                ),
                 getContentHeight:
                     !widget.isExpand ? _changeInitAndMaxHeight : null,
               ),
@@ -336,11 +337,12 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
     }
   }
 
-  double _calculateCacheExtent() {
-    if (MediaQuery.of(context).viewInsets.bottom > 250.0) {
-      return MediaQuery.of(context).viewInsets.bottom;
+  double _calculateCacheExtent(double bottomInset) {
+    const defaultExtent = RenderAbstractViewport.defaultCacheExtent;
+    if (bottomInset > defaultExtent) {
+      return bottomInset;
     } else {
-      return 250.0;
+      return defaultExtent;
     }
   }
 }
