@@ -350,7 +350,7 @@ void main() {
 
         testWidgets(
           'If isSafe Are == false the SafeArea widget should not be',
-              (tester) async {
+          (tester) async {
             await tester.pumpWidget(app);
             unawaited(
               showBottomSheet(

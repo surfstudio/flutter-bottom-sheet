@@ -125,7 +125,7 @@ void main() {
 
       testWidgets(
         'If pass list anchors there should be AssertionError',
-            (tester) async {
+        (tester) async {
           const initHeight = 0.5;
           const maxHeight = 1.0;
           const listAnchors = <double>[0, 0.5, 1.0];
@@ -152,7 +152,7 @@ void main() {
 
   testWidgets(
     'if content height is less than initHeight and isExpand = true, bottom sheet must have initHeight height',
-        (tester) async {
+    (tester) async {
       const initHeight = 0.5;
       const maxHeight = 0.5;
       final listWidgets = [_listWidgets.first];
