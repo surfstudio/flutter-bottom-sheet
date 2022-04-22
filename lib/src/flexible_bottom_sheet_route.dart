@@ -252,6 +252,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
               maxHeaderHeight: maxHeaderHeight,
               decoration: decoration,
               keyboardBarrierColor: keyboardBarrierColor,
+              bottomSheetColor: bottomSheetColor,
             )
           : FlexibleBottomSheet(
               minHeight: minHeight,
@@ -267,6 +268,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
               maxHeaderHeight: maxHeaderHeight,
               decoration: decoration,
               keyboardBarrierColor: keyboardBarrierColor,
+              bottomSheetColor: bottomSheetColor,
             ),
     );
 
