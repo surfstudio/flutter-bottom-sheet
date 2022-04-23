@@ -8,8 +8,6 @@ on:
 jobs:
   analysis:
     uses: surfstudio/flutter-ci-workflows/.github/workflows/analysis_package_bottom_sheet.yml@main
-    secrets:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   testing:
     needs: analysis
