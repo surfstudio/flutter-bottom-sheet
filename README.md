@@ -34,7 +34,7 @@ There are 2 types of BottomSheets:
 ## Example
 #### Simple BottomSheet
 
-![](https://i.ibb.co/QHKYTTS/open-bottom-sheet.gif)
+![](https://i.ibb.co/KKR0SDF/open-flexible-bottom-sheet.gif)
 
 To show bottomSheet, use :
 
@@ -46,6 +46,7 @@ showFlexibleBottomSheet(
   context: context,
   builder: _buildBottomSheet,
   anchors: [0, 0.5, 1],
+  isSafeArea: true,
 );
 
 Widget _buildBottomSheet(
@@ -53,21 +54,51 @@ Widget _buildBottomSheet(
     ScrollController scrollController,
     double bottomSheetOffset,
   ) {
-    return SafeArea(
-      child: Material(
+    return Material(
         child: Container(
           child: ListView(
+            controller: scrollController,
             ...
           ),
         ),
-      ),
-    );
+      );
+  }
+```
+
+#### BottomSheet with height based on content
+
+![](https://i.ibb.co/xmhkTQm/example-with-height-base-on-content.gif)
+
+```dart
+showFlexibleBottomSheet(
+  minHeight: 0,
+  initHeight: 0.8,
+  maxHeight: 0.8,
+  context: context,
+  builder: _buildBottomSheet,
+  isExpand: false,
+);
+
+Widget _buildBottomSheet(
+    BuildContext context,
+    ScrollController scrollController,
+    double bottomSheetOffset,
+  ) {
+    return Material(
+        child: Container(
+          child: ListView(
+              controller: scrollController,
+              shrinkWrap: true,
+              ...
+          ),
+        ),
+      );
   }
 ```
 
 #### Sticky BottomSheet
 
-![](https://i.ibb.co/rGnSmks/open-stiky-bottom-sheet.gif)
+![](https://i.ibb.co/M7C1qtB/open-sticky-bottom-sheet.gif)
 
 To show sticky BottomSheet, use:  
 **You have to return SliverChildListDelegate from builder !!!**

@@ -26,11 +26,18 @@ const Duration _bottomSheetDuration = Duration(milliseconds: 500);
 /// [maxHeight] - init height in fractional value for bottom sheet. e.g. 0.5.
 /// [isCollapsible] - will the bottom sheet collapse.
 /// [isDismissible] - the bottom sheet will be dismissed when user taps on the scrim.
-/// [isExpand] - whether the widget should expand to fill the available space in its parent or not.
+/// [isExpand] - should your bottom sheet expand. By default, [isExpand] is true,
+/// which means that the bottom sheet will have the height you specify
+/// ([initHeight] and [maxHeight]) regardless of the height of the content in it.
+/// If [isExpand] is false, [maxHeight] and [initHeight] must be equal,
+/// in which case the bottom sheet will calculate its height based on the content,
+/// but no more than [maxHeight] and [initHeight].
 /// [isModal] - if true, overlay background with dark color.
 /// [anchors] - list of sizes in fractional value that the bottom sheet can accept.
 /// [keyboardBarrierColor] - keyboard color.
 /// [duration] - animation speed when opening bottom sheet.
+/// [isSafeArea] - should the bottom sheet provide a SafeArea, false by default.
+/// [decoration] - BottomSheet decoration.
 Future<T?> showFlexibleBottomSheet<T>({
   required BuildContext context,
   required FlexibleDraggableScrollableWidgetBuilder builder,
@@ -44,7 +51,10 @@ Future<T?> showFlexibleBottomSheet<T>({
   bool isModal = true,
   List<double>? anchors,
   Color? keyboardBarrierColor,
+  Color? bottomSheetColor,
   Duration? duration,
+  bool isSafeArea = false,
+  BoxDecoration? decoration,
 }) {
   assert(debugCheckHasMediaQuery(context));
   assert(debugCheckHasMaterialLocalizations(context));
@@ -63,7 +73,10 @@ Future<T?> showFlexibleBottomSheet<T>({
       isModal: isModal,
       anchors: anchors,
       keyboardBarrierColor: keyboardBarrierColor,
+      bottomSheetColor: bottomSheetColor,
       duration: duration,
+      isSafeArea: isSafeArea,
+      decoration: decoration,
     ),
   );
 }
@@ -78,6 +91,12 @@ Future<T?> showFlexibleBottomSheet<T>({
 /// [isModal] - if true, overlay background with dark color.
 /// [isCollapsible] - will the bottom sheet collapse.
 /// [isDismissible] - the bottom sheet will be dismissed when user taps on the scrim.
+/// [isExpand] - should your bottom sheet expand. By default, [isExpand] is true,
+/// which means that the bottom sheet will have the height you specify
+/// ([initHeight] and [maxHeight]) regardless of the height of the content in it.
+/// If [isExpand] is false, [maxHeight] and [initHeight] must be equal,
+/// in which case the bottom sheet will calculate its height based on the content,
+/// but no more than [maxHeight] and [initHeight].
 /// [anchors] - list of sizes in fractional value that the bottom sheet can accept.
 /// [decoration] - BottomSheet decoration.
 /// [minHeaderHeight] - minimum head size.
@@ -87,6 +106,7 @@ Future<T?> showFlexibleBottomSheet<T>({
 /// Set one ([maxHeaderHeight] or [headerHeight]).
 /// [keyboardBarrierColor] - keyboard color.
 /// [duration] - animation speed when opening bottom sheet.
+/// [isSafeArea] - should the bottom sheet provide a SafeArea, false by default.
 Future<T?> showStickyFlexibleBottomSheet<T>({
   required BuildContext context,
   required FlexibleDraggableScrollableHeaderWidgetBuilder headerBuilder,
@@ -105,7 +125,9 @@ Future<T?> showStickyFlexibleBottomSheet<T>({
   double? headerHeight,
   Decoration? decoration,
   Color? keyboardBarrierColor,
+  Color? bottomSheetColor,
   Duration? duration,
+  bool isSafeArea = false,
 }) {
   assert(maxHeaderHeight != null || headerHeight != null);
   assert(debugCheckHasMediaQuery(context));
@@ -129,7 +151,9 @@ Future<T?> showStickyFlexibleBottomSheet<T>({
       maxHeaderHeight: maxHeaderHeight ?? headerHeight!,
       decoration: decoration,
       keyboardBarrierColor: keyboardBarrierColor,
+      bottomSheetColor: bottomSheetColor,
       duration: duration,
+      isSafeArea: isSafeArea,
     ),
   );
 }
@@ -152,7 +176,9 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
   final Decoration? decoration;
   final ThemeData? theme;
   final Color? keyboardBarrierColor;
+  final Color? bottomSheetColor;
   final Duration? duration;
+  final bool isSafeArea;
 
   @override
   final String? barrierLabel;
@@ -176,6 +202,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
     required this.isDismissible,
     required this.isExpand,
     required this.isModal,
+    required this.isSafeArea,
     this.builder,
     this.headerBuilder,
     this.bodyBuilder,
@@ -186,6 +213,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
     this.maxHeaderHeight,
     this.decoration,
     this.keyboardBarrierColor,
+    this.bottomSheetColor,
     this.duration,
     RouteSettings? settings,
   }) : super(settings: settings);
@@ -224,6 +252,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
               maxHeaderHeight: maxHeaderHeight,
               decoration: decoration,
               keyboardBarrierColor: keyboardBarrierColor,
+              bottomSheetColor: bottomSheetColor,
             )
           : FlexibleBottomSheet(
               minHeight: minHeight,
@@ -239,6 +268,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
               maxHeaderHeight: maxHeaderHeight,
               decoration: decoration,
               keyboardBarrierColor: keyboardBarrierColor,
+              bottomSheetColor: bottomSheetColor,
             ),
     );
 
@@ -246,7 +276,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
       bottomSheet = Theme(data: theme!, child: bottomSheet);
     }
 
-    return bottomSheet;
+    return isSafeArea ? SafeArea(child: bottomSheet) : bottomSheet;
   }
 
   @override

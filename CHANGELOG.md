@@ -1,6 +1,12 @@
 # Changelog
 
 ## [Unreleased]
+### Fixed
+* Absent scrolling in showStickyFlexibleBottomSheet when input was destroyed by cache area when keyboard was opened.
+### Added 
+* Ability to pass decorated when calling showFlexibleBottomSheet.
+* Ability to set the height of the bottom sheet based on the content.
+* Ability to set the bottom sheet color.
 
 ## 2.1.0
 ### Fixed

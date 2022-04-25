@@ -38,6 +38,7 @@ void main() {
   Future<void> showBottomSheet({
     bool? isCollapsible,
     bool? isDismissible,
+    bool? isSafeArea,
     double? minHeight,
     double? initHeight,
     double? maxHeight,
@@ -50,6 +51,7 @@ void main() {
       context: savedContext,
       isCollapsible: isCollapsible ?? true,
       isDismissible: isDismissible ?? true,
+      isSafeArea: isSafeArea ?? false,
       builder: (context, controller, offset) {
         return ListView(
           key: listViewKey,
@@ -169,6 +171,13 @@ void main() {
           await tester.pumpAndSettle();
 
           expect(find.byType(FlexibleBottomSheet), findsOneWidget);
+
+          await tester.drag(
+            find.byType(FlexibleBottomSheet),
+            const Offset(0, -800),
+          );
+
+          await tester.pumpAndSettle();
 
           await tester.drag(
             find.byType(FlexibleBottomSheet),
@@ -303,7 +312,7 @@ void main() {
         );
 
         testWidgets(
-          'When keyboard opend before open sheet, sheet shoul open with max height',
+          'When keyboard opened before open sheet, sheet should open with max height',
           (tester) async {
             await tester.pumpWidget(app);
 
@@ -321,6 +330,36 @@ void main() {
               fractionalHeight,
               moreOrLessEquals(0.8),
             );
+          },
+        );
+
+        testWidgets(
+          'If isSafeArea == true, there should be only one SafeArea widget',
+          (tester) async {
+            await tester.pumpWidget(app);
+            unawaited(
+              showBottomSheet(
+                isSafeArea: true,
+              ),
+            );
+            await tester.pumpAndSettle();
+
+            expect(find.byType(SafeArea), findsOneWidget);
+          },
+        );
+
+        testWidgets(
+          'If isSafe Are == false the SafeArea widget should not be',
+          (tester) async {
+            await tester.pumpWidget(app);
+            unawaited(
+              showBottomSheet(
+                isSafeArea: false,
+              ),
+            );
+            await tester.pumpAndSettle();
+
+            expect(find.byType(SafeArea), findsNothing);
           },
         );
       });
