@@ -7,7 +7,7 @@ on:
 
 jobs:
   analysis:
-    uses: surfstudio/flutter-ci-workflows/.github/workflows/analysis_package_bottom_sheet.yml@main
+    uses: surfstudio/flutter-ci-workflows/.github/workflows/analysis.yml@main
 
   testing:
     needs: analysis
