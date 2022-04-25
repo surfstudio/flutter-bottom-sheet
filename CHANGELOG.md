@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+
+## 3.0.0
 ### Fixed
 * Absent scrolling in showStickyFlexibleBottomSheet when input was destroyed by cache area when keyboard was opened.
 ### Added 
