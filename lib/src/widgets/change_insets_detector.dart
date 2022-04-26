@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 class ChangeInsetsDetector extends StatefulWidget {
   final Widget child;
   final BottomInsetChangeListener? handler;
+
   const ChangeInsetsDetector({
     required this.child,
     Key? key,
