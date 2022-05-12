@@ -1,0 +1,15 @@
+name: "Checking issue for correctness of described"
+
+on:
+  issues:
+    types:
+      - reopened
+      - opened
+
+jobs:
+  check-issue:
+    uses: surfstudio/flutter-ci-workflows/.github/workflows/check_issues.yaml@main
+    with:
+      REPO_PATH: 'https://github.com/surfstudio/flutter-bottom-sheet/issues/new/choose'
+      ISSUE_TITLE: ${{ github.event.issue.title }}
+      ISSUE_BODY: ${{ github.event.issue.body }}
