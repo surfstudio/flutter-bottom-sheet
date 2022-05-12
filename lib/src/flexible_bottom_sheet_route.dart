@@ -35,6 +35,8 @@ const Duration _bottomSheetDuration = Duration(milliseconds: 500);
 /// [isModal] - if true, overlay background with dark color.
 /// [anchors] - list of sizes in fractional value that the bottom sheet can accept.
 /// [keyboardBarrierColor] - keyboard color.
+/// [bottomSheetColor] - bottom sheet color.
+/// [barrierColor] - barrier color.
 /// [duration] - animation speed when opening bottom sheet.
 /// [isSafeArea] - should the bottom sheet provide a SafeArea, false by default.
 /// [decoration] - BottomSheet decoration.
@@ -52,6 +54,7 @@ Future<T?> showFlexibleBottomSheet<T>({
   List<double>? anchors,
   Color? keyboardBarrierColor,
   Color? bottomSheetColor,
+  Color? barrierColor,
   Duration? duration,
   bool isSafeArea = false,
   BoxDecoration? decoration,
@@ -74,6 +77,7 @@ Future<T?> showFlexibleBottomSheet<T>({
       anchors: anchors,
       keyboardBarrierColor: keyboardBarrierColor,
       bottomSheetColor: bottomSheetColor,
+      barrierBottomSheetColor: barrierColor,
       duration: duration,
       isSafeArea: isSafeArea,
       decoration: decoration,
@@ -105,6 +109,8 @@ Future<T?> showFlexibleBottomSheet<T>({
 /// Set both [minHeaderHeight] and [maxHeaderHeight].
 /// Set one ([maxHeaderHeight] or [headerHeight]).
 /// [keyboardBarrierColor] - keyboard color.
+/// [bottomSheetColor] - bottom sheet color.
+/// [barrierColor] - barrier color.
 /// [duration] - animation speed when opening bottom sheet.
 /// [isSafeArea] - should the bottom sheet provide a SafeArea, false by default.
 Future<T?> showStickyFlexibleBottomSheet<T>({
@@ -126,6 +132,7 @@ Future<T?> showStickyFlexibleBottomSheet<T>({
   Decoration? decoration,
   Color? keyboardBarrierColor,
   Color? bottomSheetColor,
+  Color? barrierColor,
   Duration? duration,
   bool isSafeArea = false,
 }) {
@@ -152,6 +159,7 @@ Future<T?> showStickyFlexibleBottomSheet<T>({
       decoration: decoration,
       keyboardBarrierColor: keyboardBarrierColor,
       bottomSheetColor: bottomSheetColor,
+      barrierBottomSheetColor: barrierColor,
       duration: duration,
       isSafeArea: isSafeArea,
     ),
@@ -177,6 +185,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
   final ThemeData? theme;
   final Color? keyboardBarrierColor;
   final Color? bottomSheetColor;
+  final Color? barrierBottomSheetColor;
   final Duration? duration;
   final bool isSafeArea;
 
@@ -190,7 +199,9 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
   bool get barrierDismissible => isDismissible;
 
   @override
-  Color? get barrierColor => isModal ? Colors.black54 : const Color(0x00FFFFFF);
+  Color? get barrierColor => isModal
+      ? barrierBottomSheetColor ?? Colors.black54
+      : const Color(0x00FFFFFF);
 
   late AnimationController _animationController;
 
@@ -214,6 +225,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
     this.decoration,
     this.keyboardBarrierColor,
     this.bottomSheetColor,
+    this.barrierBottomSheetColor,
     this.duration,
     RouteSettings? settings,
   }) : super(settings: settings);
