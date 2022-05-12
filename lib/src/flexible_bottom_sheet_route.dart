@@ -110,7 +110,7 @@ Future<T?> showFlexibleBottomSheet<T>({
 /// Set one ([maxHeaderHeight] or [headerHeight]).
 /// [keyboardBarrierColor] - keyboard color.
 /// [bottomSheetColor] - bottom sheet color.
-/// [barrierColor] - barrier color.
+/// [barrierColor] - barrier color, if you pass [barrierColor] - [isModal] must be true.
 /// [duration] - animation speed when opening bottom sheet.
 /// [isSafeArea] - should the bottom sheet provide a SafeArea, false by default.
 Future<T?> showStickyFlexibleBottomSheet<T>({
@@ -139,6 +139,7 @@ Future<T?> showStickyFlexibleBottomSheet<T>({
   assert(maxHeaderHeight != null || headerHeight != null);
   assert(debugCheckHasMediaQuery(context));
   assert(debugCheckHasMaterialLocalizations(context));
+  assert(barrierColor != null && isModal == true);
 
   return Navigator.of(context, rootNavigator: useRootNavigator).push(
     _FlexibleBottomSheetRoute<T>(
