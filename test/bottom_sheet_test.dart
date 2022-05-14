@@ -42,6 +42,8 @@ void main() {
     double? minHeight,
     double? initHeight,
     double? maxHeight,
+    bool? isModal,
+    Color? barrierColor,
     List<double>? anchors,
   }) {
     return showFlexibleBottomSheet<void>(
@@ -52,6 +54,8 @@ void main() {
       isCollapsible: isCollapsible ?? true,
       isDismissible: isDismissible ?? true,
       isSafeArea: isSafeArea ?? false,
+      isModal: isModal ?? true,
+      barrierColor: barrierColor,
       builder: (context, controller, offset) {
         return ListView(
           key: listViewKey,
@@ -192,177 +196,194 @@ void main() {
         },
       );
 
-      group('Anchors', () {
-        testWidgets(
-          'Anchors must be correct',
-          (tester) async {
-            await tester.pumpWidget(app);
+      group(
+        'Anchors',
+        () {
+          testWidgets(
+            'Anchors must be correct',
+            (tester) async {
+              await tester.pumpWidget(app);
 
-            unawaited(showBottomSheet(
-              maxHeight: _anchorsTestVariants.currentValue!.maxHeight,
-              minHeight: _anchorsTestVariants.currentValue!.minHeight,
-              anchors: _anchorsTestVariants.currentValue!.anchors,
-              isCollapsible: _anchorsTestVariants.currentValue!.isCollapsible,
-            ));
-            await tester.pumpAndSettle();
+              unawaited(showBottomSheet(
+                maxHeight: _anchorsTestVariants.currentValue!.maxHeight,
+                minHeight: _anchorsTestVariants.currentValue!.minHeight,
+                anchors: _anchorsTestVariants.currentValue!.anchors,
+                isCollapsible: _anchorsTestVariants.currentValue!.isCollapsible,
+              ));
+              await tester.pumpAndSettle();
 
-            expect(
-              tester.takeException(),
-              _anchorsTestVariants.currentValue!.matcher,
-            );
-          },
-          variant: _anchorsTestVariants,
-        );
+              expect(
+                tester.takeException(),
+                _anchorsTestVariants.currentValue!.matcher,
+              );
+            },
+            variant: _anchorsTestVariants,
+          );
 
-        testWidgets(
-          'Drag bottom sheet with anchors should have correct behaviour',
-          (tester) async {
-            final offset = _dragAnchorsVariants.currentValue!.offset;
-            final expectedResult =
-                _dragAnchorsVariants.currentValue!.expectedResult;
+          testWidgets(
+            'Drag bottom sheet with anchors should have correct behaviour',
+            (tester) async {
+              final offset = _dragAnchorsVariants.currentValue!.offset;
+              final expectedResult =
+                  _dragAnchorsVariants.currentValue!.expectedResult;
 
-            await tester.pumpWidget(app);
+              await tester.pumpWidget(app);
 
-            unawaited(showBottomSheet(anchors: [0.2, 0.5, 0.8]));
-            await tester.pumpAndSettle();
+              unawaited(showBottomSheet(anchors: [0.2, 0.5, 0.8]));
+              await tester.pumpAndSettle();
 
-            expect(find.byKey(listViewKey), findsOneWidget);
+              expect(find.byKey(listViewKey), findsOneWidget);
 
-            await tester.drag(
-              find.byType(
-                FlexibleBottomSheet,
-              ),
-              offset,
-            );
-            await tester.pumpAndSettle();
+              await tester.drag(
+                find.byType(
+                  FlexibleBottomSheet,
+                ),
+                offset,
+              );
+              await tester.pumpAndSettle();
 
-            expect(find.byType(FlexibleBottomSheet), findsOneWidget);
+              expect(find.byType(FlexibleBottomSheet), findsOneWidget);
 
-            final fractionalHeight = getFractionalHeight(tester);
+              final fractionalHeight = getFractionalHeight(tester);
 
-            expect(fractionalHeight, moreOrLessEquals(expectedResult));
-          },
-          variant: _dragAnchorsVariants,
-        );
+              expect(fractionalHeight, moreOrLessEquals(expectedResult));
+            },
+            variant: _dragAnchorsVariants,
+          );
 
-        testWidgets(
-          'Drag bottom sheet from the last anchor down should close it',
-          (tester) async {
-            await tester.pumpWidget(app);
+          testWidgets(
+            'Drag bottom sheet from the last anchor down should close it',
+            (tester) async {
+              await tester.pumpWidget(app);
 
-            unawaited(showBottomSheet(
-              anchors: [0.2, 0.5, 0.8],
-            ));
+              unawaited(showBottomSheet(
+                anchors: [0.2, 0.5, 0.8],
+              ));
 
-            await tester.pumpAndSettle();
+              await tester.pumpAndSettle();
 
-            expect(find.byKey(listViewKey), findsOneWidget);
+              expect(find.byKey(listViewKey), findsOneWidget);
 
-            await tester.drag(
-              find.byKey(listViewKey),
-              const Offset(0, 100),
-            );
-            await tester.pumpAndSettle();
+              await tester.drag(
+                find.byKey(listViewKey),
+                const Offset(0, 100),
+              );
+              await tester.pumpAndSettle();
 
-            expect(find.byKey(listViewKey), findsOneWidget);
+              expect(find.byKey(listViewKey), findsOneWidget);
 
-            final fractionalHeight = getFractionalHeight(tester);
+              final fractionalHeight = getFractionalHeight(tester);
 
-            expect(
-              fractionalHeight,
-              moreOrLessEquals(0.2),
-            );
+              expect(
+                fractionalHeight,
+                moreOrLessEquals(0.2),
+              );
 
-            await tester.drag(
-              find.byKey(listViewKey),
-              const Offset(0, 200),
-            );
+              await tester.drag(
+                find.byKey(listViewKey),
+                const Offset(0, 200),
+              );
 
-            await tester.pumpAndSettle();
+              await tester.pumpAndSettle();
 
-            expect(find.byKey(listViewKey), findsNothing);
-          },
-        );
+              expect(find.byKey(listViewKey), findsNothing);
+            },
+          );
+        },
+      );
 
-        testWidgets(
-          'When keyboard open, height of sheet should set to max',
-          (tester) async {
-            await tester.pumpWidget(app);
+      testWidgets(
+        'When keyboard open, height of sheet should set to max',
+        (tester) async {
+          await tester.pumpWidget(app);
 
-            unawaited(showBottomSheet(
-              anchors: [0.2, 0.5, 0.8],
-            ));
+          unawaited(showBottomSheet(
+            anchors: [0.2, 0.5, 0.8],
+          ));
 
-            await tester.pumpAndSettle();
+          await tester.pumpAndSettle();
 
-            final testBinding = tester.binding;
-            testBinding.window.viewInsetsTestValue = const FakeWindowPadding();
+          final testBinding = tester.binding;
+          testBinding.window.viewInsetsTestValue = const FakeWindowPadding();
 
-            await tester.pumpAndSettle();
+          await tester.pumpAndSettle();
 
-            final fractionalHeight = getFractionalHeight(tester);
+          final fractionalHeight = getFractionalHeight(tester);
 
-            await tester.pumpAndSettle();
+          await tester.pumpAndSettle();
 
-            expect(
-              fractionalHeight,
-              moreOrLessEquals(0.8),
-            );
-          },
-        );
+          expect(
+            fractionalHeight,
+            moreOrLessEquals(0.8),
+          );
+        },
+      );
 
-        testWidgets(
-          'When keyboard opened before open sheet, sheet should open with max height',
-          (tester) async {
-            await tester.pumpWidget(app);
+      testWidgets(
+        'When keyboard opened before open sheet, sheet should open with max height',
+        (tester) async {
+          await tester.pumpWidget(app);
 
-            final testBinding = tester.binding;
-            testBinding.window.viewInsetsTestValue = const FakeWindowPadding();
+          final testBinding = tester.binding;
+          testBinding.window.viewInsetsTestValue = const FakeWindowPadding();
 
-            unawaited(showBottomSheet(
-              anchors: [0.2, 0.5, 0.8],
-            ));
-            await tester.pumpAndSettle();
+          unawaited(showBottomSheet(
+            anchors: [0.2, 0.5, 0.8],
+          ));
+          await tester.pumpAndSettle();
 
-            final fractionalHeight = getFractionalHeight(tester);
+          final fractionalHeight = getFractionalHeight(tester);
 
-            expect(
-              fractionalHeight,
-              moreOrLessEquals(0.8),
-            );
-          },
-        );
+          expect(
+            fractionalHeight,
+            moreOrLessEquals(0.8),
+          );
+        },
+      );
 
-        testWidgets(
-          'If isSafeArea == true, there should be only one SafeArea widget',
-          (tester) async {
-            await tester.pumpWidget(app);
-            unawaited(
-              showBottomSheet(
-                isSafeArea: true,
-              ),
-            );
-            await tester.pumpAndSettle();
+      testWidgets(
+        'If isSafeArea == true, there should be only one SafeArea widget',
+        (tester) async {
+          await tester.pumpWidget(app);
+          unawaited(
+            showBottomSheet(
+              isSafeArea: true,
+            ),
+          );
+          await tester.pumpAndSettle();
 
-            expect(find.byType(SafeArea), findsOneWidget);
-          },
-        );
+          expect(find.byType(SafeArea), findsOneWidget);
+        },
+      );
 
-        testWidgets(
-          'If isSafe Are == false the SafeArea widget should not be',
-          (tester) async {
-            await tester.pumpWidget(app);
-            unawaited(
-              showBottomSheet(
-                isSafeArea: false,
-              ),
-            );
-            await tester.pumpAndSettle();
+      testWidgets(
+        'If isSafe Are == false the SafeArea widget should not be',
+        (tester) async {
+          await tester.pumpWidget(app);
+          unawaited(
+            showBottomSheet(
+              isSafeArea: false,
+            ),
+          );
+          await tester.pumpAndSettle();
 
-            expect(find.byType(SafeArea), findsNothing);
-          },
-        );
-      });
+          expect(find.byType(SafeArea), findsNothing);
+        },
+      );
+
+      testWidgets(
+        'if pass  barrierColor and isModal false should be an AssertionError',
+        (tester) async {
+          await tester.pumpWidget(app);
+
+          expect(
+              () => showBottomSheet(
+                    barrierColor: Colors.red,
+                    isModal: false,
+                  ),
+              throwsA(isA<AssertionError>()));
+        },
+      );
     },
   );
 }

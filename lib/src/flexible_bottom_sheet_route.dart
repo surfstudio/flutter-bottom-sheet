@@ -61,6 +61,7 @@ Future<T?> showFlexibleBottomSheet<T>({
 }) {
   assert(debugCheckHasMediaQuery(context));
   assert(debugCheckHasMaterialLocalizations(context));
+  assert(barrierColor == null || isModal);
 
   return Navigator.of(context, rootNavigator: useRootNavigator).push(
     _FlexibleBottomSheetRoute<T>(
@@ -139,7 +140,7 @@ Future<T?> showStickyFlexibleBottomSheet<T>({
   assert(maxHeaderHeight != null || headerHeight != null);
   assert(debugCheckHasMediaQuery(context));
   assert(debugCheckHasMaterialLocalizations(context));
-  assert(barrierColor != null && isModal == true);
+  assert(barrierColor == null || isModal);
 
   return Navigator.of(context, rootNavigator: useRootNavigator).push(
     _FlexibleBottomSheetRoute<T>(
