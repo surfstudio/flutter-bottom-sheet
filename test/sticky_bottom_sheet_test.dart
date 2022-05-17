@@ -37,8 +37,12 @@ void main() {
     double? headerHeight,
     double? maxHeaderHeight,
     double? minHeaderHeight,
+    Color? barrierColor,
+    bool? isModal,
   }) {
     return showStickyFlexibleBottomSheet(
+      isModal: isModal ?? true,
+      barrierColor: barrierColor,
       context: savedContext,
       minHeaderHeight: minHeaderHeight,
       maxHeaderHeight: maxHeaderHeight,
@@ -131,6 +135,20 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byKey(textFieldKey), findsOneWidget);
+    },
+  );
+
+  testWidgets(
+    'if pass  barrierColor and isModal false should be an AssertionError',
+    (tester) async {
+      await tester.pumpWidget(app);
+
+      expect(
+          () => showStickyBottomSheet(
+                barrierColor: Colors.red,
+                isModal: false,
+              ),
+          throwsA(isA<AssertionError>()));
     },
   );
 }
