@@ -1,6 +1,14 @@
 # Changelog
 
-## [Unreleased]
+## [Unreleased, estimated n.n.n]
+
+## 3.1.0
+### Added
+* ability to set the barrier color;
+### Changed
+* Flutter 3 is supported;
+
+## 3.0.0
 ### Fixed
 * Absent scrolling in showStickyFlexibleBottomSheet when input was destroyed by cache area when keyboard was opened.
 ### Added 

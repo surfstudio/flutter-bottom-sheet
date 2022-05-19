@@ -1,0 +1,26 @@
+name: "Publishing"
+
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  analysis:
+    uses: surfstudio/flutter-ci-workflows/.github/workflows/analysis.yml@main
+
+  testing:
+    needs: analysis
+    uses: surfstudio/flutter-ci-workflows/.github/workflows/testing.yml@main
+    secrets:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+  package-publishing:
+    needs: [ analysis, testing ]
+    uses: surfstudio/flutter-ci-workflows/.github/workflows/publish_to_pub.yml@main
+    with:
+      PANA_TOTAL: '100'
+    secrets:
+      PUB_CREDENTIAL_JSON: ${{ secrets.PUB_CREDENTIAL_JSON }}
+      PUB_OAUTH_ACCESS_TOKEN: ${{ secrets.PUB_OAUTH_ACCESS_TOKEN }}
+      PUB_OAUTH_REFRESH_TOKEN: ${{ secrets.PUB_OAUTH_REFRESH_TOKEN }}

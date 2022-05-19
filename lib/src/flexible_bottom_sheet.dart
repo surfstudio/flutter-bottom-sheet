@@ -67,6 +67,11 @@ typedef FlexibleDraggableScrollableWidgetBodyBuilder = SliverChildDelegate
 /// by Navigator.pop(). If you set [isCollapsible] true, [minHeight]
 /// must be 0.
 ///
+/// The [animationController] that controls the bottom sheet's entrance and
+/// exit animations.
+/// The FlexibleBottomSheet widget will manipulate the position of this
+/// animation, it is not just a passive observer.
+///
 /// [initHeight] - relevant height for init bottom sheet
 ///
 /// [keyboardBarrierColor] - color for the space behind the keyboard
@@ -178,7 +183,7 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet> {
   @override
   void initState() {
     super.initState();
-    _widgetBinding = WidgetsBinding.instance!;
+    _widgetBinding = WidgetsBinding.instance;
     widget.animationController?.addStatusListener(_animationStatusListener);
   }
 
@@ -288,7 +293,7 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet> {
   void _animateToFocused(ScrollController controller) {
     if (FocusManager.instance.primaryFocus == null || _isClosing) return;
 
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    _widgetBinding.addPostFrameCallback((_) {
       final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
       final widgetHeight = FocusManager.instance.primaryFocus!.size.height;
       final widgetOffset = FocusManager.instance.primaryFocus!.offset.dy;
@@ -398,7 +403,7 @@ class _ContentState extends State<_Content> {
   void initState() {
     super.initState();
     if (widget.getContentHeight != null) {
-      WidgetsBinding.instance!.addPostFrameCallback(
+      WidgetsBinding.instance.addPostFrameCallback(
         (timeStamp) {
           final renderContent =
               _contentKey.currentContext!.findRenderObject() as RenderBox;
