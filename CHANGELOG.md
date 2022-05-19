@@ -1,6 +1,8 @@
 # Changelog
 
-## [Unreleased, estimated 3.1.1]
+## [Unreleased, estimated N.N.N]
+
+## 3.1.1
 ### Fixed
 * Overflow error when swipe down with opened keyboard;
 * Wrong behavior when open and close bottomsheet with opened keyboard;
