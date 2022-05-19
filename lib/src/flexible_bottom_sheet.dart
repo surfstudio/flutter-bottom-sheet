@@ -170,11 +170,8 @@ class FlexibleBottomSheet extends StatefulWidget {
   _FlexibleBottomSheetState createState() => _FlexibleBottomSheetState();
 }
 
-class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
-    with SingleTickerProviderStateMixin {
+class _FlexibleBottomSheetState extends State<FlexibleBottomSheet> {
   final _controller = DraggableScrollableController();
-
-  final ValueNotifier<double> _bottomInsetNotifier = ValueNotifier(0.0);
 
   late final WidgetsBinding _widgetBinding;
   late double _initialChildSize = widget.initHeight;
@@ -187,6 +184,7 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
   void initState() {
     super.initState();
     _widgetBinding = WidgetsBinding.instance;
+    widget.animationController?.addStatusListener(_animationStatusListener);
   }
 
   @override
@@ -210,8 +208,7 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
               final inset = change.currentInset;
               final delta = change.delta;
 
-              _bottomInsetNotifier.value = inset;
-              if (delta > 0) {
+              if (delta > 0 && !_isClosing) {
                 _animateToMaxHeight();
                 _widgetBinding.addPostFrameCallback(
                   (_) {
@@ -260,11 +257,11 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
 
   @override
   void dispose() {
-    _bottomInsetNotifier.dispose();
+    widget.animationController?.removeStatusListener(_animationStatusListener);
     super.dispose();
   }
 
-  /// Method will be called when scrolling
+  // Method will be called when scrolling.
   bool _scrolling(DraggableScrollableNotification notification) {
     if (_isClosing) return false;
 
@@ -275,7 +272,7 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
     return false;
   }
 
-  /// Make bottom sheet max height
+  // Make bottom sheet max height.
   void _animateToMaxHeight() {
     final currPosition = _controller.size;
     if (currPosition != widget.maxHeight && !_isAnimatingToMaxHeight) {
@@ -292,7 +289,7 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
     }
   }
 
-  /// Scroll to focused widget.
+  // Scroll to focused widget.
   void _animateToFocused(ScrollController controller) {
     if (FocusManager.instance.primaryFocus == null || _isClosing) return;
 
@@ -316,13 +313,22 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet>
     });
   }
 
-  /// Checking if the bottom sheet needs to be closed.
+  // Checking if the bottom sheet needs to be closed.
   void _checkNeedCloseBottomSheet(double extent) {
     if (widget.isCollapsible && !_isClosing) {
       if (extent - widget.minHeight <= 0.005) {
         _isClosing = true;
         _dismiss();
       }
+    }
+  }
+
+  // Method that listens for changing AnimationStatus, to track the closing of
+  // the bottom sheet by clicking above it.
+  void _animationStatusListener(AnimationStatus status) {
+    if (status == AnimationStatus.reverse ||
+        status == AnimationStatus.dismissed) {
+      _isClosing = true;
     }
   }
 
