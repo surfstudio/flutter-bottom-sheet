@@ -67,6 +67,8 @@ typedef FlexibleDraggableScrollableWidgetBodyBuilder = SliverChildDelegate
 /// by Navigator.pop(). If you set [isCollapsible] true, [minHeight]
 /// must be 0.
 ///
+/// The [draggableScrollableController] that allow programmatically control bottom sheet.
+///
 /// The [animationController] that controls the bottom sheet's entrance and
 /// exit animations.
 /// The FlexibleBottomSheet widget will manipulate the position of this
@@ -96,6 +98,7 @@ class FlexibleBottomSheet extends StatefulWidget {
   final FlexibleDraggableScrollableWidgetBodyBuilder? bodyBuilder;
   final bool isCollapsible;
   final bool isExpand;
+  final DraggableScrollableController? draggableScrollableController;
   final AnimationController? animationController;
   final List<double>? anchors;
   final double? minHeaderHeight;
@@ -123,6 +126,7 @@ class FlexibleBottomSheet extends StatefulWidget {
     this.onDismiss,
     this.keyboardBarrierColor,
     this.bottomSheetColor,
+    this.draggableScrollableController,
   })  : assert(minHeight >= 0 && minHeight <= 1),
         assert(maxHeight > 0 && maxHeight <= 1),
         assert(maxHeight > minHeight),
@@ -136,6 +140,7 @@ class FlexibleBottomSheet extends StatefulWidget {
     Key? key,
     double initHeight = 0.5,
     double maxHeight = 1,
+    DraggableScrollableController? draggableScrollableController,
     FlexibleDraggableScrollableWidgetBuilder? builder,
     FlexibleDraggableScrollableHeaderWidgetBuilder? headerBuilder,
     FlexibleDraggableScrollableWidgetBodyBuilder? bodyBuilder,
@@ -150,6 +155,7 @@ class FlexibleBottomSheet extends StatefulWidget {
   }) : this(
           key: key,
           maxHeight: maxHeight,
+          draggableScrollableController: draggableScrollableController,
           builder: builder,
           headerBuilder: headerBuilder,
           bodyBuilder: bodyBuilder,
@@ -171,7 +177,7 @@ class FlexibleBottomSheet extends StatefulWidget {
 }
 
 class _FlexibleBottomSheetState extends State<FlexibleBottomSheet> {
-  final _controller = DraggableScrollableController();
+  late final DraggableScrollableController _controller;
 
   late final WidgetsBinding _widgetBinding;
   late double _initialChildSize = widget.initHeight;
@@ -183,6 +189,8 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet> {
   @override
   void initState() {
     super.initState();
+    _controller =
+        widget.draggableScrollableController ?? DraggableScrollableController();
     _widgetBinding = WidgetsBinding.instance;
     widget.animationController?.addStatusListener(_animationStatusListener);
   }

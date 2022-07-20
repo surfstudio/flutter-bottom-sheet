@@ -21,6 +21,7 @@ const Duration _bottomSheetDuration = Duration(milliseconds: 500);
 ///
 /// [builder] - must return a scrollable widget and
 /// you must to pass the scrollController provided by the builder to your scrollable widget.
+/// [draggableScrollableController] that allow programmatically control bottom sheet.
 /// [minHeight] - min height in fractional value for bottom sheet. e.g. 0.1.
 /// [initHeight] - init height in fractional value for bottom sheet. e.g. 0.5.
 /// [maxHeight] - init height in fractional value for bottom sheet. e.g. 0.5.
@@ -43,6 +44,7 @@ const Duration _bottomSheetDuration = Duration(milliseconds: 500);
 Future<T?> showFlexibleBottomSheet<T>({
   required BuildContext context,
   required FlexibleDraggableScrollableWidgetBuilder builder,
+  DraggableScrollableController? draggableScrollableController,
   double? minHeight,
   double? initHeight,
   double? maxHeight,
@@ -67,6 +69,7 @@ Future<T?> showFlexibleBottomSheet<T>({
     _FlexibleBottomSheetRoute<T>(
       theme: Theme.of(context),
       barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      draggableScrollableController: draggableScrollableController,
       minHeight: minHeight ?? 0,
       initHeight: initHeight ?? 0.5,
       maxHeight: maxHeight ?? 1,
@@ -90,6 +93,7 @@ Future<T?> showFlexibleBottomSheet<T>({
 /// even without a list.
 ///
 /// [bodyBuilder] - content's builder.
+/// [draggableScrollableController] that allow programmatically control bottom sheet.
 /// [minHeight] - min height in fractional value for bottom sheet. e.g. 0.1.
 /// [initHeight] - init height in fractional value for bottom sheet. e.g. 0.5.
 /// [maxHeight] - init height in fractional value for bottom sheet. e.g. 0.5.
@@ -118,6 +122,7 @@ Future<T?> showStickyFlexibleBottomSheet<T>({
   required BuildContext context,
   required FlexibleDraggableScrollableHeaderWidgetBuilder headerBuilder,
   required FlexibleDraggableScrollableWidgetBodyBuilder bodyBuilder,
+  DraggableScrollableController? draggableScrollableController,
   double? minHeight,
   double? initHeight,
   double? maxHeight,
@@ -151,6 +156,7 @@ Future<T?> showStickyFlexibleBottomSheet<T>({
       maxHeight: maxHeight ?? 1,
       isCollapsible: isCollapsible,
       isDismissible: isDismissible,
+      draggableScrollableController: draggableScrollableController,
       isExpand: isExpand,
       bodyBuilder: bodyBuilder,
       headerBuilder: headerBuilder,
@@ -173,6 +179,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
   final FlexibleDraggableScrollableWidgetBuilder? builder;
   final FlexibleDraggableScrollableHeaderWidgetBuilder? headerBuilder;
   final FlexibleDraggableScrollableWidgetBodyBuilder? bodyBuilder;
+  final DraggableScrollableController? draggableScrollableController;
   final double minHeight;
   final double initHeight;
   final double maxHeight;
@@ -216,6 +223,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
     required this.isExpand,
     required this.isModal,
     required this.isSafeArea,
+    this.draggableScrollableController,
     this.builder,
     this.headerBuilder,
     this.bodyBuilder,
@@ -262,6 +270,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
               isExpand: isExpand,
               animationController: _animationController,
               anchors: anchors,
+              draggableScrollableController: draggableScrollableController,
               minHeaderHeight: minHeaderHeight,
               maxHeaderHeight: maxHeaderHeight,
               decoration: decoration,
@@ -277,6 +286,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
               bodyBuilder: bodyBuilder,
               isExpand: isExpand,
               animationController: _animationController,
+              draggableScrollableController: draggableScrollableController,
               anchors: anchors,
               minHeaderHeight: minHeaderHeight,
               maxHeaderHeight: maxHeaderHeight,
