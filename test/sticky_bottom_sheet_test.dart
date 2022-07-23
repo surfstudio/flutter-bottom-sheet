@@ -144,11 +144,12 @@ void main() {
       await tester.pumpWidget(app);
 
       expect(
-          () => showStickyBottomSheet(
-                barrierColor: Colors.red,
-                isModal: false,
-              ),
-          throwsA(isA<AssertionError>()));
+        () => showStickyBottomSheet(
+          barrierColor: Colors.red,
+          isModal: false,
+        ),
+        throwsA(isA<AssertionError>()),
+      );
     },
   );
 }

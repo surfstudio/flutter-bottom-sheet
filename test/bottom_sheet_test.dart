@@ -377,11 +377,12 @@ void main() {
           await tester.pumpWidget(app);
 
           expect(
-              () => showBottomSheet(
-                    barrierColor: Colors.red,
-                    isModal: false,
-                  ),
-              throwsA(isA<AssertionError>()));
+            () => showBottomSheet(
+              barrierColor: Colors.red,
+              isModal: false,
+            ),
+            throwsA(isA<AssertionError>()),
+          );
         },
       );
     },
