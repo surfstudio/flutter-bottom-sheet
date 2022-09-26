@@ -240,7 +240,9 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet> {
                 headerBuilder: widget.headerBuilder,
                 minHeaderHeight: widget.minHeaderHeight,
                 maxHeaderHeight: widget.maxHeaderHeight,
-                currentExtent: _controller.size,
+                currentExtent: _controller.isAttached
+                    ? _controller.size
+                    : widget.initHeight,
                 scrollController: controller,
                 cacheExtent: _calculateCacheExtent(
                   MediaQuery.of(context).viewInsets.bottom,
