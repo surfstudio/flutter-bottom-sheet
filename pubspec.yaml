@@ -1,5 +1,5 @@
 name: bottom_sheet
-version: 3.1.1
+version: 3.1.2
 description: Flexible bottom sheet with the ability to scroll content even without a list.
 repository: "https://github.com/surfstudio/flutter-bottom-sheet"
 issue_tracker: "https://github.com/surfstudio/flutter-bottom-sheet/issues"
