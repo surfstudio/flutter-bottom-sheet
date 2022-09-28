@@ -8,6 +8,8 @@
 * Error with showFlexibleBottomSheet - DraggableScrollableController is not attached to a sheet;
 ### Added
 * Added optional draggableScrollableController;
+### Changed
+* Flutter 3.3.2 is supported;
 
 ## 3.1.1
 ### Fixed
