@@ -2,6 +2,13 @@
 
 ## [Unreleased, estimated N.N.N]
 
+## 3.1.2
+### Fixed
+* Indentation rules trailing commas;
+* Error with showFlexibleBottomSheet - DraggableScrollableController is not attached to a sheet;
+### Added
+* Added optional draggableScrollableController;
+
 ## 3.1.1
 ### Fixed
 * Overflow error when swipe down with opened keyboard;
