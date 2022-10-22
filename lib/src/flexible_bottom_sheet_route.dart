@@ -300,7 +300,9 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
       bottomSheet = Theme(data: theme!, child: bottomSheet);
     }
 
-    return isSafeArea ? SafeArea(child: bottomSheet) : bottomSheet;
+    return isSafeArea
+        ? SafeArea(child: bottomSheet, bottom: false)
+        : bottomSheet;
   }
 
   @override
