@@ -342,10 +342,13 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet> {
     }
   }
 
-  void _dismiss() {
+  Future<void> _dismiss() async {
     if (widget.isCollapsible) {
       if (widget.onDismiss != null) widget.onDismiss!();
-      Navigator.maybePop(context);
+      // If status of route animationController is dismiss,
+      // that will ignore barrier dismiss tapping.
+      await widget.animationController?.reverse();
+      if (mounted) await Navigator.maybePop(context);
     }
   }
 
