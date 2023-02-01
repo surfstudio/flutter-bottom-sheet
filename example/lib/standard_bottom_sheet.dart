@@ -100,13 +100,13 @@ class _StandardExampleState extends State<StandardExample> {
                 child: Center(
                   child: Text(
                     'Header',
-                    style: Theme.of(context).textTheme.headline4,
+                    style: Theme.of(context).textTheme.headlineMedium,
                   ),
                 ),
               ),
               Text(
                 'position $offset',
-                style: Theme.of(context).textTheme.headline6,
+                style: Theme.of(context).textTheme.titleLarge,
               ),
             ],
           ),
@@ -140,7 +140,7 @@ class _BottomSheet extends StatelessWidget {
       children: [
         Text(
           'position $bottomSheetOffset',
-          style: Theme.of(context).textTheme.headline6,
+          style: Theme.of(context).textTheme.titleLarge,
         ),
         Column(
           children: _children,
