@@ -72,7 +72,7 @@ void main() {
 
       await tester.drag(
         find.byType(
-          FlexibleBottomSheet,
+          FlexibleBottomSheet<void>,
           skipOffstage: false,
         ),
         const Offset(0, -800),
@@ -91,10 +91,8 @@ void main() {
         () async {
           unawaited(
             showStickyBottomSheet(
-              headerHeight:
-                  _headerHeightTestVariants.currentValue!.headerHeight,
-              maxHeaderHeight:
-                  _headerHeightTestVariants.currentValue!.maxHeaderHeight,
+              headerHeight: _headerHeightTestVariants.currentValue!.headerHeight,
+              maxHeaderHeight: _headerHeightTestVariants.currentValue!.maxHeaderHeight,
             ),
           );
 
@@ -195,8 +193,7 @@ class _HeaderHeightTestScenario {
   });
 }
 
-final ValueVariant<_HeaderHeightTestScenario> _headerHeightTestVariants =
-    ValueVariant<_HeaderHeightTestScenario>({
+final ValueVariant<_HeaderHeightTestScenario> _headerHeightTestVariants = ValueVariant<_HeaderHeightTestScenario>({
   _HeaderHeightTestScenario(headerHeight: 200.0, matcher: returnsNormally),
   _HeaderHeightTestScenario(maxHeaderHeight: 200.0, matcher: returnsNormally),
   _HeaderHeightTestScenario(

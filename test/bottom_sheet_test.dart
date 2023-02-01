@@ -82,18 +82,16 @@ void main() {
         (tester) async {
           await tester.pumpWidget(
             makeTestableWidget(
-              FlexibleBottomSheet(),
+              FlexibleBottomSheet<void>(),
             ),
           );
 
-          expect(() => FlexibleBottomSheet, returnsNormally);
+          expect(() => FlexibleBottomSheet<void>, returnsNormally);
 
-          final flexibleScrollNotifier = find
-              .byType(NotificationListener<DraggableScrollableNotification>);
+          final flexibleScrollNotifier = find.byType(NotificationListener<DraggableScrollableNotification>);
           expect(flexibleScrollNotifier, findsOneWidget);
 
-          final draggableScrollableSheet =
-              find.byType(DraggableScrollableSheet);
+          final draggableScrollableSheet = find.byType(DraggableScrollableSheet);
           expect(draggableScrollableSheet, findsOneWidget);
         },
       );
@@ -104,11 +102,11 @@ void main() {
         unawaited(showBottomSheet());
 
         await tester.pumpAndSettle();
-        expect(find.byType(FlexibleBottomSheet), findsOneWidget);
+        expect(find.byType(FlexibleBottomSheet<void>), findsOneWidget);
 
-        await tester.tap(find.byType(FlexibleBottomSheet));
+        await tester.tap(find.byType(FlexibleBottomSheet<void>));
         await tester.pumpAndSettle();
-        expect(find.byType(FlexibleBottomSheet), findsOneWidget);
+        expect(find.byType(FlexibleBottomSheet<void>), findsOneWidget);
       });
 
       testWidgets(
@@ -121,15 +119,13 @@ void main() {
           ));
 
           await tester.pumpAndSettle();
-          expect(find.byType(FlexibleBottomSheet), findsOneWidget);
+          expect(find.byType(FlexibleBottomSheet<void>), findsOneWidget);
 
           await tester.tapAt(const Offset(20.0, 20.0));
           await tester.pumpAndSettle();
           expect(
-            find.byType(FlexibleBottomSheet),
-            defaultBoolTestVariant.currentValue!
-                ? findsNothing
-                : findsOneWidget,
+            find.byType(FlexibleBottomSheet<void>),
+            defaultBoolTestVariant.currentValue! ? findsNothing : findsOneWidget,
           );
         },
         variant: defaultBoolTestVariant,
@@ -145,11 +141,11 @@ void main() {
           ));
           await tester.pumpAndSettle();
 
-          expect(find.byType(FlexibleBottomSheet), findsOneWidget);
+          expect(find.byType(FlexibleBottomSheet<void>), findsOneWidget);
 
           await tester.drag(
             find.byType(
-              FlexibleBottomSheet,
+              FlexibleBottomSheet<void>,
               skipOffstage: false,
             ),
             const Offset(0.0, 300.0),
@@ -157,10 +153,8 @@ void main() {
           await tester.pumpAndSettle();
 
           expect(
-            find.byType(FlexibleBottomSheet),
-            defaultBoolTestVariant.currentValue!
-                ? findsNothing
-                : findsOneWidget,
+            find.byType(FlexibleBottomSheet<void>),
+            defaultBoolTestVariant.currentValue! ? findsNothing : findsOneWidget,
           );
         },
         variant: defaultBoolTestVariant,
@@ -174,17 +168,17 @@ void main() {
           unawaited(showBottomSheet(isCollapsible: false));
           await tester.pumpAndSettle();
 
-          expect(find.byType(FlexibleBottomSheet), findsOneWidget);
+          expect(find.byType(FlexibleBottomSheet<void>), findsOneWidget);
 
           await tester.drag(
-            find.byType(FlexibleBottomSheet),
+            find.byType(FlexibleBottomSheet<void>),
             const Offset(0, -800),
           );
 
           await tester.pumpAndSettle();
 
           await tester.drag(
-            find.byType(FlexibleBottomSheet),
+            find.byType(FlexibleBottomSheet<void>),
             const Offset(0, -800),
           );
 
@@ -224,8 +218,7 @@ void main() {
             'Drag bottom sheet with anchors should have correct behaviour',
             (tester) async {
               final offset = _dragAnchorsVariants.currentValue!.offset;
-              final expectedResult =
-                  _dragAnchorsVariants.currentValue!.expectedResult;
+              final expectedResult = _dragAnchorsVariants.currentValue!.expectedResult;
 
               await tester.pumpWidget(app);
 
@@ -236,13 +229,13 @@ void main() {
 
               await tester.drag(
                 find.byType(
-                  FlexibleBottomSheet,
+                  FlexibleBottomSheet<void>,
                 ),
                 offset,
               );
               await tester.pumpAndSettle();
 
-              expect(find.byType(FlexibleBottomSheet), findsOneWidget);
+              expect(find.byType(FlexibleBottomSheet<void>), findsOneWidget);
 
               final fractionalHeight = getFractionalHeight(tester);
 
@@ -399,8 +392,7 @@ class _DragAnchorTestScenario {
   );
 }
 
-final ValueVariant<_DragAnchorTestScenario> _dragAnchorsVariants =
-    ValueVariant<_DragAnchorTestScenario>(
+final ValueVariant<_DragAnchorTestScenario> _dragAnchorsVariants = ValueVariant<_DragAnchorTestScenario>(
   {
     // When scrolling down 35, the bottom sheet should be 0.5.
     _DragAnchorTestScenario(const Offset(0, 35), 0.5),
@@ -452,8 +444,7 @@ class _AnchorsTestScenario {
   });
 }
 
-final ValueVariant<_AnchorsTestScenario> _anchorsTestVariants =
-    ValueVariant<_AnchorsTestScenario>(
+final ValueVariant<_AnchorsTestScenario> _anchorsTestVariants = ValueVariant<_AnchorsTestScenario>(
   {
     _AnchorsTestScenario(
       anchors: [0.2, 0.5, 1],
