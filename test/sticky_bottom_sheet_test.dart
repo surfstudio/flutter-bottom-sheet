@@ -33,14 +33,23 @@ void main() {
     ),
   );
 
+  void showSnackBar() {
+    ScaffoldMessenger.of(savedContext).showSnackBar(const SnackBar(
+      content: Text('SnackBar'),
+      duration: Duration(seconds: 5),
+    ));
+  }
+
   Future<void> showStickyBottomSheet({
     double? headerHeight,
     double? maxHeaderHeight,
     double? minHeaderHeight,
     Color? barrierColor,
     bool? isModal,
+    bool? isRegisterScaffold,
   }) {
     return showStickyFlexibleBottomSheet(
+      isRegisterScaffold: isRegisterScaffold ?? true,
       isModal: isModal ?? true,
       barrierColor: barrierColor,
       context: savedContext,
@@ -152,6 +161,33 @@ void main() {
       );
     },
   );
+
+  testWidgets('Show SnackBar with Scaffold in BottomSheet tree',
+      (tester) async {
+    await tester.pumpWidget(app);
+
+    showSnackBar();
+
+    unawaited(showStickyBottomSheet(headerHeight: 200.0));
+
+    await tester.pumpAndSettle();
+
+    expect(find.byType(SnackBar), findsNWidgets(2));
+  });
+
+  testWidgets('Show SnackBar without Scaffold in BottomSheet tree',
+      (tester) async {
+    await tester.pumpWidget(app);
+
+    showSnackBar();
+
+    unawaited(
+        showStickyBottomSheet(headerHeight: 200.0, isRegisterScaffold: false));
+
+    await tester.pumpAndSettle();
+
+    expect(find.byType(SnackBar), findsOneWidget);
+  });
 }
 
 final _listWidgets = [

@@ -107,6 +107,7 @@ class FlexibleBottomSheet extends StatefulWidget {
   final VoidCallback? onDismiss;
   final Color? keyboardBarrierColor;
   final Color? bottomSheetColor;
+  final bool isRegisterScaffold;
 
   FlexibleBottomSheet({
     Key? key,
@@ -127,6 +128,7 @@ class FlexibleBottomSheet extends StatefulWidget {
     this.keyboardBarrierColor,
     this.bottomSheetColor,
     this.draggableScrollableController,
+    this.isRegisterScaffold = true,
   })  : assert(minHeight >= 0 && minHeight <= 1),
         assert(maxHeight > 0 && maxHeight <= 1),
         assert(maxHeight > minHeight),
@@ -152,6 +154,7 @@ class FlexibleBottomSheet extends StatefulWidget {
     Decoration? decoration,
     Color? keyboardBarrierColor,
     Color? bottomSheetColor,
+    bool isRegisterScaffold = true,
   }) : this(
           key: key,
           maxHeight: maxHeight,
@@ -170,6 +173,7 @@ class FlexibleBottomSheet extends StatefulWidget {
           decoration: decoration,
           keyboardBarrierColor: keyboardBarrierColor,
           bottomSheetColor: bottomSheetColor,
+          isRegisterScaffold: isRegisterScaffold,
         );
 
   @override
@@ -237,11 +241,12 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet> {
                 );
               }
             },
-            child: Scaffold(
+            child: _RegisterScaffold(
+              isRegisterScaffold: widget.isRegisterScaffold,
               backgroundColor: widget.bottomSheetColor ??
                   Theme.of(context).bottomSheetTheme.backgroundColor ??
-                  Theme.of(context).backgroundColor,
-              body: _Content(
+                  Theme.of(context).colorScheme.background,
+              child: _Content(
                 builder: widget.builder,
                 decoration: widget.decoration,
                 bodyBuilder: widget.bodyBuilder,
@@ -372,6 +377,33 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet> {
     } else {
       return defaultExtent;
     }
+  }
+}
+
+/// Register [Scaffold] for [FlexibleBottomSheet].
+class _RegisterScaffold extends StatelessWidget {
+  final bool isRegisterScaffold;
+  final Widget child;
+  final Color backgroundColor;
+
+  const _RegisterScaffold({
+    required this.isRegisterScaffold,
+    required this.child,
+    required this.backgroundColor,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return isRegisterScaffold
+        ? Scaffold(
+            backgroundColor: backgroundColor,
+            body: child,
+          )
+        : ColoredBox(
+            color: backgroundColor,
+            child: child,
+          );
   }
 }
 
