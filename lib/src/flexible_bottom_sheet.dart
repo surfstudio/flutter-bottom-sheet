@@ -193,6 +193,11 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet> {
         widget.draggableScrollableController ?? DraggableScrollableController();
     _widgetBinding = WidgetsBinding.instance;
     widget.animationController?.addStatusListener(_animationStatusListener);
+
+    /// Force widget rebuild
+    _controller.addListener(() {
+      setState(() {});
+    });
   }
 
   @override
@@ -268,6 +273,7 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet> {
   @override
   void dispose() {
     widget.animationController?.removeStatusListener(_animationStatusListener);
+    _controller.dispose();
     super.dispose();
   }
 
