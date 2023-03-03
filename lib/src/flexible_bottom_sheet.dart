@@ -11,6 +11,8 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:bottom_sheet/src/flexible_bottom_sheet_header_delegate.dart';
 import 'package:bottom_sheet/src/widgets/change_insets_detector.dart';
 import 'package:flutter/material.dart';
@@ -240,7 +242,7 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet> {
             child: Scaffold(
               backgroundColor: widget.bottomSheetColor ??
                   Theme.of(context).bottomSheetTheme.backgroundColor ??
-                  Theme.of(context).backgroundColor,
+                  Theme.of(context).colorScheme.background,
               body: _Content(
                 builder: widget.builder,
                 decoration: widget.decoration,

@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:bottom_inset_observer/bottom_inset_observer.dart';
 import 'package:flutter/material.dart';
 
