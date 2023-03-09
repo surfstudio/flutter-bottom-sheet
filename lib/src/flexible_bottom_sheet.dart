@@ -45,7 +45,8 @@ typedef FlexibleDraggableScrollableHeaderWidgetBuilder = Widget Function(
 /// and [bottomSheetOffset] for determining the position of the BottomSheet
 /// relative to the upper border of the screen.
 /// [bottomSheetOffset] - fractional value of offset.
-typedef FlexibleDraggableScrollableWidgetBodyBuilder = SliverChildDelegate Function(
+typedef FlexibleDraggableScrollableWidgetBodyBuilder = SliverChildDelegate
+    Function(
   BuildContext context,
   double bottomSheetOffset,
 );
@@ -189,7 +190,8 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet> {
   @override
   void initState() {
     super.initState();
-    _controller = widget.draggableScrollableController ?? DraggableScrollableController();
+    _controller =
+        widget.draggableScrollableController ?? DraggableScrollableController();
     _widgetBinding = WidgetsBinding.instance;
     widget.animationController?.addStatusListener(_animationStatusListener);
   }
@@ -232,7 +234,8 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet> {
       final widgetOffset = FocusManager.instance.primaryFocus!.offset.dy;
       final screenHeight = MediaQuery.of(context).size.height;
 
-      final targetWidgetOffset = screenHeight - keyboardHeight - widgetHeight - 20;
+      final targetWidgetOffset =
+          screenHeight - keyboardHeight - widgetHeight - 20;
       final valueToScroll = widgetOffset - targetWidgetOffset;
       final currentOffset = controller.offset;
       if (valueToScroll > 0) {
@@ -258,7 +261,8 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet> {
   // Method that listens for changing AnimationStatus, to track the closing of
   // the bottom sheet by clicking above it.
   void _animationStatusListener(AnimationStatus status) {
-    if (status == AnimationStatus.reverse || status == AnimationStatus.dismissed) {
+    if (status == AnimationStatus.reverse ||
+        status == AnimationStatus.dismissed) {
       _isClosing = true;
     }
   }
@@ -354,12 +358,15 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet> {
                 headerBuilder: widget.headerBuilder,
                 minHeaderHeight: widget.minHeaderHeight,
                 maxHeaderHeight: widget.maxHeaderHeight,
-                currentExtent: _controller.isAttached ? _controller.size : widget.initHeight,
+                currentExtent: _controller.isAttached
+                    ? _controller.size
+                    : widget.initHeight,
                 scrollController: controller,
                 cacheExtent: _calculateCacheExtent(
                   MediaQuery.of(context).viewInsets.bottom,
                 ),
-                getContentHeight: !widget.isExpand ? _changeInitAndMaxHeight : null,
+                getContentHeight:
+                    !widget.isExpand ? _changeInitAndMaxHeight : null,
               ),
             ),
           );
@@ -409,7 +416,8 @@ class _ContentState extends State<_Content> {
     if (widget.getContentHeight != null) {
       WidgetsBinding.instance.addPostFrameCallback(
         (timeStamp) {
-          final renderContent = _contentKey.currentContext!.findRenderObject() as RenderBox;
+          final renderContent =
+              _contentKey.currentContext!.findRenderObject() as RenderBox;
           widget.getContentHeight!(renderContent.size.height);
         },
       );
