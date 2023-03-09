@@ -10,8 +10,7 @@ class BottomSheetBasedOnContentHeight extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      children:
-          _listAnimals.map((animal) => _AnimalCard(animal: animal)).toList(),
+      children: _listAnimals.map((animal) => _AnimalCard(animal: animal)).toList(),
     );
   }
 }

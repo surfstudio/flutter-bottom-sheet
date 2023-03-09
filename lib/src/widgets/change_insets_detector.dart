@@ -21,7 +21,6 @@ class ChangeInsetsDetector extends StatefulWidget {
 class _ChangeInsetsDetectorState extends State<ChangeInsetsDetector> {
   final BottomInsetObserver _insetObserver = BottomInsetObserver();
 
-
   @override
   void initState() {
     super.initState();

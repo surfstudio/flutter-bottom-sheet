@@ -91,10 +91,8 @@ void main() {
         () async {
           unawaited(
             showStickyBottomSheet(
-              headerHeight:
-                  _headerHeightTestVariants.currentValue!.headerHeight,
-              maxHeaderHeight:
-                  _headerHeightTestVariants.currentValue!.maxHeaderHeight,
+              headerHeight: _headerHeightTestVariants.currentValue!.headerHeight,
+              maxHeaderHeight: _headerHeightTestVariants.currentValue!.maxHeaderHeight,
             ),
           );
 

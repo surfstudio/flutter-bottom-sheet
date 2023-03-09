@@ -208,9 +208,8 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
   bool get barrierDismissible => isDismissible;
 
   @override
-  Color? get barrierColor => isModal
-      ? barrierBottomSheetColor ?? Colors.black54
-      : const Color(0x00FFFFFF);
+  Color? get barrierColor =>
+      isModal ? barrierBottomSheetColor ?? Colors.black54 : const Color(0x00FFFFFF);
 
   late AnimationController _animationController;
 
@@ -300,9 +299,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
       bottomSheet = Theme(data: theme!, child: bottomSheet);
     }
 
-    return isSafeArea
-        ? SafeArea(child: bottomSheet, bottom: false)
-        : bottomSheet;
+    return isSafeArea ? SafeArea(child: bottomSheet, bottom: false) : bottomSheet;
   }
 
   @override
