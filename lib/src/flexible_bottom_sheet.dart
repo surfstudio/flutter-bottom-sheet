@@ -200,17 +200,15 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final bottomSheetColor =
-        widget.bottomSheetColor ?? theme.bottomSheetTheme.backgroundColor ?? theme.backgroundColor;
+    final bottomSheetColor = widget.bottomSheetColor ??
+        theme.bottomSheetTheme.backgroundColor ??
+        theme.colorScheme.background;
     final contentDecoration = widget.decoration ??
         BoxDecoration(
           color: widget.bottomSheetColor ??
               theme.bottomSheetTheme.backgroundColor ??
-              theme.backgroundColor,
+              theme.colorScheme.background,
         );
-
-    debugPrint('🟡--------bottomSheetColor $bottomSheetColor');
-    debugPrint('🟡--------contentDecoration $contentDecoration');
 
     return NotificationListener<DraggableScrollableNotification>(
       onNotification: _scrolling,
