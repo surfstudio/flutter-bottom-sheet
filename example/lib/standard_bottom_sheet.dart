@@ -18,7 +18,12 @@ class _StandardExampleState extends State<StandardExample> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           ElevatedButton(
-            onPressed: _showSheet,
+            onPressed: _showSheetOne,
+            child: const Text('Open BottomSheet'),
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: _showSheetTwo,
             child: const Text('Open BottomSheet'),
           ),
           const SizedBox(height: 20),
@@ -47,7 +52,39 @@ class _StandardExampleState extends State<StandardExample> {
     );
   }
 
-  void _showSheet() {
+  void _showSheetOne() {
+    showFlexibleBottomSheet<void>(
+      minHeight: 0,
+      initHeight: 0.5,
+      maxHeight: 0.8,
+      context: context,
+      bottomSheetBorderRadius: const BorderRadius.only(
+        topLeft: Radius.circular(40.0),
+      ),
+      bottomSheetColor: Colors.transparent,
+      builder: (context, controller, offset) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              color: Colors.orange,
+              height: 40,
+            ),
+            Container(
+              color: Colors.transparent,
+              height: 100,
+            ),
+            Container(
+              color: Colors.orange,
+              height: 100,
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showSheetTwo() {
     showFlexibleBottomSheet<void>(
       minHeight: 0,
       initHeight: 0.5,
@@ -73,13 +110,10 @@ class _StandardExampleState extends State<StandardExample> {
       headerHeight: 200,
       context: context,
       isSafeArea: isUseSafeArea,
-      bottomSheetColor: Colors.transparent,
-      decoration: const BoxDecoration(
-        color: Colors.teal,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(40.0),
-          topRight: Radius.circular(40.0),
-        ),
+      bottomSheetColor: Colors.teal,
+      bottomSheetBorderRadius: const BorderRadius.only(
+        topLeft: Radius.circular(40.0),
+        topRight: Radius.circular(40.0),
       ),
       headerBuilder: (context, offset) {
         return AnimatedContainer(
@@ -87,11 +121,7 @@ class _StandardExampleState extends State<StandardExample> {
           width: double.infinity,
           height: 200,
           decoration: BoxDecoration(
-            color: Colors.green,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(offset == 0.8 ? 0 : 40),
-              topRight: Radius.circular(offset == 0.8 ? 0 : 40),
-            ),
+            color: offset == 0.8 ? Colors.green : Colors.deepPurple,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -134,18 +164,21 @@ class _BottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: EdgeInsets.zero,
-      controller: scrollController,
-      children: [
-        Text(
-          'position $bottomSheetOffset',
-          style: Theme.of(context).textTheme.headline6,
-        ),
-        Column(
-          children: _children,
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: ListView(
+        padding: EdgeInsets.zero,
+        controller: scrollController,
+        children: [
+          Text(
+            'position $bottomSheetOffset',
+            style: Theme.of(context).textTheme.headline6,
+          ),
+          Column(
+            children: _children,
+          ),
+        ],
+      ),
     );
   }
 }
