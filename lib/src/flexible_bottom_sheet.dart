@@ -176,7 +176,7 @@ class FlexibleBottomSheet extends StatefulWidget {
         );
 
   @override
-  _FlexibleBottomSheetState createState() => _FlexibleBottomSheetState();
+  State<FlexibleBottomSheet> createState() => _FlexibleBottomSheetState();
 }
 
 class _FlexibleBottomSheetState extends State<FlexibleBottomSheet> {

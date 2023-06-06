@@ -13,7 +13,7 @@ class ChangeInsetsDetector extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _ChangeInsetsDetectorState createState() => _ChangeInsetsDetectorState();
+  State<ChangeInsetsDetector> createState() => _ChangeInsetsDetectorState();
 }
 
 class _ChangeInsetsDetectorState extends State<ChangeInsetsDetector> {
