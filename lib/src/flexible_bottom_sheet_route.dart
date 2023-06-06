@@ -36,11 +36,12 @@ const Duration _bottomSheetDuration = Duration(milliseconds: 500);
 /// [isModal] - if true, overlay background with dark color.
 /// [anchors] - list of sizes in fractional value that the bottom sheet can accept.
 /// [keyboardBarrierColor] - keyboard color.
+/// [bottomSheetBorderRadius] - bottom sheet border radius.
 /// [bottomSheetColor] - bottom sheet color.
 /// [barrierColor] - barrier color.
 /// [duration] - animation speed when opening bottom sheet.
 /// [isSafeArea] - should the bottom sheet provide a SafeArea, false by default.
-/// [decoration] - BottomSheet decoration.
+/// [decoration] - content decoration bottom sheet.
 Future<T?> showFlexibleBottomSheet<T>({
   required BuildContext context,
   required FlexibleDraggableScrollableWidgetBuilder builder,
@@ -56,6 +57,7 @@ Future<T?> showFlexibleBottomSheet<T>({
   List<double>? anchors,
   Color? keyboardBarrierColor,
   Color? bottomSheetColor,
+  BorderRadiusGeometry? bottomSheetBorderRadius,
   Color? barrierColor,
   Duration? duration,
   bool isSafeArea = false,
@@ -81,6 +83,7 @@ Future<T?> showFlexibleBottomSheet<T>({
       anchors: anchors,
       keyboardBarrierColor: keyboardBarrierColor,
       bottomSheetColor: bottomSheetColor,
+      bottomSheetBorderRadius: bottomSheetBorderRadius,
       barrierBottomSheetColor: barrierColor,
       duration: duration,
       isSafeArea: isSafeArea,
@@ -107,13 +110,14 @@ Future<T?> showFlexibleBottomSheet<T>({
 /// in which case the bottom sheet will calculate its height based on the content,
 /// but no more than [maxHeight] and [initHeight].
 /// [anchors] - list of sizes in fractional value that the bottom sheet can accept.
-/// [decoration] - BottomSheet decoration.
+/// [decoration] - content decoration bottom sheet.
 /// [minHeaderHeight] - minimum head size.
 /// [maxHeaderHeight] - maximum head size.
 /// [headerHeight] - head size.
 /// Set both [minHeaderHeight] and [maxHeaderHeight].
 /// Set one ([maxHeaderHeight] or [headerHeight]).
 /// [keyboardBarrierColor] - keyboard color.
+/// [bottomSheetBorderRadius] - bottom sheet border radius.
 /// [bottomSheetColor] - bottom sheet color.
 /// [barrierColor] - barrier color, if you pass [barrierColor] - [isModal] must be true.
 /// [duration] - animation speed when opening bottom sheet.
@@ -138,6 +142,7 @@ Future<T?> showStickyFlexibleBottomSheet<T>({
   Decoration? decoration,
   Color? keyboardBarrierColor,
   Color? bottomSheetColor,
+  BorderRadiusGeometry? bottomSheetBorderRadius,
   Color? barrierColor,
   Duration? duration,
   bool isSafeArea = false,
@@ -167,6 +172,7 @@ Future<T?> showStickyFlexibleBottomSheet<T>({
       decoration: decoration,
       keyboardBarrierColor: keyboardBarrierColor,
       bottomSheetColor: bottomSheetColor,
+      bottomSheetBorderRadius: bottomSheetBorderRadius,
       barrierBottomSheetColor: barrierColor,
       duration: duration,
       isSafeArea: isSafeArea,
@@ -194,6 +200,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
   final ThemeData? theme;
   final Color? keyboardBarrierColor;
   final Color? bottomSheetColor;
+  final BorderRadiusGeometry? bottomSheetBorderRadius;
   final Color? barrierBottomSheetColor;
   final Duration? duration;
   final bool isSafeArea;
@@ -208,9 +215,8 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
   bool get barrierDismissible => isDismissible;
 
   @override
-  Color? get barrierColor => isModal
-      ? barrierBottomSheetColor ?? Colors.black54
-      : const Color(0x00FFFFFF);
+  Color? get barrierColor =>
+      isModal ? barrierBottomSheetColor ?? Colors.black54 : const Color(0x00FFFFFF);
 
   late AnimationController _animationController;
 
@@ -235,6 +241,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
     this.decoration,
     this.keyboardBarrierColor,
     this.bottomSheetColor,
+    this.bottomSheetBorderRadius,
     this.barrierBottomSheetColor,
     this.duration,
     RouteSettings? settings,
@@ -276,6 +283,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
               decoration: decoration,
               keyboardBarrierColor: keyboardBarrierColor,
               bottomSheetColor: bottomSheetColor,
+              bottomSheetBorderRadius: bottomSheetBorderRadius,
             )
           : FlexibleBottomSheet(
               minHeight: minHeight,
@@ -293,6 +301,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
               decoration: decoration,
               keyboardBarrierColor: keyboardBarrierColor,
               bottomSheetColor: bottomSheetColor,
+              bottomSheetBorderRadius: bottomSheetBorderRadius,
             ),
     );
 
@@ -300,9 +309,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
       bottomSheet = Theme(data: theme!, child: bottomSheet);
     }
 
-    return isSafeArea
-        ? SafeArea(child: bottomSheet, bottom: false)
-        : bottomSheet;
+    return isSafeArea ? SafeArea(child: bottomSheet, bottom: false) : bottomSheet;
   }
 
   @override
