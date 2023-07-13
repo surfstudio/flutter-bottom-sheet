@@ -6,8 +6,24 @@ on:
       - v*
 
 jobs:
+  get_fvm_version:
+    outputs:
+      flutter_version: ${{ steps.fvm_version.outputs.flutterSdkVersion }}
+    name: "Get Flutter version from FVM"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - id: fvm_version
+        uses: zoexx/github-action-json-file-properties@release
+        with:
+          file_path: ".fvm/fvm_config.json"
+
   analysis:
     uses: surfstudio/flutter-ci-workflows/.github/workflows/analysis.yml@main
+    with:
+      flutter-version: ${{ needs.get_fvm_version.outputs.flutter_version }}
 
   testing:
     needs: analysis
@@ -16,10 +32,10 @@ jobs:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   package-publishing:
-    needs: [ analysis, testing ]
+    needs: [analysis, testing]
     uses: surfstudio/flutter-ci-workflows/.github/workflows/publish_to_pub.yml@main
     with:
-      PANA_TOTAL: '100'
+      PANA_TOTAL: "100"
     secrets:
       PUB_CREDENTIAL_JSON: ${{ secrets.PUB_CREDENTIAL_JSON }}
       PUB_OAUTH_ACCESS_TOKEN: ${{ secrets.PUB_OAUTH_ACCESS_TOKEN }}
