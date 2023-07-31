@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// ignore_for_file: format-comment
 import 'package:bottom_sheet/src/flexible_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
@@ -302,7 +303,9 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
       bottomSheet = Theme(data: theme!, child: bottomSheet);
     }
 
-    return isSafeArea ? SafeArea(child: bottomSheet) : bottomSheet;
+    return isSafeArea
+        ? SafeArea(child: bottomSheet, bottom: false)
+        : bottomSheet;
   }
 
   @override
