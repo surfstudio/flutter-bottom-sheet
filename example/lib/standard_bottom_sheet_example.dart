@@ -5,10 +5,12 @@ class StandardBottomSheetExample extends StatefulWidget {
   const StandardBottomSheetExample({Key? key}) : super(key: key);
 
   @override
-  State<StandardBottomSheetExample> createState() => _StandardBottomSheetExampleState();
+  State<StandardBottomSheetExample> createState() =>
+      _StandardBottomSheetExampleState();
 }
 
-class _StandardBottomSheetExampleState extends State<StandardBottomSheetExample> {
+class _StandardBottomSheetExampleState
+    extends State<StandardBottomSheetExample> {
   bool isUseSafeArea = false;
 
   void _showSheet() {
