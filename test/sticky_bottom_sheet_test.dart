@@ -100,10 +100,8 @@ void main() {
         () async {
           unawaited(
             showStickyBottomSheet(
-              headerHeight:
-                  _headerHeightTestVariants.currentValue!.headerHeight,
-              maxHeaderHeight:
-                  _headerHeightTestVariants.currentValue!.maxHeaderHeight,
+              headerHeight: _headerHeightTestVariants.currentValue!.headerHeight,
+              maxHeaderHeight: _headerHeightTestVariants.currentValue!.maxHeaderHeight,
             ),
           );
 
@@ -162,32 +160,37 @@ void main() {
     },
   );
 
-  testWidgets('Show SnackBar with Scaffold in BottomSheet tree',
-      (tester) async {
-    await tester.pumpWidget(app);
+  testWidgets(
+    'Show SnackBar with Scaffold in BottomSheet tree',
+    (tester) async {
+      await tester.pumpWidget(app);
 
-    showSnackBar();
+      showSnackBar();
 
-    unawaited(showStickyBottomSheet(headerHeight: 200.0));
+      unawaited(showStickyBottomSheet(headerHeight: 200.0));
 
-    await tester.pumpAndSettle();
+      await tester.pumpAndSettle();
 
-    expect(find.byType(SnackBar), findsNWidgets(2));
-  });
+      expect(find.byType(SnackBar), findsNWidgets(2));
+    },
+  );
 
-  testWidgets('Show SnackBar without Scaffold in BottomSheet tree',
-      (tester) async {
-    await tester.pumpWidget(app);
+  testWidgets(
+    'Show SnackBar without Scaffold in BottomSheet tree',
+    (tester) async {
+      await tester.pumpWidget(app);
 
-    showSnackBar();
+      showSnackBar();
 
-    unawaited(
-        showStickyBottomSheet(headerHeight: 200.0, isRegisterScaffold: false));
+      unawaited(
+        showStickyBottomSheet(headerHeight: 200.0, isRegisterScaffold: false),
+      );
 
-    await tester.pumpAndSettle();
+      await tester.pumpAndSettle();
 
-    expect(find.byType(SnackBar), findsOneWidget);
-  });
+      expect(find.byType(SnackBar), findsOneWidget);
+    },
+  );
 }
 
 final _listWidgets = [

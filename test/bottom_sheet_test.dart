@@ -97,12 +97,11 @@ void main() {
 
           expect(() => FlexibleBottomSheet, returnsNormally);
 
-          final flexibleScrollNotifier = find
-              .byType(NotificationListener<DraggableScrollableNotification>);
+          final flexibleScrollNotifier =
+              find.byType(NotificationListener<DraggableScrollableNotification>);
           expect(flexibleScrollNotifier, findsOneWidget);
 
-          final draggableScrollableSheet =
-              find.byType(DraggableScrollableSheet);
+          final draggableScrollableSheet = find.byType(DraggableScrollableSheet);
           expect(draggableScrollableSheet, findsOneWidget);
         },
       );
@@ -136,9 +135,7 @@ void main() {
           await tester.pumpAndSettle();
           expect(
             find.byType(FlexibleBottomSheet),
-            defaultBoolTestVariant.currentValue!
-                ? findsNothing
-                : findsOneWidget,
+            defaultBoolTestVariant.currentValue! ? findsNothing : findsOneWidget,
           );
         },
         variant: defaultBoolTestVariant,
@@ -167,9 +164,7 @@ void main() {
 
           expect(
             find.byType(FlexibleBottomSheet),
-            defaultBoolTestVariant.currentValue!
-                ? findsNothing
-                : findsOneWidget,
+            defaultBoolTestVariant.currentValue! ? findsNothing : findsOneWidget,
           );
         },
         variant: defaultBoolTestVariant,
@@ -205,31 +200,35 @@ void main() {
         },
       );
 
-      testWidgets('Show SnackBar with Scaffold in BottomSheet tree',
-          (tester) async {
-        await tester.pumpWidget(app);
+      testWidgets(
+        'Show SnackBar with Scaffold in BottomSheet tree',
+        (tester) async {
+          await tester.pumpWidget(app);
 
-        showSnackBar();
+          showSnackBar();
 
-        unawaited(showBottomSheet());
+          unawaited(showBottomSheet());
 
-        await tester.pumpAndSettle();
+          await tester.pumpAndSettle();
 
-        expect(find.byType(SnackBar), findsNWidgets(2));
-      });
+          expect(find.byType(SnackBar), findsNWidgets(2));
+        },
+      );
 
-      testWidgets('Show SnackBar without Scaffold in BottomSheet tree',
-          (tester) async {
-        await tester.pumpWidget(app);
+      testWidgets(
+        'Show SnackBar without Scaffold in BottomSheet tree',
+        (tester) async {
+          await tester.pumpWidget(app);
 
-        showSnackBar();
+          showSnackBar();
 
-        unawaited(showBottomSheet(isRegisterScaffold: false));
+          unawaited(showBottomSheet(isRegisterScaffold: false));
 
-        await tester.pumpAndSettle();
+          await tester.pumpAndSettle();
 
-        expect(find.byType(SnackBar), findsOneWidget);
-      });
+          expect(find.byType(SnackBar), findsOneWidget);
+        },
+      );
 
       group(
         'Anchors',
@@ -259,8 +258,7 @@ void main() {
             'Drag bottom sheet with anchors should have correct behaviour',
             (tester) async {
               final offset = _dragAnchorsVariants.currentValue!.offset;
-              final expectedResult =
-                  _dragAnchorsVariants.currentValue!.expectedResult;
+              final expectedResult = _dragAnchorsVariants.currentValue!.expectedResult;
 
               await tester.pumpWidget(app);
 
@@ -487,8 +485,7 @@ class _AnchorsTestScenario {
   });
 }
 
-final ValueVariant<_AnchorsTestScenario> _anchorsTestVariants =
-    ValueVariant<_AnchorsTestScenario>(
+final ValueVariant<_AnchorsTestScenario> _anchorsTestVariants = ValueVariant<_AnchorsTestScenario>(
   {
     _AnchorsTestScenario(
       anchors: [0.2, 0.5, 1],
