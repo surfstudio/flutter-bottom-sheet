@@ -10,8 +10,7 @@ class BottomSheetBasedOnContentHeight extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      children:
-          _listAnimals.map((animal) => _AnimalCard(animal: animal)).toList(),
+      children: _listAnimals.map((animal) => _AnimalCard(animal: animal)).toList(),
     );
   }
 }
@@ -23,6 +22,21 @@ class _AnimalCard extends StatelessWidget {
     required this.animal,
     Key? key,
   }) : super(key: key);
+
+  void _openBottomSheetWithInfo(BuildContext context, _Animal animal) {
+    showFlexibleBottomSheet<void>(
+      isExpand: false,
+      initHeight: 0.8,
+      maxHeight: 0.8,
+      context: context,
+      builder: (context, controller, offset) {
+        return _BottomSheet(
+          animal: animal,
+          controller: controller,
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,21 +60,6 @@ class _AnimalCard extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-
-  void _openBottomSheetWithInfo(BuildContext context, _Animal animal) {
-    showFlexibleBottomSheet<void>(
-      isExpand: false,
-      initHeight: 0.8,
-      maxHeight: 0.8,
-      context: context,
-      builder: (context, controller, offset) {
-        return _BottomSheet(
-          animal: animal,
-          controller: controller,
-        );
-      },
     );
   }
 }
