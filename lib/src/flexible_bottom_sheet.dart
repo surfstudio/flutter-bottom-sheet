@@ -274,7 +274,8 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet> {
     if (widget.isCollapsible) {
       if (widget.onDismiss != null) widget.onDismiss!();
       Navigator.maybePop(context);
-      WidgetsBinding.instance.addPostFrameCallback((_) => widget.route?.changedInternalState());
+      WidgetsBinding.instance
+          .addPostFrameCallback((_) => widget.route?.changedInternalState());
     }
   }
 
