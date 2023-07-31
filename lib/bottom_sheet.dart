@@ -14,6 +14,13 @@
 
 library bottom_sheet;
 
-export 'package:bottom_sheet/src/flexible_bottom_sheet.dart';
-export 'package:bottom_sheet/src/flexible_bottom_sheet_header_delegate.dart';
-export 'package:bottom_sheet/src/flexible_bottom_sheet_route.dart';
+export 'package:bottom_sheet/src/flexible_bottom_sheet.dart'
+    show
+        FlexibleBottomSheet,
+        FlexibleDraggableScrollableHeaderWidgetBuilder,
+        FlexibleDraggableScrollableWidgetBodyBuilder,
+        FlexibleDraggableScrollableWidgetBuilder;
+export 'package:bottom_sheet/src/flexible_bottom_sheet_header_delegate.dart'
+    show FlexibleBottomSheetHeaderDelegate;
+export 'package:bottom_sheet/src/flexible_bottom_sheet_route.dart'
+    show showFlexibleBottomSheet, showStickyFlexibleBottomSheet;

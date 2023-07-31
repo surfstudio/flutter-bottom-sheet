@@ -4,26 +4,51 @@ on:
   pull_request:
     branches:
       - main
+      - dev
   push:
     branches:
       - main
+      - dev
     tags-ignore:
       - '**'
 
 jobs:
+  get_fvm_version:
+    outputs:
+      flutter_version: ${{ steps.fvm_version.outputs.flutterSdkVersion }}
+    name: "Get Flutter version from FVM"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - id: fvm_version
+        uses: zoexx/github-action-json-file-properties@release
+        with:
+          file_path: ".fvm/fvm_config.json"
+
   analysis:
+    needs: get_fvm_version
     uses: surfstudio/flutter-ci-workflows/.github/workflows/analysis.yml@main
+    with:
+      flutter-version: ${{ needs.get_fvm_version.outputs.flutter_version }}
 
   testing:
-    needs: analysis
+    needs: [analysis, get_fvm_version]
     uses: surfstudio/flutter-ci-workflows/.github/workflows/testing.yml@main
+    with:
+      flutter-version: ${{ needs.get_fvm_version.outputs.flutter_version }}
     secrets:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   build_android_example:
-    needs: analysis
+    needs: [analysis, get_fvm_version]
     uses: surfstudio/flutter-ci-workflows/.github/workflows/build_android_example.yml@main
+    with:
+      flutter-version: ${{ needs.get_fvm_version.outputs.flutter_version }}
 
   build_ios_example:
-    needs: analysis
+    needs: [analysis, get_fvm_version]
     uses: surfstudio/flutter-ci-workflows/.github/workflows/build_ios_example.yml@main
+    with:
+      flutter-version: ${{ needs.get_fvm_version.outputs.flutter_version }}
