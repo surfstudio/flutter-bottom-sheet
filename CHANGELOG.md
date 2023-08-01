@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased, estimated N.N.N]
+### Added
+* Added generic param to FlexibleBottomSheet
 
 ## 3.1.2
 ### Fixed
