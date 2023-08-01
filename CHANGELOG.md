@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased, estimated N.N.N]
+### Added
+* Added a new parameter that controls the display of the snackbar
 
 ## 3.1.2
 ### Fixed
