@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased, estimated N.N.N]
+### Fixed
+* Added Force widget rebuild to change bottomSheetOffset value
 
 ## 3.1.2
 ### Fixed
