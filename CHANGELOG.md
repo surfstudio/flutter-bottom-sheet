@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased, estimated N.N.N]
+### Fixed
+* BottomSheet pop twice
 ### Added
 * Added generic param to FlexibleBottomSheet
 
