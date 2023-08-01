@@ -193,15 +193,13 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet> {
         widget.draggableScrollableController ?? DraggableScrollableController();
     _widgetBinding = WidgetsBinding.instance;
     widget.animationController?.addStatusListener(_animationStatusListener);
-
-    /// Force widget rebuild
-    _controller.addListener(() {
-      setState(() {});
-    });
   }
 
   // Method will be called when scrolling.
   bool _scrolling(DraggableScrollableNotification notification) {
+    /// Force widget rebuild to change bottomSheetOffset value
+    setState(() {});
+
     if (_isClosing) return false;
 
     _initialChildSize = notification.extent;
