@@ -4,6 +4,8 @@
 ## 3.2.0
 ### Added
 * Added a new parameter that controls the display of the snackbar
+### Fixed
+* Added Force widget rebuild to change bottomSheetOffset value
 
 ## 3.1.2
 ### Fixed
