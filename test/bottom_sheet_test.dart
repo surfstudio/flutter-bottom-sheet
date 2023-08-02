@@ -82,11 +82,11 @@ void main() {
         (tester) async {
           await tester.pumpWidget(
             makeTestableWidget(
-              FlexibleBottomSheet(),
+              FlexibleBottomSheet<void>(),
             ),
           );
 
-          expect(() => FlexibleBottomSheet, returnsNormally);
+          expect(() => FlexibleBottomSheet<void>, returnsNormally);
 
           final flexibleScrollNotifier = find
               .byType(NotificationListener<DraggableScrollableNotification>);
@@ -104,11 +104,11 @@ void main() {
         unawaited(showBottomSheet());
 
         await tester.pumpAndSettle();
-        expect(find.byType(FlexibleBottomSheet), findsOneWidget);
+        expect(find.byType(FlexibleBottomSheet<void>), findsOneWidget);
 
-        await tester.tap(find.byType(FlexibleBottomSheet));
+        await tester.tap(find.byType(FlexibleBottomSheet<void>));
         await tester.pumpAndSettle();
-        expect(find.byType(FlexibleBottomSheet), findsOneWidget);
+        expect(find.byType(FlexibleBottomSheet<void>), findsOneWidget);
       });
 
       testWidgets(
@@ -121,12 +121,12 @@ void main() {
           ));
 
           await tester.pumpAndSettle();
-          expect(find.byType(FlexibleBottomSheet), findsOneWidget);
+          expect(find.byType(FlexibleBottomSheet<void>), findsOneWidget);
 
           await tester.tapAt(const Offset(20.0, 20.0));
           await tester.pumpAndSettle();
           expect(
-            find.byType(FlexibleBottomSheet),
+            find.byType(FlexibleBottomSheet<void>),
             defaultBoolTestVariant.currentValue!
                 ? findsNothing
                 : findsOneWidget,
@@ -145,11 +145,11 @@ void main() {
           ));
           await tester.pumpAndSettle();
 
-          expect(find.byType(FlexibleBottomSheet), findsOneWidget);
+          expect(find.byType(FlexibleBottomSheet<void>), findsOneWidget);
 
           await tester.drag(
             find.byType(
-              FlexibleBottomSheet,
+              FlexibleBottomSheet<void>,
               skipOffstage: false,
             ),
             const Offset(0.0, 300.0),
@@ -157,7 +157,7 @@ void main() {
           await tester.pumpAndSettle();
 
           expect(
-            find.byType(FlexibleBottomSheet),
+            find.byType(FlexibleBottomSheet<void>),
             defaultBoolTestVariant.currentValue!
                 ? findsNothing
                 : findsOneWidget,
@@ -174,17 +174,17 @@ void main() {
           unawaited(showBottomSheet(isCollapsible: false));
           await tester.pumpAndSettle();
 
-          expect(find.byType(FlexibleBottomSheet), findsOneWidget);
+          expect(find.byType(FlexibleBottomSheet<void>), findsOneWidget);
 
           await tester.drag(
-            find.byType(FlexibleBottomSheet),
+            find.byType(FlexibleBottomSheet<void>),
             const Offset(0, -800),
           );
 
           await tester.pumpAndSettle();
 
           await tester.drag(
-            find.byType(FlexibleBottomSheet),
+            find.byType(FlexibleBottomSheet<void>),
             const Offset(0, -800),
           );
 
@@ -236,13 +236,13 @@ void main() {
 
               await tester.drag(
                 find.byType(
-                  FlexibleBottomSheet,
+                  FlexibleBottomSheet<void>,
                 ),
                 offset,
               );
               await tester.pumpAndSettle();
 
-              expect(find.byType(FlexibleBottomSheet), findsOneWidget);
+              expect(find.byType(FlexibleBottomSheet<void>), findsOneWidget);
 
               final fractionalHeight = getFractionalHeight(tester);
 

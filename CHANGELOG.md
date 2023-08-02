@@ -2,6 +2,10 @@
 
 ## [Unreleased, estimated N.N.N]
 ## 4.0.0
+### Fixed
+* BottomSheet pop twice
+### Added
+* Added generic param to FlexibleBottomSheet
 
 ## 3.1.2
 ### Fixed
