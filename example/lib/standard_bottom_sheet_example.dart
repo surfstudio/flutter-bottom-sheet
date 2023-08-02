@@ -28,7 +28,7 @@ class _StandardBottomSheetExampleState
         );
       },
       anchors: [0, 0.5, 1],
-      isRegisterScaffold: false,
+      useRootScaffold: false,
     );
   }
 
