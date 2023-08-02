@@ -15,7 +15,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-// ignore this rule only for test
+// Ignore this rule only for test.
 // ignore: avoid-returning-widgets
 Widget makeTestableWidget(Widget widget) {
   return MaterialApp(home: Scaffold(body: widget));

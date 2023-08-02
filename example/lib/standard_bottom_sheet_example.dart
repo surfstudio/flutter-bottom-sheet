@@ -1,14 +1,16 @@
 import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
-class StandardExample extends StatefulWidget {
-  const StandardExample({Key? key}) : super(key: key);
+class StandardBottomSheetExample extends StatefulWidget {
+  const StandardBottomSheetExample({Key? key}) : super(key: key);
 
   @override
-  State<StandardExample> createState() => _StandardExampleState();
+  State<StandardBottomSheetExample> createState() =>
+      _StandardBottomSheetExampleState();
 }
 
-class _StandardExampleState extends State<StandardExample> {
+class _StandardBottomSheetExampleState
+    extends State<StandardBottomSheetExample> {
   bool isUseSafeArea = false;
 
   void _showSheet() {
@@ -46,6 +48,8 @@ class _StandardExampleState extends State<StandardExample> {
         ),
       ),
       headerBuilder: (context, offset) {
+        final textTheme = Theme.of(context).textTheme;
+
         return AnimatedContainer(
           duration: const Duration(milliseconds: 300),
           width: double.infinity,
@@ -64,13 +68,13 @@ class _StandardExampleState extends State<StandardExample> {
                 child: Center(
                   child: Text(
                     'Header',
-                    style: Theme.of(context).textTheme.headlineMedium,
+                    style: textTheme.headlineMedium,
                   ),
                 ),
               ),
               Text(
                 'position $offset',
-                style: Theme.of(context).textTheme.titleLarge,
+                style: textTheme.titleLarge,
               ),
             ],
           ),

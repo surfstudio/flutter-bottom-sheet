@@ -1,4 +1,3 @@
-// ignore_for_file: library_private_types_in_public_api
 // Copyright (c) 2019-present,  SurfStudio LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -174,7 +173,7 @@ class FlexibleBottomSheet extends StatefulWidget {
         );
 
   @override
-  _FlexibleBottomSheetState createState() => _FlexibleBottomSheetState();
+  State<FlexibleBottomSheet> createState() => _FlexibleBottomSheetState();
 }
 
 class _FlexibleBottomSheetState extends State<FlexibleBottomSheet> {
@@ -334,7 +333,7 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet> {
                   },
                 );
               }
-              // checking for openness of the keyboard before opening the sheet
+              // Checking for openness of the keyboard before opening the sheet.
               if (delta == 0 && inset > 0) {
                 _widgetBinding.addPostFrameCallback(
                   (_) {
