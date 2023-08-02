@@ -142,7 +142,7 @@ class _StandardBottomSheetExampleState
                 value: isUseSafeArea,
                 onChanged: (isSwitched) {
                   setState(
-                        () {
+                    () {
                       isUseSafeArea = isSwitched;
                     },
                   );
