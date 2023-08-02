@@ -42,6 +42,7 @@ const Duration _bottomSheetDuration = Duration(milliseconds: 500);
 /// [duration] - animation speed when opening bottom sheet.
 /// [isSafeArea] - should the bottom sheet provide a SafeArea, false by default.
 /// [decoration] - BottomSheet decoration.
+/// [useRootScaffold] - if true, add Scaffold widget on widget tree. Default true.
 Future<T?> showFlexibleBottomSheet<T>({
   required BuildContext context,
   required FlexibleDraggableScrollableWidgetBuilder builder,
@@ -61,6 +62,7 @@ Future<T?> showFlexibleBottomSheet<T>({
   Duration? duration,
   bool isSafeArea = false,
   BoxDecoration? decoration,
+  bool useRootScaffold = true,
 }) {
   assert(debugCheckHasMediaQuery(context));
   assert(debugCheckHasMaterialLocalizations(context));
@@ -86,6 +88,7 @@ Future<T?> showFlexibleBottomSheet<T>({
       duration: duration,
       isSafeArea: isSafeArea,
       decoration: decoration,
+      useRootScaffold: useRootScaffold,
     ),
   );
 }
@@ -119,6 +122,7 @@ Future<T?> showFlexibleBottomSheet<T>({
 /// [barrierColor] - barrier color, if you pass [barrierColor] - [isModal] must be true.
 /// [duration] - animation speed when opening bottom sheet.
 /// [isSafeArea] - should the bottom sheet provide a SafeArea, false by default.
+/// [useRootScaffold] - if true, add Scaffold widget on widget tree. Default true.
 Future<T?> showStickyFlexibleBottomSheet<T>({
   required BuildContext context,
   required FlexibleDraggableScrollableHeaderWidgetBuilder headerBuilder,
@@ -142,6 +146,7 @@ Future<T?> showStickyFlexibleBottomSheet<T>({
   Color? barrierColor,
   Duration? duration,
   bool isSafeArea = false,
+  bool useRootScaffold = true,
 }) {
   assert(maxHeaderHeight != null || headerHeight != null);
   assert(debugCheckHasMediaQuery(context));
@@ -171,6 +176,7 @@ Future<T?> showStickyFlexibleBottomSheet<T>({
       barrierBottomSheetColor: barrierColor,
       duration: duration,
       isSafeArea: isSafeArea,
+      useRootScaffold: useRootScaffold,
     ),
   );
 }
@@ -198,6 +204,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
   final Color? barrierBottomSheetColor;
   final Duration? duration;
   final bool isSafeArea;
+  final bool useRootScaffold;
 
   @override
   final String? barrierLabel;
@@ -224,6 +231,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
     required this.isExpand,
     required this.isModal,
     required this.isSafeArea,
+    required this.useRootScaffold,
     this.draggableScrollableController,
     this.builder,
     this.headerBuilder,
@@ -277,6 +285,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
               decoration: decoration,
               keyboardBarrierColor: keyboardBarrierColor,
               bottomSheetColor: bottomSheetColor,
+              useRootScaffold: useRootScaffold,
             )
           : FlexibleBottomSheet(
               minHeight: minHeight,
@@ -294,6 +303,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
               decoration: decoration,
               keyboardBarrierColor: keyboardBarrierColor,
               bottomSheetColor: bottomSheetColor,
+              useRootScaffold: useRootScaffold,
             ),
     );
 
