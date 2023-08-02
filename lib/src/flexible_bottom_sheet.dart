@@ -173,7 +173,7 @@ class FlexibleBottomSheet extends StatefulWidget {
         );
 
   @override
-  _FlexibleBottomSheetState createState() => _FlexibleBottomSheetState();
+  State<FlexibleBottomSheet> createState() => _FlexibleBottomSheetState();
 }
 
 class _FlexibleBottomSheetState extends State<FlexibleBottomSheet> {
@@ -193,82 +193,6 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet> {
         widget.draggableScrollableController ?? DraggableScrollableController();
     _widgetBinding = WidgetsBinding.instance;
     widget.animationController?.addStatusListener(_animationStatusListener);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return NotificationListener<DraggableScrollableNotification>(
-      onNotification: _scrolling,
-      child: DraggableScrollableSheet(
-        maxChildSize: _currentMaxChildSize,
-        minChildSize: widget.minHeight,
-        initialChildSize: _initialChildSize,
-        snap: widget.anchors != null,
-        controller: _controller,
-        snapSizes: widget.anchors,
-        expand: widget.isExpand,
-        builder: (
-          context,
-          controller,
-        ) {
-          return ChangeInsetsDetector(
-            handler: (change) {
-              final inset = change.currentInset;
-              final delta = change.delta;
-
-              if (delta > 0 && !_isClosing) {
-                _animateToMaxHeight();
-                _widgetBinding.addPostFrameCallback(
-                  (_) {
-                    _animateToFocused(controller);
-                  },
-                );
-              }
-              // checking for openness of the keyboard before opening the sheet
-              if (delta == 0 && inset > 0) {
-                _widgetBinding.addPostFrameCallback(
-                  (_) {
-                    setState(
-                      () {
-                        _initialChildSize = widget.maxHeight;
-                      },
-                    );
-                  },
-                );
-              }
-            },
-            child: Scaffold(
-              backgroundColor: widget.bottomSheetColor ??
-                  Theme.of(context).bottomSheetTheme.backgroundColor ??
-                  Theme.of(context).backgroundColor,
-              body: _Content(
-                builder: widget.builder,
-                decoration: widget.decoration,
-                bodyBuilder: widget.bodyBuilder,
-                headerBuilder: widget.headerBuilder,
-                minHeaderHeight: widget.minHeaderHeight,
-                maxHeaderHeight: widget.maxHeaderHeight,
-                currentExtent: _controller.isAttached
-                    ? _controller.size
-                    : widget.initHeight,
-                scrollController: controller,
-                cacheExtent: _calculateCacheExtent(
-                  MediaQuery.of(context).viewInsets.bottom,
-                ),
-                getContentHeight:
-                    !widget.isExpand ? _changeInitAndMaxHeight : null,
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  @override
-  void dispose() {
-    widget.animationController?.removeStatusListener(_animationStatusListener);
-    super.dispose();
   }
 
   // Method will be called when scrolling.
@@ -372,6 +296,82 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet> {
     } else {
       return defaultExtent;
     }
+  }
+
+  @override
+  void dispose() {
+    widget.animationController?.removeStatusListener(_animationStatusListener);
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return NotificationListener<DraggableScrollableNotification>(
+      onNotification: _scrolling,
+      child: DraggableScrollableSheet(
+        maxChildSize: _currentMaxChildSize,
+        minChildSize: widget.minHeight,
+        initialChildSize: _initialChildSize,
+        snap: widget.anchors != null,
+        controller: _controller,
+        snapSizes: widget.anchors,
+        expand: widget.isExpand,
+        builder: (
+          context,
+          controller,
+        ) {
+          return ChangeInsetsDetector(
+            handler: (change) {
+              final inset = change.currentInset;
+              final delta = change.delta;
+
+              if (delta > 0 && !_isClosing) {
+                _animateToMaxHeight();
+                _widgetBinding.addPostFrameCallback(
+                  (_) {
+                    _animateToFocused(controller);
+                  },
+                );
+              }
+              // Checking for openness of the keyboard before opening the sheet.
+              if (delta == 0 && inset > 0) {
+                _widgetBinding.addPostFrameCallback(
+                  (_) {
+                    setState(
+                      () {
+                        _initialChildSize = widget.maxHeight;
+                      },
+                    );
+                  },
+                );
+              }
+            },
+            child: Scaffold(
+              backgroundColor: widget.bottomSheetColor ??
+                  Theme.of(context).bottomSheetTheme.backgroundColor ??
+                  Theme.of(context).colorScheme.background,
+              body: _Content(
+                builder: widget.builder,
+                decoration: widget.decoration,
+                bodyBuilder: widget.bodyBuilder,
+                headerBuilder: widget.headerBuilder,
+                minHeaderHeight: widget.minHeaderHeight,
+                maxHeaderHeight: widget.maxHeaderHeight,
+                currentExtent: _controller.isAttached
+                    ? _controller.size
+                    : widget.initHeight,
+                scrollController: controller,
+                cacheExtent: _calculateCacheExtent(
+                  MediaQuery.of(context).viewInsets.bottom,
+                ),
+                getContentHeight:
+                    !widget.isExpand ? _changeInitAndMaxHeight : null,
+              ),
+            ),
+          );
+        },
+      ),
+    );
   }
 }
 
