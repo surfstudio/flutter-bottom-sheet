@@ -3,43 +3,53 @@ name: Bug report
 about: Something is wrong with Flutter Bottom Sheet.
 title: "[BUG] "
 labels: bug
-assignees: MbIXjkee
 ---
 
+## Expected behavior
+<!--Tell us what should happen-->
+
+## Actual behavior
+<!--Tell us what happens instead-->
+
+## Video/Screenshot
+<!--Attach file with a reproduction of bug-->
+
+## Steps to reproduce
 <!--
-    Thank you for contributing to our project!
-    This template is only for bug reports, otherwise please use another template.
-    The best bug report is a failing test in the repository as a pull request.
-    Run `flutter analyze` if there are any analysis errors, try resolving them before filing this issue.
+1)...
+2)...
+3)...
+...
 -->
 
-## Prior Issues
+## Details
+Flutter version: <!--android/ios/web/desktop-->
 
-Are there any existing issues or PRs that relate to this problem? If so, link them here.
+Dart version: <!--android/ios/web/desktop-->
 
-## Describe the bug
+Platform: <!--android/ios/web/desktop-->
 
-A clear and concise description of what the bug is.
-Please show the code you wrote as completely as possible.
+## Logs and stacktrace
+<!--
+Error details
+-->
 
-```dart
-/// your code here
-```
+## Any possible solutions
+<!--
+Optional
+What do you think would solve the problem?
+-->
 
-## Steps to Reproduce
+## What did you try to solve
+<!--
+Optional
+What did you try to solve the problem?
+-->
 
-If the current behavior is a bug, please provide the steps to reproduce.
-
-## What is the expected behavior?
-
-A clear and concise description of what you expected to happen.
-
-## Additional context
-
-* What package and OS are affected by this issue? Did this work in previous versions of a package?
-  
-* If applicable, add screenshots to help explain your problem.
-
-* Please provide output from `flutter doctor -v` and `flutter analyze`.
-  
-* Add any other context about the problem here.
+## Checklist for self-check
+- [ ] Added expected and actual behavior.
+- [ ] Added video or screenshot of bug.
+- [ ] Added isolated way to reproduce the bug.
+- [ ] Specified Flutter, Dart version and platforms.
+- [ ] Attached error code and logs.
+- [ ] All unspecified fields in the Issue description deleted.

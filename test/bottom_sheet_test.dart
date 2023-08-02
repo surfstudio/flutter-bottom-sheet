@@ -35,6 +35,13 @@ void main() {
     ),
   );
 
+  void showSnackBar() {
+    ScaffoldMessenger.of(savedContext).showSnackBar(const SnackBar(
+      content: Text('SnackBar'),
+      duration: Duration(seconds: 5),
+    ));
+  }
+
   Future<void> showBottomSheet({
     bool? isCollapsible,
     bool? isDismissible,
@@ -45,8 +52,10 @@ void main() {
     bool? isModal,
     Color? barrierColor,
     List<double>? anchors,
+    bool? useRootScaffold,
   }) {
     return showFlexibleBottomSheet<void>(
+      useRootScaffold: useRootScaffold ?? true,
       minHeight: minHeight ?? 0,
       initHeight: initHeight ?? 0.5,
       maxHeight: maxHeight ?? 0.8,
@@ -193,6 +202,36 @@ void main() {
           final fractionalHeight = getFractionalHeight(tester);
 
           expect(fractionalHeight, moreOrLessEquals(0.8));
+        },
+      );
+
+      testWidgets(
+        'Show SnackBar with Scaffold in BottomSheet tree',
+        (tester) async {
+          await tester.pumpWidget(app);
+
+          showSnackBar();
+
+          unawaited(showBottomSheet());
+
+          await tester.pumpAndSettle();
+
+          expect(find.byType(SnackBar), findsNWidgets(2));
+        },
+      );
+
+      testWidgets(
+        'Show SnackBar without Scaffold in BottomSheet tree',
+        (tester) async {
+          await tester.pumpWidget(app);
+
+          showSnackBar();
+
+          unawaited(showBottomSheet(useRootScaffold: false));
+
+          await tester.pumpAndSettle();
+
+          expect(find.byType(SnackBar), findsOneWidget);
         },
       );
 
