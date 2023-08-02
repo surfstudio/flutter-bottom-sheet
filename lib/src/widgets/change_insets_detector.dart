@@ -1,7 +1,7 @@
 import 'package:bottom_inset_observer/bottom_inset_observer.dart';
 import 'package:flutter/material.dart';
 
-/// Widget that calls [handler] when viewInsets.bottom changes
+/// Widget that calls [handler] when viewInsets.bottom changes.
 class ChangeInsetsDetector extends StatefulWidget {
   final Widget child;
   final BottomInsetChangeListener? handler;
@@ -20,14 +20,13 @@ class _ChangeInsetsDetectorState extends State<ChangeInsetsDetector> {
   final BottomInsetObserver _insetObserver = BottomInsetObserver();
 
   @override
-  Widget build(BuildContext context) {
-    return widget.child;
-  }
-
-  @override
   void initState() {
     super.initState();
     _insetObserver.addListener(_insetChangeHandler);
+  }
+
+  void _insetChangeHandler(BottomInsetChanges change) {
+    widget.handler?.call(change);
   }
 
   @override
@@ -36,7 +35,8 @@ class _ChangeInsetsDetectorState extends State<ChangeInsetsDetector> {
     super.dispose();
   }
 
-  void _insetChangeHandler(BottomInsetChanges change) {
-    widget.handler?.call(change);
+  @override
+  Widget build(BuildContext context) {
+    return widget.child;
   }
 }

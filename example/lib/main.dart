@@ -12,8 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// ignore_for_file: library_private_types_in_public_api, prefer-match-file-name
+
 import 'package:example/bottom_sheet_based_on_content_height.dart';
-import 'package:example/standard_bottom_sheet.dart';
+import 'package:example/standard_bottom_sheet_example.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(const MyApp());
@@ -83,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Expanded(
               child: TabBarView(
                 children: [
-                  StandardExample(),
+                  StandardBottomSheetExample(),
                   BottomSheetBasedOnContentHeight(),
                 ],
               ),

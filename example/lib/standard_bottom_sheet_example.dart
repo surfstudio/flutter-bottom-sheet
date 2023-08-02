@@ -1,54 +1,33 @@
 import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
-class StandardExample extends StatefulWidget {
-  const StandardExample({Key? key}) : super(key: key);
+class StandardBottomSheetExample extends StatefulWidget {
+  const StandardBottomSheetExample({Key? key}) : super(key: key);
 
   @override
-  State<StandardExample> createState() => _StandardExampleState();
+  State<StandardBottomSheetExample> createState() =>
+      _StandardBottomSheetExampleState();
 }
 
-class _StandardExampleState extends State<StandardExample> {
+class _StandardBottomSheetExampleState
+    extends State<StandardBottomSheetExample> {
   bool isUseSafeArea = false;
 
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          ElevatedButton(
-            onPressed: _showSheetOne,
-            child: const Text('Open BottomSheet'),
-          ),
-          const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: _showSheetTwo,
-            child: const Text('Open BottomSheet'),
-          ),
-          const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: _showSheetWithoutList,
-            child: const Text('Open StickyBottomSheet'),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text('Use SafeArea'),
-              Switch(
-                value: isUseSafeArea,
-                onChanged: (isSwitched) {
-                  setState(
-                    () {
-                      isUseSafeArea = isSwitched;
-                    },
-                  );
-                },
-              ),
-            ],
-          ),
-        ],
-      ),
+  void _showSheet() {
+    showFlexibleBottomSheet<void>(
+      minHeight: 0,
+      initHeight: 0.5,
+      maxHeight: 1,
+      context: context,
+      isSafeArea: isUseSafeArea,
+      bottomSheetColor: Colors.white,
+      builder: (context, controller, offset) {
+        return _BottomSheet(
+          scrollController: controller,
+          bottomSheetOffset: offset,
+        );
+      },
+      anchors: [0, 0.5, 1],
     );
   }
 
@@ -116,6 +95,8 @@ class _StandardExampleState extends State<StandardExample> {
         topRight: Radius.circular(40.0),
       ),
       headerBuilder: (context, offset) {
+        final textTheme = Theme.of(context).textTheme;
+
         return AnimatedContainer(
           duration: const Duration(milliseconds: 300),
           width: double.infinity,
@@ -130,13 +111,13 @@ class _StandardExampleState extends State<StandardExample> {
                 child: Center(
                   child: Text(
                     'Header',
-                    style: Theme.of(context).textTheme.headlineMedium,
+                    style: textTheme.headlineMedium,
                   ),
                 ),
               ),
               Text(
                 'position $offset',
-                style: Theme.of(context).textTheme.titleLarge,
+                style: textTheme.titleLarge,
               ),
             ],
           ),
@@ -148,6 +129,47 @@ class _StandardExampleState extends State<StandardExample> {
         );
       },
       anchors: [.2, 0.5, .8],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          ElevatedButton(
+            onPressed: _showSheetOne,
+            child: const Text('Open BottomSheet'),
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: _showSheetTwo,
+            child: const Text('Open BottomSheet'),
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: _showSheetWithoutList,
+            child: const Text('Open StickyBottomSheet'),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text('Use SafeArea'),
+              Switch(
+                value: isUseSafeArea,
+                onChanged: (isSwitched) {
+                  setState(
+                        () {
+                      isUseSafeArea = isSwitched;
+                    },
+                  );
+                },
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
