@@ -13,25 +13,7 @@ class _StandardBottomSheetExampleState
     extends State<StandardBottomSheetExample> {
   bool isUseSafeArea = false;
 
-  void _showSheet() {
-    showFlexibleBottomSheet<void>(
-      minHeight: 0,
-      initHeight: 0.5,
-      maxHeight: 1,
-      context: context,
-      isSafeArea: isUseSafeArea,
-      bottomSheetColor: Colors.white,
-      builder: (context, controller, offset) {
-        return _BottomSheet(
-          scrollController: controller,
-          bottomSheetOffset: offset,
-        );
-      },
-      anchors: [0, 0.5, 1],
-    );
-  }
-
-  void _showSheetOne() {
+  void _showSheetWithBorderRadius() {
     showFlexibleBottomSheet<void>(
       minHeight: 0,
       initHeight: 0.5,
@@ -63,7 +45,7 @@ class _StandardBottomSheetExampleState
     );
   }
 
-  void _showSheetTwo() {
+  void _showSheet() {
     showFlexibleBottomSheet<void>(
       minHeight: 0,
       initHeight: 0.5,
@@ -139,12 +121,12 @@ class _StandardBottomSheetExampleState
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           ElevatedButton(
-            onPressed: _showSheetOne,
-            child: const Text('Open BottomSheet'),
+            onPressed: _showSheetWithBorderRadius,
+            child: const Text('Open BottomSheet with BorderRadius'),
           ),
           const SizedBox(height: 20),
           ElevatedButton(
-            onPressed: _showSheetTwo,
+            onPressed: _showSheet,
             child: const Text('Open BottomSheet'),
           ),
           const SizedBox(height: 20),
