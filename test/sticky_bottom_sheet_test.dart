@@ -46,10 +46,10 @@ void main() {
     double? minHeaderHeight,
     Color? barrierColor,
     bool? isModal,
-    bool? isRegisterScaffold,
+    bool? useRootScaffold,
   }) {
     return showStickyFlexibleBottomSheet(
-      isRegisterScaffold: isRegisterScaffold ?? true,
+      useRootScaffold: useRootScaffold ?? true,
       isModal: isModal ?? true,
       barrierColor: barrierColor,
       context: savedContext,
@@ -185,7 +185,7 @@ void main() {
       showSnackBar();
 
       unawaited(
-        showStickyBottomSheet(headerHeight: 200.0, isRegisterScaffold: false),
+        showStickyBottomSheet(headerHeight: 200.0, useRootScaffold: false),
       );
 
       await tester.pumpAndSettle();

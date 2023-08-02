@@ -52,10 +52,10 @@ void main() {
     bool? isModal,
     Color? barrierColor,
     List<double>? anchors,
-    bool? isRegisterScaffold,
+    bool? useRootScaffold,
   }) {
     return showFlexibleBottomSheet<void>(
-      isRegisterScaffold: isRegisterScaffold ?? true,
+      useRootScaffold: useRootScaffold ?? true,
       minHeight: minHeight ?? 0,
       initHeight: initHeight ?? 0.5,
       maxHeight: maxHeight ?? 0.8,
@@ -227,7 +227,7 @@ void main() {
 
           showSnackBar();
 
-          unawaited(showBottomSheet(isRegisterScaffold: false));
+          unawaited(showBottomSheet(useRootScaffold: false));
 
           await tester.pumpAndSettle();
 
