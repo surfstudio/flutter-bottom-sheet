@@ -107,6 +107,7 @@ class FlexibleBottomSheet extends StatefulWidget {
   final VoidCallback? onDismiss;
   final Color? keyboardBarrierColor;
   final Color? bottomSheetColor;
+  final bool useRootScaffold;
   final BorderRadiusGeometry? bottomSheetBorderRadius;
 
   FlexibleBottomSheet({
@@ -129,6 +130,7 @@ class FlexibleBottomSheet extends StatefulWidget {
     this.bottomSheetColor,
     this.bottomSheetBorderRadius,
     this.draggableScrollableController,
+    this.useRootScaffold = true,
   })  : assert(minHeight >= 0 && minHeight <= 1),
         assert(maxHeight > 0 && maxHeight <= 1),
         assert(maxHeight > minHeight),
@@ -154,6 +156,7 @@ class FlexibleBottomSheet extends StatefulWidget {
     Decoration? decoration,
     Color? keyboardBarrierColor,
     Color? bottomSheetColor,
+    bool useRootScaffold = true,
     BorderRadiusGeometry? bottomSheetBorderRadius,
   }) : this(
           key: key,
@@ -173,6 +176,7 @@ class FlexibleBottomSheet extends StatefulWidget {
           decoration: decoration,
           keyboardBarrierColor: keyboardBarrierColor,
           bottomSheetColor: bottomSheetColor,
+          useRootScaffold: useRootScaffold,
           bottomSheetBorderRadius: bottomSheetBorderRadius,
         );
 
@@ -201,6 +205,9 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet> {
 
   // Method will be called when scrolling.
   bool _scrolling(DraggableScrollableNotification notification) {
+    /// Force widget rebuild to change bottomSheetOffset value
+    setState(() {});
+
     if (_isClosing) return false;
 
     _initialChildSize = notification.extent;
@@ -305,6 +312,7 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet> {
   @override
   void dispose() {
     widget.animationController?.removeStatusListener(_animationStatusListener);
+    _controller.dispose();
     super.dispose();
   }
 
@@ -371,9 +379,10 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet> {
               clipBehavior: widget.bottomSheetBorderRadius != null
                   ? Clip.antiAlias
                   : Clip.none,
-              child: Scaffold(
+              child: _RegisterScaffold(
+                useRootScaffold: widget.useRootScaffold,
                 backgroundColor: bottomSheetColor,
-                body: _Content(
+                child: _Content(
                   builder: widget.builder,
                   decoration: contentDecoration,
                   bodyBuilder: widget.bodyBuilder,
@@ -396,6 +405,33 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet> {
         },
       ),
     );
+  }
+}
+
+/// Register [Scaffold] for [FlexibleBottomSheet].
+class _RegisterScaffold extends StatelessWidget {
+  final bool useRootScaffold;
+  final Widget child;
+  final Color backgroundColor;
+
+  const _RegisterScaffold({
+    required this.useRootScaffold,
+    required this.child,
+    required this.backgroundColor,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return useRootScaffold
+        ? Scaffold(
+            backgroundColor: backgroundColor,
+            body: child,
+          )
+        : ColoredBox(
+            color: backgroundColor,
+            child: child,
+          );
   }
 }
 

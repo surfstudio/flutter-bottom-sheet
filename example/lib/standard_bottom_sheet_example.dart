@@ -60,6 +60,7 @@ class _StandardBottomSheetExampleState
         );
       },
       anchors: [0, 0.5, 1],
+      useRootScaffold: false,
     );
   }
 
@@ -121,12 +122,28 @@ class _StandardBottomSheetExampleState
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           ElevatedButton(
+            onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text("I'm a snackbar"),
+              ),
+            ),
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+            child: const Text('Show SnackBar'),
+          ),
+          const SizedBox(height: 20),
+          const Text(
+            'To see how to customize the display of the snackbar click on the red button, then the green or blue button. The isRegisterScaffold property is responsible for the behavior',
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 40),
+          ElevatedButton(
             onPressed: _showSheetWithBorderRadius,
             child: const Text('Open BottomSheet with BorderRadius'),
           ),
           const SizedBox(height: 20),
           ElevatedButton(
             onPressed: _showSheet,
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
             child: const Text('Open BottomSheet'),
           ),
           const SizedBox(height: 20),
