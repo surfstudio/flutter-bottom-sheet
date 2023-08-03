@@ -371,22 +371,25 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet> {
               clipBehavior: widget.bottomSheetBorderRadius != null
                   ? Clip.antiAlias
                   : Clip.none,
-              child: _Content(
-                builder: widget.builder,
-                decoration: contentDecoration,
-                bodyBuilder: widget.bodyBuilder,
-                headerBuilder: widget.headerBuilder,
-                minHeaderHeight: widget.minHeaderHeight,
-                maxHeaderHeight: widget.maxHeaderHeight,
-                currentExtent: _controller.isAttached
-                    ? _controller.size
-                    : widget.initHeight,
-                scrollController: controller,
-                cacheExtent: _calculateCacheExtent(
-                  MediaQuery.of(context).viewInsets.bottom,
+              child: Scaffold(
+                backgroundColor: bottomSheetColor,
+                body: _Content(
+                  builder: widget.builder,
+                  decoration: contentDecoration,
+                  bodyBuilder: widget.bodyBuilder,
+                  headerBuilder: widget.headerBuilder,
+                  minHeaderHeight: widget.minHeaderHeight,
+                  maxHeaderHeight: widget.maxHeaderHeight,
+                  currentExtent: _controller.isAttached
+                      ? _controller.size
+                      : widget.initHeight,
+                  scrollController: controller,
+                  cacheExtent: _calculateCacheExtent(
+                    MediaQuery.of(context).viewInsets.bottom,
+                  ),
+                  getContentHeight:
+                      !widget.isExpand ? _changeInitAndMaxHeight : null,
                 ),
-                getContentHeight:
-                    !widget.isExpand ? _changeInitAndMaxHeight : null,
               ),
             ),
           );
