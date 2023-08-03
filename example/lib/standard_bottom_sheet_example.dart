@@ -135,11 +135,6 @@ class _StandardBottomSheetExampleState
             'To see how to customize the display of the snackbar click on the red button, then the green or blue button. The isRegisterScaffold property is responsible for the behavior',
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 40),
-          ElevatedButton(
-            onPressed: _showSheetWithBorderRadius,
-            child: const Text('Open BottomSheet with BorderRadius'),
-          ),
           const SizedBox(height: 20),
           ElevatedButton(
             onPressed: _showSheet,
@@ -151,6 +146,13 @@ class _StandardBottomSheetExampleState
             onPressed: _showSheetWithoutList,
             child: const Text('Open StickyBottomSheet'),
           ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: _showSheetWithBorderRadius,
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.purple),
+            child: const Text('Open BottomSheet with BorderRadius'),
+          ),
+          const SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
