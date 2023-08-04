@@ -10,6 +10,9 @@
 ### Added
 * Added generic param to FlexibleBottomSheet
 * Added a new parameter that controls the display of the snackbar
+### Changed
+* Updates minimum Flutter version to 3.0.0
+* Updates minimum surf_lint_rules version to 3.0.0
 
 ## 3.1.2
 ### Fixed
