@@ -342,7 +342,6 @@ void main() {
 
           tester.view.viewInsets = const FakeWindowPadding();
 
-
           await tester.pumpAndSettle();
 
           final fractionalHeight = getFractionalHeight(tester);
