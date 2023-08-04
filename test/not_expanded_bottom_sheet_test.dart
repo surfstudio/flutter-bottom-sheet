@@ -128,7 +128,7 @@ void main() {
         (tester) async {
           const initHeight = 0.5;
           const maxHeight = 1.0;
-          const listAnchors = <double>[0, 0.5, 1.0];
+          const listAnchors = <double>[0, 0.5, 1];
 
           await tester.pumpWidget(app);
 

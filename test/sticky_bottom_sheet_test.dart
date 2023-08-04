@@ -1,10 +1,10 @@
 // Copyright (c) 2019-present,  SurfStudio LLC
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
+// Licensed under the Apache License, Version 2 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     http://www.apache.org/licenses/LICENSE-2
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,7 +13,6 @@
 // limitations under the License.
 
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
@@ -75,7 +74,7 @@ void main() {
     (tester) async {
       await tester.pumpWidget(app);
 
-      unawaited(showStickyBottomSheet(headerHeight: 200.0));
+      unawaited(showStickyBottomSheet(headerHeight: 200));
 
       await tester.pumpAndSettle();
 
@@ -100,10 +99,8 @@ void main() {
         () async {
           unawaited(
             showStickyBottomSheet(
-              headerHeight:
-                  _headerHeightTestVariants.currentValue!.headerHeight,
-              maxHeaderHeight:
-                  _headerHeightTestVariants.currentValue!.maxHeaderHeight,
+              headerHeight: _headerHeightTestVariants.currentValue!.headerHeight,
+              maxHeaderHeight: _headerHeightTestVariants.currentValue!.maxHeaderHeight,
             ),
           );
 
@@ -138,11 +135,9 @@ void main() {
 
       expect(find.byKey(textFieldKey), findsOneWidget);
 
-      final testBinding = tester.binding;
-      testBinding.window.viewInsetsTestValue = const FakeWindowPadding();
+      tester.view.viewInsets = const FakeWindowPadding();
       await tester.pump();
       await tester.pumpAndSettle();
-
       expect(find.byKey(textFieldKey), findsOneWidget);
     },
   );
@@ -169,7 +164,7 @@ void main() {
 
       showSnackBar();
 
-      unawaited(showStickyBottomSheet(headerHeight: 200.0));
+      unawaited(showStickyBottomSheet(headerHeight: 200));
 
       await tester.pumpAndSettle();
 
@@ -185,7 +180,7 @@ void main() {
       showSnackBar();
 
       unawaited(
-        showStickyBottomSheet(headerHeight: 200.0, useRootScaffold: false),
+        showStickyBottomSheet(headerHeight: 200, useRootScaffold: false),
       );
 
       await tester.pumpAndSettle();
@@ -238,14 +233,14 @@ class _HeaderHeightTestScenario {
 
 final ValueVariant<_HeaderHeightTestScenario> _headerHeightTestVariants =
     ValueVariant<_HeaderHeightTestScenario>({
-  _HeaderHeightTestScenario(headerHeight: 200.0, matcher: returnsNormally),
-  _HeaderHeightTestScenario(maxHeaderHeight: 200.0, matcher: returnsNormally),
+  _HeaderHeightTestScenario(headerHeight: 200, matcher: returnsNormally),
+  _HeaderHeightTestScenario(maxHeaderHeight: 200, matcher: returnsNormally),
   _HeaderHeightTestScenario(
     matcher: throwsAssertionError,
   ),
 });
 
-class FakeWindowPadding implements WindowPadding {
+class FakeWindowPadding implements FakeViewPadding {
   @override
   final double left;
 
@@ -259,9 +254,9 @@ class FakeWindowPadding implements WindowPadding {
   final double bottom;
 
   const FakeWindowPadding({
-    this.left = 0.0,
-    this.top = 0.0,
-    this.right = 0.0,
-    this.bottom = 330.0,
+    this.left = 0,
+    this.top = 0,
+    this.right = 0,
+    this.bottom = 330,
   });
 }
