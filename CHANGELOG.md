@@ -1,13 +1,15 @@
 # Changelog
 
 ## [Unreleased, estimated N.N.N]
-## 3.2.0
-### Added
-* Added a new parameter that controls the display of the snackbar
+## 4.0.0
 ### Fixed
+* BottomSheet pop twice
 * Added Force widget rebuild to change bottomSheetOffset value
 * Transparent space below the content
 * No rounded corner on top
+### Added
+* Added generic param to FlexibleBottomSheet
+* Added a new parameter that controls the display of the snackbar
 
 ## 3.1.2
 ### Fixed

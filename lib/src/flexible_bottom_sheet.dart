@@ -89,7 +89,7 @@ typedef FlexibleDraggableScrollableWidgetBodyBuilder = SliverChildDelegate
 /// [bottomSheetColor] - bottom sheet color. If you want to make rounded edges,
 /// pass a [Colors.transparent] here, and set the color and border radius of
 /// the bottom sheet in the [decoration].
-class FlexibleBottomSheet extends StatefulWidget {
+class FlexibleBottomSheet<T> extends StatefulWidget {
   final double minHeight;
   final double initHeight;
   final double maxHeight;
@@ -107,11 +107,13 @@ class FlexibleBottomSheet extends StatefulWidget {
   final VoidCallback? onDismiss;
   final Color? keyboardBarrierColor;
   final Color? bottomSheetColor;
+  final PopupRoute<T>? route;
   final bool useRootScaffold;
   final BorderRadiusGeometry? bottomSheetBorderRadius;
 
   FlexibleBottomSheet({
     Key? key,
+    this.route,
     this.minHeight = 0,
     this.initHeight = 0.5,
     this.maxHeight = 1,
@@ -141,6 +143,7 @@ class FlexibleBottomSheet extends StatefulWidget {
         super(key: key);
 
   FlexibleBottomSheet.collapsible({
+    required PopupRoute<T> route,
     Key? key,
     double initHeight = 0.5,
     double maxHeight = 1,
@@ -159,6 +162,7 @@ class FlexibleBottomSheet extends StatefulWidget {
     bool useRootScaffold = true,
     BorderRadiusGeometry? bottomSheetBorderRadius,
   }) : this(
+          route: route,
           key: key,
           maxHeight: maxHeight,
           draggableScrollableController: draggableScrollableController,
@@ -281,6 +285,8 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet> {
     if (widget.isCollapsible) {
       if (widget.onDismiss != null) widget.onDismiss!();
       Navigator.maybePop(context);
+      WidgetsBinding.instance
+          .addPostFrameCallback((_) => widget.route?.changedInternalState());
     }
   }
 

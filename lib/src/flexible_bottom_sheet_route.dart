@@ -279,6 +279,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
       removeTop: true,
       child: isCollapsible
           ? FlexibleBottomSheet.collapsible(
+              route: this,
               initHeight: initHeight,
               maxHeight: maxHeight,
               builder: builder,
@@ -297,6 +298,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
               bottomSheetBorderRadius: bottomSheetBorderRadius,
             )
           : FlexibleBottomSheet(
+              route: this,
               minHeight: minHeight,
               initHeight: initHeight,
               maxHeight: maxHeight,

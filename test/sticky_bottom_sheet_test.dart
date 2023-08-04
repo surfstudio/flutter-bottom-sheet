@@ -81,7 +81,7 @@ void main() {
 
       await tester.drag(
         find.byType(
-          FlexibleBottomSheet,
+          FlexibleBottomSheet<void>,
           skipOffstage: false,
         ),
         const Offset(0, -800),
