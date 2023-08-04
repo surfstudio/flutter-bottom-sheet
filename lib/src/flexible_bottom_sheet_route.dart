@@ -254,15 +254,15 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
     this.bottomSheetBorderRadius,
     this.barrierBottomSheetColor,
     this.duration,
-    RouteSettings? settings,
-  }) : super(settings: settings);
+    super.settings,
+  });
 
   @override
   AnimationController createAnimationController() {
     _animationController = AnimationController(
       duration: transitionDuration,
       debugLabel: 'FlexibleBottomSheet',
-      vsync: navigator?.overlay as TickerProvider,
+      vsync: navigator!.overlay!,
     );
 
     return _animationController;
@@ -335,7 +335,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
     Animation<double> secondaryAnimation,
     Widget child,
   ) {
-    const begin = Offset(0.0, 1.0);
+    const begin = Offset(0, 1);
     const end = Offset.zero;
     const curve = Curves.ease;
     final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));

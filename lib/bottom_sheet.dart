@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-library bottom_sheet;
-
 export 'package:bottom_sheet/src/flexible_bottom_sheet.dart'
     show
         FlexibleBottomSheet,

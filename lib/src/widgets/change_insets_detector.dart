@@ -8,9 +8,9 @@ class ChangeInsetsDetector extends StatefulWidget {
 
   const ChangeInsetsDetector({
     required this.child,
-    Key? key,
+    super.key,
     this.handler,
-  }) : super(key: key);
+  });
 
   @override
   State<ChangeInsetsDetector> createState() => _ChangeInsetsDetectorState();
