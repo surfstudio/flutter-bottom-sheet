@@ -2,7 +2,7 @@ import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
 class StandardBottomSheetExample extends StatefulWidget {
-  const StandardBottomSheetExample({Key? key}) : super(key: key);
+  const StandardBottomSheetExample({super.key});
 
   @override
   State<StandardBottomSheetExample> createState() =>
@@ -20,7 +20,7 @@ class _StandardBottomSheetExampleState
       maxHeight: 0.8,
       context: context,
       bottomSheetBorderRadius: const BorderRadius.only(
-        topLeft: Radius.circular(40.0),
+        topLeft: Radius.circular(40),
       ),
       bottomSheetColor: Colors.transparent,
       builder: (context, controller, offset) {
@@ -74,8 +74,8 @@ class _StandardBottomSheetExampleState
       isSafeArea: isUseSafeArea,
       bottomSheetColor: Colors.teal,
       bottomSheetBorderRadius: const BorderRadius.only(
-        topLeft: Radius.circular(40.0),
-        topRight: Radius.circular(40.0),
+        topLeft: Radius.circular(40),
+        topRight: Radius.circular(40),
       ),
       headerBuilder: (context, offset) {
         final textTheme = Theme.of(context).textTheme;
@@ -182,13 +182,12 @@ class _BottomSheet extends StatelessWidget {
   const _BottomSheet({
     required this.scrollController,
     required this.bottomSheetOffset,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(16),
       child: ListView(
         padding: EdgeInsets.zero,
         controller: scrollController,
@@ -227,7 +226,7 @@ List<Widget> _children = [
 ];
 
 class _TextField extends StatelessWidget {
-  const _TextField({Key? key}) : super(key: key);
+  const _TextField();
 
   @override
   Widget build(BuildContext context) {
@@ -245,13 +244,12 @@ class _TestContainer extends StatelessWidget {
 
   const _TestContainer({
     required this.color,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(8),
       child: Container(
         height: 100,
         color: color,
