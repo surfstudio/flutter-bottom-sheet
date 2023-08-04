@@ -6,6 +6,8 @@
 * Added a new parameter that controls the display of the snackbar
 ### Fixed
 * Added Force widget rebuild to change bottomSheetOffset value
+* Transparent space below the content
+* No rounded corner on top
 
 ## 3.1.2
 ### Fixed

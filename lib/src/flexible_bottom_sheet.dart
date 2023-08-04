@@ -108,6 +108,7 @@ class FlexibleBottomSheet extends StatefulWidget {
   final Color? keyboardBarrierColor;
   final Color? bottomSheetColor;
   final bool useRootScaffold;
+  final BorderRadiusGeometry? bottomSheetBorderRadius;
 
   FlexibleBottomSheet({
     Key? key,
@@ -127,6 +128,7 @@ class FlexibleBottomSheet extends StatefulWidget {
     this.onDismiss,
     this.keyboardBarrierColor,
     this.bottomSheetColor,
+    this.bottomSheetBorderRadius,
     this.draggableScrollableController,
     this.useRootScaffold = true,
   })  : assert(minHeight >= 0 && minHeight <= 1),
@@ -155,6 +157,7 @@ class FlexibleBottomSheet extends StatefulWidget {
     Color? keyboardBarrierColor,
     Color? bottomSheetColor,
     bool useRootScaffold = true,
+    BorderRadiusGeometry? bottomSheetBorderRadius,
   }) : this(
           key: key,
           maxHeight: maxHeight,
@@ -174,6 +177,7 @@ class FlexibleBottomSheet extends StatefulWidget {
           keyboardBarrierColor: keyboardBarrierColor,
           bottomSheetColor: bottomSheetColor,
           useRootScaffold: useRootScaffold,
+          bottomSheetBorderRadius: bottomSheetBorderRadius,
         );
 
   @override
@@ -314,6 +318,20 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final bottomSheetThemeBackground =
+        Theme.of(context).bottomSheetTheme.backgroundColor;
+    final colorSchemeBackground = Theme.of(context).colorScheme.background;
+
+    final bottomSheetColor = widget.bottomSheetColor ??
+        bottomSheetThemeBackground ??
+        colorSchemeBackground;
+    final contentDecoration = widget.decoration ??
+        BoxDecoration(
+          color: widget.bottomSheetColor ??
+              bottomSheetThemeBackground ??
+              colorSchemeBackground,
+        );
+
     return NotificationListener<DraggableScrollableNotification>(
       onNotification: _scrolling,
       child: DraggableScrollableSheet(
@@ -354,27 +372,33 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet> {
                 );
               }
             },
-            child: _RegisterScaffold(
-              useRootScaffold: widget.useRootScaffold,
-              backgroundColor: widget.bottomSheetColor ??
-                  Theme.of(context).bottomSheetTheme.backgroundColor ??
-                  Theme.of(context).colorScheme.background,
-              child: _Content(
-                builder: widget.builder,
-                decoration: widget.decoration,
-                bodyBuilder: widget.bodyBuilder,
-                headerBuilder: widget.headerBuilder,
-                minHeaderHeight: widget.minHeaderHeight,
-                maxHeaderHeight: widget.maxHeaderHeight,
-                currentExtent: _controller.isAttached
-                    ? _controller.size
-                    : widget.initHeight,
-                scrollController: controller,
-                cacheExtent: _calculateCacheExtent(
-                  MediaQuery.of(context).viewInsets.bottom,
+            child: Material(
+              type: MaterialType.transparency,
+              color: bottomSheetColor,
+              borderRadius: widget.bottomSheetBorderRadius,
+              clipBehavior: widget.bottomSheetBorderRadius != null
+                  ? Clip.antiAlias
+                  : Clip.none,
+              child: _RegisterScaffold(
+                useRootScaffold: widget.useRootScaffold,
+                backgroundColor: bottomSheetColor,
+                child: _Content(
+                  builder: widget.builder,
+                  decoration: contentDecoration,
+                  bodyBuilder: widget.bodyBuilder,
+                  headerBuilder: widget.headerBuilder,
+                  minHeaderHeight: widget.minHeaderHeight,
+                  maxHeaderHeight: widget.maxHeaderHeight,
+                  currentExtent: _controller.isAttached
+                      ? _controller.size
+                      : widget.initHeight,
+                  scrollController: controller,
+                  cacheExtent: _calculateCacheExtent(
+                    MediaQuery.of(context).viewInsets.bottom,
+                  ),
+                  getContentHeight:
+                      !widget.isExpand ? _changeInitAndMaxHeight : null,
                 ),
-                getContentHeight:
-                    !widget.isExpand ? _changeInitAndMaxHeight : null,
               ),
             ),
           );
