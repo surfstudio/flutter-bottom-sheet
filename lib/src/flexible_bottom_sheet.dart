@@ -242,10 +242,10 @@ class _FlexibleBottomSheetState<T> extends State<FlexibleBottomSheet<T>> {
     if (FocusManager.instance.primaryFocus == null || _isClosing) return;
 
     _widgetBinding.addPostFrameCallback((_) {
-      final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
+      final keyboardHeight = MediaQuery.viewInsetsOf(context).bottom;
       final widgetHeight = FocusManager.instance.primaryFocus!.size.height;
       final widgetOffset = FocusManager.instance.primaryFocus!.offset.dy;
-      final screenHeight = MediaQuery.of(context).size.height;
+      final screenHeight = MediaQuery.sizeOf(context).height;
 
       final targetWidgetOffset =
           screenHeight - keyboardHeight - widgetHeight - 20;
@@ -291,7 +291,7 @@ class _FlexibleBottomSheetState<T> extends State<FlexibleBottomSheet<T>> {
 
   void _changeInitAndMaxHeight(double height) {
     if (!widget.isExpand) {
-      final screenHeight = MediaQuery.of(context).size.height;
+      final screenHeight = MediaQuery.sizeOf(context).height;
 
       final fractionalValue = height / screenHeight;
       if (fractionalValue < _currentMaxChildSize) {
@@ -399,7 +399,7 @@ class _FlexibleBottomSheetState<T> extends State<FlexibleBottomSheet<T>> {
                       : widget.initHeight,
                   scrollController: controller,
                   cacheExtent: _calculateCacheExtent(
-                    MediaQuery.of(context).viewInsets.bottom,
+                      MediaQuery.viewInsetsOf(context).bottom,
                   ),
                   getContentHeight:
                       !widget.isExpand ? _changeInitAndMaxHeight : null,
