@@ -399,7 +399,7 @@ class _FlexibleBottomSheetState<T> extends State<FlexibleBottomSheet<T>> {
                       : widget.initHeight,
                   scrollController: controller,
                   cacheExtent: _calculateCacheExtent(
-                      MediaQuery.viewInsetsOf(context).bottom,
+                    MediaQuery.viewInsetsOf(context).bottom,
                   ),
                   getContentHeight:
                       !widget.isExpand ? _changeInitAndMaxHeight : null,
