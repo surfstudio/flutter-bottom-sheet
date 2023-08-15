@@ -1,6 +1,6 @@
 // Copyright (c) 2019-present,  SurfStudio LLC
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
+// Licensed under the Apache License, Version 2 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
@@ -11,8 +11,6 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
-import 'dart:ui';
 
 import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
@@ -132,7 +130,7 @@ void main() {
           await tester.pumpAndSettle();
           expect(find.byType(FlexibleBottomSheet<void>), findsOneWidget);
 
-          await tester.tapAt(const Offset(20.0, 20.0));
+          await tester.tapAt(const Offset(20, 20));
           await tester.pumpAndSettle();
           expect(
             find.byType(FlexibleBottomSheet<void>),
@@ -161,7 +159,7 @@ void main() {
               FlexibleBottomSheet<void>,
               skipOffstage: false,
             ),
-            const Offset(0.0, 300.0),
+            const Offset(0, 300),
           );
           await tester.pumpAndSettle();
 
@@ -342,8 +340,7 @@ void main() {
 
           await tester.pumpAndSettle();
 
-          final testBinding = tester.binding;
-          testBinding.window.viewInsetsTestValue = const FakeWindowPadding();
+          tester.view.viewInsets = const FakeWindowPadding();
 
           await tester.pumpAndSettle();
 
@@ -363,8 +360,7 @@ void main() {
         (tester) async {
           await tester.pumpWidget(app);
 
-          final testBinding = tester.binding;
-          testBinding.window.viewInsetsTestValue = const FakeWindowPadding();
+          tester.view.viewInsets = const FakeWindowPadding();
 
           unawaited(showBottomSheet(
             anchors: [0.2, 0.5, 0.8],
@@ -514,7 +510,7 @@ final ValueVariant<_AnchorsTestScenario> _anchorsTestVariants =
   },
 );
 
-class FakeWindowPadding implements WindowPadding {
+class FakeWindowPadding implements FakeViewPadding {
   @override
   final double left;
 
@@ -528,9 +524,9 @@ class FakeWindowPadding implements WindowPadding {
   final double bottom;
 
   const FakeWindowPadding({
-    this.left = 0.0,
-    this.top = 0.0,
-    this.right = 0.0,
-    this.bottom = 30.0,
+    this.left = 0,
+    this.top = 0,
+    this.right = 0,
+    this.bottom = 30,
   });
 }

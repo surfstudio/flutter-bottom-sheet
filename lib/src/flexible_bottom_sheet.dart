@@ -112,7 +112,7 @@ class FlexibleBottomSheet<T> extends StatefulWidget {
   final BorderRadiusGeometry? bottomSheetBorderRadius;
 
   FlexibleBottomSheet({
-    Key? key,
+    super.key,
     this.route,
     this.minHeight = 0,
     this.initHeight = 0.5,
@@ -139,8 +139,7 @@ class FlexibleBottomSheet<T> extends StatefulWidget {
         assert(!isCollapsible || minHeight == 0),
         assert(anchors == null || !anchors.any((anchor) => anchor > maxHeight)),
         assert(anchors == null || !anchors.any((anchor) => anchor < minHeight)),
-        assert(isExpand == true || maxHeight == initHeight && anchors == null),
-        super(key: key);
+        assert(isExpand || maxHeight == initHeight && anchors == null);
 
   FlexibleBottomSheet.collapsible({
     required PopupRoute<T> route,
@@ -185,10 +184,10 @@ class FlexibleBottomSheet<T> extends StatefulWidget {
         );
 
   @override
-  State<FlexibleBottomSheet> createState() => _FlexibleBottomSheetState();
+  State<FlexibleBottomSheet<T>> createState() => _FlexibleBottomSheetState();
 }
 
-class _FlexibleBottomSheetState extends State<FlexibleBottomSheet> {
+class _FlexibleBottomSheetState<T> extends State<FlexibleBottomSheet<T>> {
   late final DraggableScrollableController _controller;
 
   late final WidgetsBinding _widgetBinding;
@@ -243,10 +242,10 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet> {
     if (FocusManager.instance.primaryFocus == null || _isClosing) return;
 
     _widgetBinding.addPostFrameCallback((_) {
-      final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
+      final keyboardHeight = MediaQuery.viewInsetsOf(context).bottom;
       final widgetHeight = FocusManager.instance.primaryFocus!.size.height;
       final widgetOffset = FocusManager.instance.primaryFocus!.offset.dy;
-      final screenHeight = MediaQuery.of(context).size.height;
+      final screenHeight = MediaQuery.sizeOf(context).height;
 
       final targetWidgetOffset =
           screenHeight - keyboardHeight - widgetHeight - 20;
@@ -283,7 +282,7 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet> {
 
   void _dismiss() {
     if (widget.isCollapsible) {
-      if (widget.onDismiss != null) widget.onDismiss!();
+      widget.onDismiss?.call();
       Navigator.maybePop(context);
       WidgetsBinding.instance
           .addPostFrameCallback((_) => widget.route?.changedInternalState());
@@ -292,7 +291,7 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet> {
 
   void _changeInitAndMaxHeight(double height) {
     if (!widget.isExpand) {
-      final screenHeight = MediaQuery.of(context).size.height;
+      final screenHeight = MediaQuery.sizeOf(context).height;
 
       final fractionalValue = height / screenHeight;
       if (fractionalValue < _currentMaxChildSize) {
@@ -400,7 +399,7 @@ class _FlexibleBottomSheetState extends State<FlexibleBottomSheet> {
                       : widget.initHeight,
                   scrollController: controller,
                   cacheExtent: _calculateCacheExtent(
-                    MediaQuery.of(context).viewInsets.bottom,
+                    MediaQuery.viewInsetsOf(context).bottom,
                   ),
                   getContentHeight:
                       !widget.isExpand ? _changeInitAndMaxHeight : null,
@@ -424,8 +423,7 @@ class _RegisterScaffold extends StatelessWidget {
     required this.useRootScaffold,
     required this.child,
     required this.backgroundColor,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -465,8 +463,7 @@ class _Content extends StatefulWidget {
     this.minHeaderHeight,
     this.maxHeaderHeight,
     this.getContentHeight,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   State<_Content> createState() => _ContentState();
@@ -482,7 +479,7 @@ class _ContentState extends State<_Content> {
       WidgetsBinding.instance.addPostFrameCallback(
         (timeStamp) {
           final renderContent =
-              _contentKey.currentContext!.findRenderObject() as RenderBox;
+              _contentKey.currentContext!.findRenderObject()! as RenderBox;
           widget.getContentHeight!(renderContent.size.height);
         },
       );

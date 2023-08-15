@@ -21,7 +21,7 @@ import 'package:flutter/material.dart';
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +45,8 @@ class MyHomePage extends StatefulWidget {
 
   const MyHomePage({
     required this.title,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -55,12 +55,12 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
+    return const DefaultTabController(
       length: 2,
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Column(
-          children: const [
+          children: [
             TabBar(
               labelColor: Colors.lightBlueAccent,
               tabs: [
@@ -68,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   'Standard',
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 16.0,
+                    fontSize: 16,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -76,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   'Based on content height',
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 16.0,
+                    fontSize: 16,
                   ),
                   textAlign: TextAlign.center,
                 ),
