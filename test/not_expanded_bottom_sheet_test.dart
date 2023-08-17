@@ -69,7 +69,7 @@ void main() {
           ));
           await tester.pumpAndSettle();
 
-          expect(find.byType(FlexibleBottomSheet), findsOneWidget);
+          expect(find.byType(FlexibleBottomSheet<void>), findsOneWidget);
 
           final fractionalHeight = getFractionalHeight(tester);
           expect(fractionalHeight == initHeight, true);
@@ -93,7 +93,7 @@ void main() {
           ));
           await tester.pumpAndSettle();
 
-          expect(find.byType(FlexibleBottomSheet), findsOneWidget);
+          expect(find.byType(FlexibleBottomSheet<void>), findsOneWidget);
 
           final fractionalHeight = getFractionalHeight(tester);
           expect(fractionalHeight < initHeight, true);
@@ -128,7 +128,7 @@ void main() {
         (tester) async {
           const initHeight = 0.5;
           const maxHeight = 1.0;
-          const listAnchors = <double>[0, 0.5, 1.0];
+          const listAnchors = <double>[0, 0.5, 1];
 
           await tester.pumpWidget(app);
 
@@ -167,7 +167,7 @@ void main() {
       ));
       await tester.pumpAndSettle();
 
-      expect(find.byType(FlexibleBottomSheet), findsOneWidget);
+      expect(find.byType(FlexibleBottomSheet<void>), findsOneWidget);
 
       final fractionalHeight = getFractionalHeight(tester);
       expect(fractionalHeight == initHeight, true);

@@ -1,6 +1,6 @@
 // Copyright (c) 2019-present,  SurfStudio LLC
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
+// Licensed under the Apache License, Version 2 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
@@ -13,7 +13,6 @@
 // limitations under the License.
 
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
@@ -33,14 +32,23 @@ void main() {
     ),
   );
 
+  void showSnackBar() {
+    ScaffoldMessenger.of(savedContext).showSnackBar(const SnackBar(
+      content: Text('SnackBar'),
+      duration: Duration(seconds: 5),
+    ));
+  }
+
   Future<void> showStickyBottomSheet({
     double? headerHeight,
     double? maxHeaderHeight,
     double? minHeaderHeight,
     Color? barrierColor,
     bool? isModal,
+    bool? useRootScaffold,
   }) {
     return showStickyFlexibleBottomSheet(
+      useRootScaffold: useRootScaffold ?? true,
       isModal: isModal ?? true,
       barrierColor: barrierColor,
       context: savedContext,
@@ -66,13 +74,13 @@ void main() {
     (tester) async {
       await tester.pumpWidget(app);
 
-      unawaited(showStickyBottomSheet(headerHeight: 200.0));
+      unawaited(showStickyBottomSheet(headerHeight: 200));
 
       await tester.pumpAndSettle();
 
       await tester.drag(
         find.byType(
-          FlexibleBottomSheet,
+          FlexibleBottomSheet<void>,
           skipOffstage: false,
         ),
         const Offset(0, -800),
@@ -129,11 +137,9 @@ void main() {
 
       expect(find.byKey(textFieldKey), findsOneWidget);
 
-      final testBinding = tester.binding;
-      testBinding.window.viewInsetsTestValue = const FakeWindowPadding();
+      tester.view.viewInsets = const FakeWindowPadding();
       await tester.pump();
       await tester.pumpAndSettle();
-
       expect(find.byKey(textFieldKey), findsOneWidget);
     },
   );
@@ -150,6 +156,38 @@ void main() {
         ),
         throwsA(isA<AssertionError>()),
       );
+    },
+  );
+
+  testWidgets(
+    'Show SnackBar with Scaffold in BottomSheet tree',
+    (tester) async {
+      await tester.pumpWidget(app);
+
+      showSnackBar();
+
+      unawaited(showStickyBottomSheet(headerHeight: 200));
+
+      await tester.pumpAndSettle();
+
+      expect(find.byType(SnackBar), findsNWidgets(2));
+    },
+  );
+
+  testWidgets(
+    'Show SnackBar without Scaffold in BottomSheet tree',
+    (tester) async {
+      await tester.pumpWidget(app);
+
+      showSnackBar();
+
+      unawaited(
+        showStickyBottomSheet(headerHeight: 200, useRootScaffold: false),
+      );
+
+      await tester.pumpAndSettle();
+
+      expect(find.byType(SnackBar), findsOneWidget);
     },
   );
 }
@@ -197,14 +235,14 @@ class _HeaderHeightTestScenario {
 
 final ValueVariant<_HeaderHeightTestScenario> _headerHeightTestVariants =
     ValueVariant<_HeaderHeightTestScenario>({
-  _HeaderHeightTestScenario(headerHeight: 200.0, matcher: returnsNormally),
-  _HeaderHeightTestScenario(maxHeaderHeight: 200.0, matcher: returnsNormally),
+  _HeaderHeightTestScenario(headerHeight: 200, matcher: returnsNormally),
+  _HeaderHeightTestScenario(maxHeaderHeight: 200, matcher: returnsNormally),
   _HeaderHeightTestScenario(
     matcher: throwsAssertionError,
   ),
 });
 
-class FakeWindowPadding implements WindowPadding {
+class FakeWindowPadding implements FakeViewPadding {
   @override
   final double left;
 
@@ -218,9 +256,9 @@ class FakeWindowPadding implements WindowPadding {
   final double bottom;
 
   const FakeWindowPadding({
-    this.left = 0.0,
-    this.top = 0.0,
-    this.right = 0.0,
-    this.bottom = 330.0,
+    this.left = 0,
+    this.top = 0,
+    this.right = 0,
+    this.bottom = 330,
   });
 }

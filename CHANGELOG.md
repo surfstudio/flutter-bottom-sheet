@@ -1,6 +1,18 @@
 # Changelog
 
 ## [Unreleased, estimated N.N.N]
+## 4.0.0
+### Fixed
+* BottomSheet pop twice
+* Added Force widget rebuild to change bottomSheetOffset value
+* Transparent space below the content
+* No rounded corner on top
+### Added
+* Added generic param to FlexibleBottomSheet
+* Added a new parameter that controls the display of the snackbar
+### Changed
+* Updates minimum Flutter version to 3.0.0
+* Updates minimum surf_lint_rules version to 3.0.0
 
 ## 3.1.2
 ### Fixed

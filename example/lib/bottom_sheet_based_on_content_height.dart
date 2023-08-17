@@ -5,7 +5,7 @@ const _rabbitImagePath = 'assets/images/rabbit.jpg';
 const _deerImagePath = 'assets/images/deer.jpg';
 
 class BottomSheetBasedOnContentHeight extends StatelessWidget {
-  const BottomSheetBasedOnContentHeight({Key? key}) : super(key: key);
+  const BottomSheetBasedOnContentHeight({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,33 +21,7 @@ class _AnimalCard extends StatelessWidget {
 
   const _AnimalCard({
     required this.animal,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        top: 16.0,
-        right: 8.0,
-        left: 8.0,
-      ),
-      child: GestureDetector(
-        onTap: () => _openBottomSheetWithInfo(context, animal),
-        child: Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.0),
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(16.0),
-            child: Image(
-              image: AssetImage(animal.photo),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+  });
 
   void _openBottomSheetWithInfo(BuildContext context, _Animal animal) {
     showFlexibleBottomSheet<void>(
@@ -63,6 +37,31 @@ class _AnimalCard extends StatelessWidget {
       },
     );
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        top: 16,
+        right: 8,
+        left: 8,
+      ),
+      child: GestureDetector(
+        onTap: () => _openBottomSheetWithInfo(context, animal),
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: Image(
+              image: AssetImage(animal.photo),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class _BottomSheet extends StatelessWidget {
@@ -72,13 +71,12 @@ class _BottomSheet extends StatelessWidget {
   const _BottomSheet({
     required this.animal,
     required this.controller,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(16),
       child: ListView(
         controller: controller,
         shrinkWrap: true,
@@ -86,23 +84,23 @@ class _BottomSheet extends StatelessWidget {
           Text(
             animal.animalName,
             style: const TextStyle(
-              fontSize: 25.0,
+              fontSize: 25,
               fontWeight: FontWeight.bold,
             ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 16.0),
+          const SizedBox(height: 16),
           ClipRRect(
-            borderRadius: BorderRadius.circular(16.0),
+            borderRadius: BorderRadius.circular(16),
             child: Image(
               image: AssetImage(animal.photo),
             ),
           ),
-          const SizedBox(height: 16.0),
+          const SizedBox(height: 16),
           Text(
             animal.description,
             style: const TextStyle(
-              fontSize: 20.0,
+              fontSize: 20,
               fontWeight: FontWeight.normal,
             ),
           ),

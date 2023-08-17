@@ -12,14 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// ignore_for_file: library_private_types_in_public_api, prefer-match-file-name
+
 import 'package:example/bottom_sheet_based_on_content_height.dart';
-import 'package:example/standard_bottom_sheet.dart';
+import 'package:example/standard_bottom_sheet_example.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -43,22 +45,22 @@ class MyHomePage extends StatefulWidget {
 
   const MyHomePage({
     required this.title,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
+    return const DefaultTabController(
       length: 2,
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Column(
-          children: const [
+          children: [
             TabBar(
               labelColor: Colors.lightBlueAccent,
               tabs: [
@@ -66,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   'Standard',
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 16.0,
+                    fontSize: 16,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -74,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   'Based on content height',
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 16.0,
+                    fontSize: 16,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -83,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Expanded(
               child: TabBarView(
                 children: [
-                  StandardExample(),
+                  StandardBottomSheetExample(),
                   BottomSheetBasedOnContentHeight(),
                 ],
               ),
