@@ -21,6 +21,7 @@ jobs:
           file_path: ".fvm/fvm_config.json"
 
   analysis:
+    needs: get_fvm_version
     uses: surfstudio/flutter-ci-workflows/.github/workflows/analysis.yml@main
     with:
       flutter-version: ${{ needs.get_fvm_version.outputs.flutter_version }}
