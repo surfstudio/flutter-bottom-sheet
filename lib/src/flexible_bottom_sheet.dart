@@ -264,7 +264,7 @@ class _FlexibleBottomSheetState<T> extends State<FlexibleBottomSheet<T>> {
   // Checking if the bottom sheet needs to be closed.
   void _checkNeedCloseBottomSheet(double extent) {
     if (widget.isCollapsible && !_isClosing) {
-      if (extent - widget.minHeight <= 0.005) {
+      if (extent - widget.minHeight <= 0.01) {
         _isClosing = true;
         _dismiss();
       }

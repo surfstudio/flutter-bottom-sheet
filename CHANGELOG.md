@@ -1,6 +1,14 @@
 # Changelog
 
 ## [Unreleased, estimated N.N.N]
+
+## 4.0.1
+### Fixed
+* Sticking when closing at the end
+### Changed
+* Split the animation speed into opening and closing speeds. The closing speed has been reduced.
+* FlexibleBottomSheetRoute has been made public
+
 ## 4.0.0
 ### Fixed
 * BottomSheet pop twice
