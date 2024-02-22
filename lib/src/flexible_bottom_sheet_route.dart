@@ -16,7 +16,8 @@
 import 'package:bottom_sheet/src/flexible_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
-const Duration _bottomSheetDuration = Duration(milliseconds: 500);
+const Duration _bottomSheetEnterDuration = Duration(milliseconds: 250);
+const Duration _bottomSheetExitDuration = Duration(milliseconds: 200);
 
 /// Shows a flexible bottom sheet.
 ///
@@ -71,7 +72,7 @@ Future<T?> showFlexibleBottomSheet<T>({
   assert(barrierColor == null || isModal);
 
   return Navigator.of(context, rootNavigator: useRootNavigator).push(
-    _FlexibleBottomSheetRoute<T>(
+    FlexibleBottomSheetRoute<T>(
       theme: Theme.of(context),
       barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
       draggableScrollableController: draggableScrollableController,
@@ -159,7 +160,7 @@ Future<T?> showStickyFlexibleBottomSheet<T>({
   assert(barrierColor == null || isModal);
 
   return Navigator.of(context, rootNavigator: useRootNavigator).push(
-    _FlexibleBottomSheetRoute<T>(
+    FlexibleBottomSheetRoute<T>(
       theme: Theme.of(context),
       barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
       minHeight: minHeight ?? 0,
@@ -188,7 +189,7 @@ Future<T?> showStickyFlexibleBottomSheet<T>({
 }
 
 /// A modal route with flexible bottom sheet.
-class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
+class FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
   final FlexibleDraggableScrollableWidgetBuilder? builder;
   final FlexibleDraggableScrollableHeaderWidgetBuilder? headerBuilder;
   final FlexibleDraggableScrollableWidgetBodyBuilder? bodyBuilder;
@@ -217,7 +218,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
   final String? barrierLabel;
 
   @override
-  Duration get transitionDuration => duration ?? _bottomSheetDuration;
+  Duration get transitionDuration => duration ?? _bottomSheetEnterDuration;
 
   @override
   bool get barrierDismissible => isDismissible;
@@ -229,7 +230,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
 
   late AnimationController _animationController;
 
-  _FlexibleBottomSheetRoute({
+  FlexibleBottomSheetRoute({
     required this.minHeight,
     required this.initHeight,
     required this.maxHeight,
@@ -261,6 +262,7 @@ class _FlexibleBottomSheetRoute<T> extends PopupRoute<T> {
   AnimationController createAnimationController() {
     _animationController = AnimationController(
       duration: transitionDuration,
+      reverseDuration: _bottomSheetExitDuration,
       debugLabel: 'FlexibleBottomSheet',
       vsync: navigator!.overlay!,
     );
