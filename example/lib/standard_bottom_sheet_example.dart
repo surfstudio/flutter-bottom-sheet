@@ -22,24 +22,11 @@ class _StandardBottomSheetExampleState
       bottomSheetBorderRadius: const BorderRadius.only(
         topLeft: Radius.circular(40),
       ),
-      bottomSheetColor: Colors.transparent,
+      bottomSheetColor: Colors.white,
       builder: (context, controller, offset) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              color: Colors.orange,
-              height: 40,
-            ),
-            Container(
-              color: Colors.transparent,
-              height: 100,
-            ),
-            Container(
-              color: Colors.orange,
-              height: 100,
-            ),
-          ],
+        return _BottomSheet(
+          scrollController: controller,
+          bottomSheetOffset: offset,
         );
       },
     );
@@ -98,9 +85,12 @@ class _StandardBottomSheetExampleState
                   ),
                 ),
               ),
-              Text(
-                'position $offset',
-                style: textTheme.titleLarge,
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: Text(
+                  'position $offset',
+                  style: textTheme.titleLarge,
+                ),
               ),
             ],
           ),
@@ -111,7 +101,7 @@ class _StandardBottomSheetExampleState
           _children,
         );
       },
-      anchors: [.2, 0.5, .8],
+      anchors: [0.2, 0.5, 0.8],
     );
   }
 
@@ -124,7 +114,7 @@ class _StandardBottomSheetExampleState
           ElevatedButton(
             onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
-                content: Text("I'm a snackbar"),
+                content: Text("I'm a SnackBar"),
               ),
             ),
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
@@ -132,7 +122,7 @@ class _StandardBottomSheetExampleState
           ),
           const SizedBox(height: 20),
           const Text(
-            'To see how to customize the display of the snackbar click on the red button, then the green or blue button. The isRegisterScaffold property is responsible for the behavior',
+            'To see how to customize the display of the SnackBar click on the red button, then the green or blue button. The isRegisterScaffold property is responsible for the behavior',
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 20),
@@ -186,21 +176,18 @@ class _BottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return ListView(
       padding: const EdgeInsets.all(16),
-      child: ListView(
-        padding: EdgeInsets.zero,
-        controller: scrollController,
-        children: [
-          Text(
-            'position $bottomSheetOffset',
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-          Column(
-            children: _children,
-          ),
-        ],
-      ),
+      controller: scrollController,
+      children: [
+        Text(
+          'position $bottomSheetOffset',
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
+        Column(
+          children: _children,
+        ),
+      ],
     );
   }
 }
@@ -219,9 +206,9 @@ List<Widget> _children = [
   const _TextField(),
   const _TestContainer(color: Color(0x9900FF00)),
   const _TextField(),
-  const _TestContainer(color: Color(0x8800FF00)),
+  const _TestContainer(color: Color(0xFFBD8AFF)),
   const _TextField(),
-  const _TestContainer(color: Color(0x7700FF00)),
+  const _TestContainer(color: Color(0xFF0078C0)),
   const _TextField(),
 ];
 
@@ -234,6 +221,7 @@ class _TextField extends StatelessWidget {
       decoration: InputDecoration(
         border: InputBorder.none,
         hintText: 'Enter a search term',
+        contentPadding: EdgeInsets.all(8),
       ),
     );
   }
@@ -248,12 +236,10 @@ class _TestContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
       padding: const EdgeInsets.all(8),
-      child: Container(
-        height: 100,
-        color: color,
-      ),
+      height: 100,
+      color: color,
     );
   }
 }
