@@ -33,7 +33,7 @@ There are 2 types of BottomSheets:
 ## Example
 #### Simple BottomSheet
 
-![](https://i.ibb.co/KKR0SDF/open-flexible-bottom-sheet.gif)
+![](https://i.ibb.co/Xjntn3H/open-flexible-bottom-sheet.gif)
 
 To show bottomSheet, use :
 
@@ -66,7 +66,7 @@ Widget _buildBottomSheet(
 
 #### BottomSheet with height based on content
 
-![](https://i.ibb.co/xmhkTQm/example-with-height-base-on-content.gif)
+![](https://i.ibb.co/gMcvMyp/example-with-height-base-on-content.gif)
 
 ```dart
 showFlexibleBottomSheet(
@@ -97,7 +97,7 @@ Widget _buildBottomSheet(
 
 #### Sticky BottomSheet
 
-![](https://i.ibb.co/M7C1qtB/open-sticky-bottom-sheet.gif)
+![](https://i.ibb.co/bBz6pJk/open-sticky-bottom-sheet.gif)
 
 To show sticky BottomSheet, use:  
 **You have to return SliverChildListDelegate from builder !!!**

@@ -75,37 +75,35 @@ class _BottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return ListView(
       padding: const EdgeInsets.all(16),
-      child: ListView(
-        controller: controller,
-        shrinkWrap: true,
-        children: [
-          Text(
-            animal.animalName,
-            style: const TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
-            ),
-            textAlign: TextAlign.center,
+      controller: controller,
+      shrinkWrap: true,
+      children: [
+        Text(
+          animal.animalName,
+          style: const TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
           ),
-          const SizedBox(height: 16),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: Image(
-              image: AssetImage(animal.photo),
-            ),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 16),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(16),
+          child: Image(
+            image: AssetImage(animal.photo),
           ),
-          const SizedBox(height: 16),
-          Text(
-            animal.description,
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.normal,
-            ),
+        ),
+        const SizedBox(height: 16),
+        Text(
+          animal.description,
+          style: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.normal,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
