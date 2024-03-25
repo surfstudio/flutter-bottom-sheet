@@ -13,6 +13,8 @@
 // limitations under the License.
 import 'package:bottom_sheet/src/flexible_bottom_sheet_header_delegate.dart';
 import 'package:bottom_sheet/src/widgets/change_insets_detector.dart';
+import 'package:bottom_sheet/src/widgets/scroll_behavior_in_web.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -196,6 +198,7 @@ class _FlexibleBottomSheetState<T> extends State<FlexibleBottomSheet<T>> {
 
   bool _isClosing = false;
   bool _isAnimatingToMaxHeight = false;
+  final double _sizeWhenNeedClose = kIsWeb ? 0.10 : 0.01;
 
   @override
   void initState() {
@@ -264,7 +267,7 @@ class _FlexibleBottomSheetState<T> extends State<FlexibleBottomSheet<T>> {
   // Checking if the bottom sheet needs to be closed.
   void _checkNeedCloseBottomSheet(double extent) {
     if (widget.isCollapsible && !_isClosing) {
-      if (extent - widget.minHeight <= 0.01) {
+      if (extent - widget.minHeight <= _sizeWhenNeedClose) {
         _isClosing = true;
         _dismiss();
       }
@@ -337,7 +340,8 @@ class _FlexibleBottomSheetState<T> extends State<FlexibleBottomSheet<T>> {
               colorSchemeBackground,
         );
 
-    return NotificationListener<DraggableScrollableNotification>(
+    final behaviorScroll = _getScrollBehaviorInWeb();
+    final bottomSheet = NotificationListener<DraggableScrollableNotification>(
       onNotification: _scrolling,
       child: DraggableScrollableSheet(
         maxChildSize: _currentMaxChildSize,
@@ -410,6 +414,25 @@ class _FlexibleBottomSheetState<T> extends State<FlexibleBottomSheet<T>> {
         },
       ),
     );
+
+    return behaviorScroll == null
+        ? bottomSheet
+        : ScrollConfiguration(behavior: behaviorScroll, child: bottomSheet);
+  }
+
+  MaterialScrollBehavior? _getScrollBehaviorInWeb() {
+    final behaviorInWeb = ScrollBehaviorInWeb();
+
+    switch (defaultTargetPlatform) {
+      case TargetPlatform.android:
+      case TargetPlatform.iOS:
+        return null;
+      case TargetPlatform.fuchsia:
+      case TargetPlatform.linux:
+      case TargetPlatform.macOS:
+      case TargetPlatform.windows:
+        return behaviorInWeb;
+    }
   }
 }
 

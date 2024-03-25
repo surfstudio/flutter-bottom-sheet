@@ -2,6 +2,10 @@
 
 ## [Unreleased, estimated N.N.N]
 
+## 4.0.2
+### Fixed
+* Drag on web
+
 ## 4.0.1
 ### Fixed
 * Sticking when closing at the end
