@@ -33,9 +33,9 @@ There are 2 types of BottomSheets:
 ## Example
 #### Simple BottomSheet
 
-![](assets/open-flexible-bottom-sheet.gif)
+![](https://raw.githubusercontent.com/surfstudio/flutter-bottom-sheet/main/assets/open-flexible-bottom-sheet.gif)
 
-![](assets/example-web.gif)
+![](https://raw.githubusercontent.com/surfstudio/flutter-bottom-sheet/main/assets/example-web.gif)
 
 To show bottomSheet, use :
 
@@ -68,7 +68,7 @@ Widget _buildBottomSheet(
 
 #### BottomSheet with height based on content
 
-![](assets/example-with-height-base-on-content.gif)
+![](https://raw.githubusercontent.com/surfstudio/flutter-bottom-sheet/main/assets/example-with-height-base-on-content.gif)
 
 ```dart
 showFlexibleBottomSheet(
@@ -99,7 +99,7 @@ Widget _buildBottomSheet(
 
 #### Sticky BottomSheet
 
-![](assets/open-sticky-bottom-sheet.gif)
+![](https://raw.githubusercontent.com/surfstudio/flutter-bottom-sheet/main/assets/open-sticky-bottom-sheet.gif)
 
 To show sticky BottomSheet, use:  
 **You have to return SliverChildListDelegate from builder !!!**
