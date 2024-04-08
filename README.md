@@ -1,15 +1,17 @@
 # Bottom Sheet
 
+[![Surf](./assets/logo_black.png#gh-light-mode-only)](https://surf.dev/)
+[![Surf](./assets/logo_white.png#gh-dark-mode-only)](https://surf.dev/)
+
+Made by [Surf](https://surf.dev/) 🏄‍♂️
+
+
 [![Build Status](https://shields.io/github/actions/workflow/status/surfstudio/flutter-bottom-sheet/main.yml?logo=github&logoColor=white)](https://github.com/surfstudio/flutter-bottom-sheet)
 [![Coverage Status](https://img.shields.io/codecov/c/github/surfstudio/flutter-bottom-sheet?logo=codecov&logoColor=white)](https://codecov.io/gh/surfstudio/flutter-bottom-sheet)
 [![Pub Version](https://img.shields.io/pub/v/bottom_sheet?logo=dart&logoColor=white)](https://pub.dev/packages/bottom_sheet)
 [![Pub Likes](https://badgen.net/pub/likes/bottom_sheet)](https://pub.dev/packages/bottom_sheet)
 [![Pub popularity](https://badgen.net/pub/popularity/bottom_sheet)](https://pub.dev/packages/bottom_sheet/score)
 ![Flutter Platform](https://badgen.net/pub/flutter-platform/bottom_sheet)
-
-This package is part of the [SurfGear](https://github.com/surfstudio/SurfGear) toolkit made by [Surf](https://surf.ru).
-
-[![Bottom sheet](https://i.ibb.co/MZqkwTv/bottom-sheet.png)](https://github.com/surfstudio/SurfGear)
 
 ## About
 
