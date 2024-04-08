@@ -3,7 +3,7 @@
 [![Surf](./assets/logo_black.png#gh-light-mode-only)](https://surf.dev/)
 [![Surf](./assets/logo_white.png#gh-dark-mode-only)](https://surf.dev/)
 
-Made by [Surf](https://surf.dev/) 🏄‍♂️
+Made by [Surf 🏄‍♂️🏄‍♂️🏄‍♂️](https://surf.dev/)
 
 
 [![Build Status](https://shields.io/github/actions/workflow/status/surfstudio/flutter-bottom-sheet/main.yml?logo=github&logoColor=white)](https://github.com/surfstudio/flutter-bottom-sheet)
