@@ -1,4 +1,5 @@
 # Bottom Sheet
+
 [![Build Status](https://shields.io/github/actions/workflow/status/surfstudio/flutter-bottom-sheet/main.yml?logo=github&logoColor=white)](https://github.com/surfstudio/flutter-bottom-sheet)
 [![Coverage Status](https://img.shields.io/codecov/c/github/surfstudio/flutter-bottom-sheet?logo=codecov&logoColor=white)](https://codecov.io/gh/surfstudio/flutter-bottom-sheet)
 [![Pub Version](https://img.shields.io/pub/v/bottom_sheet?logo=dart&logoColor=white)](https://pub.dev/packages/bottom_sheet)
@@ -14,7 +15,7 @@ This package is part of the [SurfGear](https://github.com/surfstudio/SurfGear) t
 
 Custom bottom sheet widget that can be resized in response to drag gestures and then scrolled.
 
-## Description
+## Overview
 
 Main classes:
 
@@ -31,7 +32,8 @@ There are 2 types of BottomSheets:
 2. StickyBottomSheet
 
 ## Example
-#### Simple BottomSheet
+
+### Simple BottomSheet
 
 ![](https://raw.githubusercontent.com/surfstudio/flutter-bottom-sheet/main/assets/open-flexible-bottom-sheet.gif)
 
@@ -66,7 +68,7 @@ Widget _buildBottomSheet(
   }
 ```
 
-#### BottomSheet with height based on content
+### BottomSheet with height based on content
 
 ![](https://raw.githubusercontent.com/surfstudio/flutter-bottom-sheet/main/assets/example-with-height-base-on-content.gif)
 
@@ -97,7 +99,7 @@ Widget _buildBottomSheet(
   }
 ```
 
-#### Sticky BottomSheet
+### Sticky BottomSheet
 
 ![](https://raw.githubusercontent.com/surfstudio/flutter-bottom-sheet/main/assets/open-sticky-bottom-sheet.gif)
 
