@@ -1,7 +1,7 @@
 # Bottom Sheet
 
-[![Surf](./assets/logo_black.png#gh-light-mode-only)(https://surf.dev#gh-dark-mode-only)]
-[![Surf](./assets/logo_white.png#gh-light-mode-only)(https://surf.dev#gh-dark-mode-only)]
+[![Surf](./assets/logo_black.png#gh-light-mode-only)](https://surf.dev#gh-dark-mode-only)
+[![Surf](./assets/logo_white.png#gh-light-mode-only)](https://surf.dev#gh-dark-mode-only)
 
 Made by [Surf 🏄‍♂️🏄‍♂️🏄‍♂️](https://surf.dev/)
 
