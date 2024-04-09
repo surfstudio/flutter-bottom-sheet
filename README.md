@@ -1,7 +1,7 @@
 # Bottom Sheet
 
-[![Surf](./assets/logo_black.png#gh-light-mode-only)](https://surf.dev/)
-[![Surf](./assets/logo_white.png#gh-dark-mode-only)](https://surf.dev/)
+[![Surf](https://raw.githubusercontent.com/surfstudio/flutter-bottom-sheet/6d5e6c25bf793164e911354991a725636dde884d/assets/logo_black.png#gh-light-mode-only)](https://surf.dev/)
+[![Surf](https://raw.githubusercontent.com/surfstudio/flutter-bottom-sheet/6d5e6c25bf793164e911354991a725636dde884d/assets/logo_white.png#gh-dark-mode-only)](https://surf.dev/)
 
 Made by [Surf 🏄‍♂️🏄‍♂️🏄‍♂️](https://surf.dev/)
 
