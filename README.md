@@ -1,10 +1,11 @@
 # Bottom Sheet
 
-[![Surf](https://raw.githubusercontent.com/surfstudio/flutter-bottom-sheet/6d5e6c25bf793164e911354991a725636dde884d/assets/logo_black.png#gh-light-mode-only)](https://surf.dev/)
-[![Surf](https://raw.githubusercontent.com/surfstudio/flutter-bottom-sheet/6d5e6c25bf793164e911354991a725636dde884d/assets/logo_white.png#gh-dark-mode-only)](https://surf.dev/)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/surfstudio/flutter-bottom-sheet/6d5e6c25bf793164e911354991a725636dde884d/assets/logo_white.png#gh-dark-mode-only">
+  <img alt="Shows an illustrated sun in light color mode and a moon with stars in dark color mode." src="https://raw.githubusercontent.com/surfstudio/flutter-bottom-sheet/6d5e6c25bf793164e911354991a725636dde884d/assets/logo_white.png#gh-dark-mode-only">
+</picture>
 
 Made by [Surf 🏄‍♂️🏄‍♂️🏄‍♂️](https://surf.dev/)
-
 
 [![Build Status](https://shields.io/github/actions/workflow/status/surfstudio/flutter-bottom-sheet/main.yml?logo=github&logoColor=white)](https://github.com/surfstudio/flutter-bottom-sheet)
 [![Coverage Status](https://img.shields.io/codecov/c/github/surfstudio/flutter-bottom-sheet?logo=codecov&logoColor=white)](https://codecov.io/gh/surfstudio/flutter-bottom-sheet)
