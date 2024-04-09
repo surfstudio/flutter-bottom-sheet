@@ -1,9 +1,7 @@
 # Bottom Sheet
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/surfstudio/flutter-bottom-sheet/6d5e6c25bf793164e911354991a725636dde884d/assets/logo_white.png#gh-dark-mode-only">
-  <img alt="Shows an illustrated sun in light color mode and a moon with stars in dark color mode." src="https://raw.githubusercontent.com/surfstudio/flutter-bottom-sheet/6d5e6c25bf793164e911354991a725636dde884d/assets/logo_black.png#gh-light-mode-only">
-</picture>
+[![Surf](./assets/logo_black.png#gh-light-mode-only)(https://surf.dev#gh-dark-mode-only)]
+[![Surf](./assets/logo_white.png#gh-light-mode-only)(https://surf.dev#gh-dark-mode-only)]
 
 Made by [Surf 🏄‍♂️🏄‍♂️🏄‍♂️](https://surf.dev/)
 
