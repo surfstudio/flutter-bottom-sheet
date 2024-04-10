@@ -5,7 +5,7 @@
 
 Made by [Surf 🏄‍♂️🏄‍♂️🏄‍♂️](https://surf.dev/)
 
-[![Build Status](https://shields.io/github/actions/workflow/status/surfstudio/flutter-bottom-sheet/main.yml?logo=github&logoColor=white)](https://github.com/surfstudio/flutter-bottom-sheet)
+[![Build Status](https://shields.io/github/workflow/status/surfstudio/flutter-ci-workflows/Analysis?logo=github&logoColor=white)](https://github.com/surfstudio/flutter-bottom-sheet)
 [![Coverage Status](https://img.shields.io/codecov/c/github/surfstudio/flutter-bottom-sheet?logo=codecov&logoColor=white)](https://codecov.io/gh/surfstudio/flutter-bottom-sheet)
 [![Pub Version](https://img.shields.io/pub/v/bottom_sheet?logo=dart&logoColor=white)](https://pub.dev/packages/bottom_sheet)
 [![Pub Likes](https://badgen.net/pub/likes/bottom_sheet)](https://pub.dev/packages/bottom_sheet)
