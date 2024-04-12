@@ -1,15 +1,18 @@
 # Bottom Sheet
 
-[![Build Status](https://shields.io/github/actions/workflow/status/surfstudio/flutter-bottom-sheet/main.yml?logo=github&logoColor=white)](https://github.com/surfstudio/flutter-bottom-sheet)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/surfstudio/flutter-open-source/blob/887525c23f4d57a2d96fc2e6a31e15d1e29d1787/assets/logo_white.png">
+  <img alt="Shows an illustrated sun in light color mode and a moon with stars in dark color mode." src="https://github.com/surfstudio/flutter-open-source/blob/887525c23f4d57a2d96fc2e6a31e15d1e29d1787/assets/logo_black.png" width ="200">
+</picture>
+
+Made by [Surf 🏄‍♂️🏄‍♂️🏄‍♂️](https://surf.dev/)
+
+[![Build Status](https://shields.io/github/actions/workflow/status/surfstudio/flutter-bottom-sheet/on_pull_request.yml?logo=github&logoColor=white)](https://github.com/surfstudio/flutter-bottom-sheet)
 [![Coverage Status](https://img.shields.io/codecov/c/github/surfstudio/flutter-bottom-sheet?logo=codecov&logoColor=white)](https://codecov.io/gh/surfstudio/flutter-bottom-sheet)
 [![Pub Version](https://img.shields.io/pub/v/bottom_sheet?logo=dart&logoColor=white)](https://pub.dev/packages/bottom_sheet)
 [![Pub Likes](https://badgen.net/pub/likes/bottom_sheet)](https://pub.dev/packages/bottom_sheet)
 [![Pub popularity](https://badgen.net/pub/popularity/bottom_sheet)](https://pub.dev/packages/bottom_sheet/score)
 ![Flutter Platform](https://badgen.net/pub/flutter-platform/bottom_sheet)
-
-This package is part of the [SurfGear](https://github.com/surfstudio/SurfGear) toolkit made by [Surf](https://surf.ru).
-
-[![Bottom sheet](https://i.ibb.co/MZqkwTv/bottom-sheet.png)](https://github.com/surfstudio/SurfGear)
 
 ## About
 
@@ -35,9 +38,9 @@ There are 2 types of BottomSheets:
 
 ### Simple BottomSheet
 
-![](https://raw.githubusercontent.com/surfstudio/flutter-bottom-sheet/main/assets/open-flexible-bottom-sheet.gif)
+![Demo](https://raw.githubusercontent.com/surfstudio/flutter-bottom-sheet/main/assets/open-flexible-bottom-sheet.gif)
 
-![](https://raw.githubusercontent.com/surfstudio/flutter-bottom-sheet/main/assets/example-web.gif)
+![Demo](https://raw.githubusercontent.com/surfstudio/flutter-bottom-sheet/main/assets/example-web.gif)
 
 To show bottomSheet, use :
 
@@ -70,7 +73,7 @@ Widget _buildBottomSheet(
 
 ### BottomSheet with height based on content
 
-![](https://raw.githubusercontent.com/surfstudio/flutter-bottom-sheet/main/assets/example-with-height-base-on-content.gif)
+![Demo](https://raw.githubusercontent.com/surfstudio/flutter-bottom-sheet/main/assets/example-with-height-base-on-content.gif)
 
 ```dart
 showFlexibleBottomSheet(
@@ -101,7 +104,7 @@ Widget _buildBottomSheet(
 
 ### Sticky BottomSheet
 
-![](https://raw.githubusercontent.com/surfstudio/flutter-bottom-sheet/main/assets/open-sticky-bottom-sheet.gif)
+![Demo](https://raw.githubusercontent.com/surfstudio/flutter-bottom-sheet/main/assets/open-sticky-bottom-sheet.gif)
 
 To show sticky BottomSheet, use:  
 **You have to return SliverChildListDelegate from builder !!!**
