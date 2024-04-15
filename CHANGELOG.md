@@ -2,72 +2,116 @@
 
 ## [Unreleased, estimated N.N.N]
 
+## 4.0.3
+
+### Changed
+
+* Rebranding
+
 ## 4.0.2
+
 ### Fixed
+
 * Drag on web
 
 ## 4.0.1
+
 ### Fixed
+
 * Sticking when closing at the end
+
 ### Changed
+
 * Split the animation speed into opening and closing speeds. The closing speed has been reduced.
 * FlexibleBottomSheetRoute has been made public
 
 ## 4.0.0
+
 ### Fixed
+
 * BottomSheet pop twice
 * Added Force widget rebuild to change bottomSheetOffset value
 * Transparent space below the content
 * No rounded corner on top
+
 ### Added
+
 * Added generic param to FlexibleBottomSheet
 * Added a new parameter that controls the display of the snackbar
+
 ### Changed
+
 * Updates minimum Flutter version to 3.0.0
 * Updates minimum surf_lint_rules version to 3.0.0
 
 ## 3.1.2
+
 ### Fixed
+
 * Indentation rules trailing commas;
 * Error with showFlexibleBottomSheet - DraggableScrollableController is not attached to a sheet;
+
 ### Added
+
 * Added optional draggableScrollableController;
 
 ## 3.1.1
+
 ### Fixed
+
 * Overflow error when swipe down with opened keyboard;
 * Wrong behavior when open and close bottomsheet with opened keyboard;
 
 ## 3.1.0
+
 ### Added
+
 * ability to set the barrier color;
+
 ### Changed
+
 * Flutter 3 is supported;
 
 ## 3.0.0
+
 ### Fixed
+
 * Absent scrolling in showStickyFlexibleBottomSheet when input was destroyed by cache area when keyboard was opened.
-### Added 
+
+### Added
+
 * Ability to pass decorated when calling showFlexibleBottomSheet.
 * Ability to set the height of the bottom sheet based on the content.
 * Ability to set the bottom sheet color.
 
 ## 2.1.0
+
 ### Fixed
+
 * Hole between keyboard and bottom sheet;
+
 ### Added
+
 * keyboardBarrierColor parameter that sets the color for the space behind the keyboard;
 * custom bottom sheet's animation duration;
+
 ### Changed
+
 * ChangeInsetsDetector used BottomInsetObserver;
 
 ## 2.0.0
+
 ### Fixed
+
 * LateInitializationError when bottom sheet appear with an open keyboard;
+
 ### Changed
+
 * DraggableScrollableSheet from Flutter used as core;
 * FlexibleDraggableScrollableWidgetBuilder uses ScrollController instead FlexibleDraggableScrollableSheetScrollController;
+
 ### Removed
+
 * FlexibleScrollNotifier;
 
 ## 1.0.5
