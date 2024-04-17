@@ -2,6 +2,12 @@
 
 ## [Unreleased, estimated N.N.N]
 
+## 4.0.4
+
+### Fixed
+
+* Correct logo position
+
 ## 4.0.3
 
 ### Changed
