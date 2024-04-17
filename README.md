@@ -1,7 +1,7 @@
 # Bottom Sheet
 
-<img src="https://raw.githubusercontent.com/surfstudio/flutter-open-source/main/assets/logo_white.png#gh-dark-mode-only" width="200">
 <img src="https://raw.githubusercontent.com/surfstudio/flutter-open-source/main/assets/logo_black.png#gh-light-mode-only" width="200">
+<img src="https://raw.githubusercontent.com/surfstudio/flutter-open-source/main/assets/logo_white.png#gh-dark-mode-only" width="200">
 
 Made by [Surf 🏄‍♂️🏄‍♂️🏄‍♂️](https://surf.dev/)
 
