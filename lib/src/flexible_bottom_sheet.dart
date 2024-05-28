@@ -320,7 +320,9 @@ class _FlexibleBottomSheetState<T> extends State<FlexibleBottomSheet<T>> {
   @override
   void dispose() {
     widget.animationController?.removeStatusListener(_animationStatusListener);
-    _controller.dispose();
+    if (widget.draggableScrollableController == null) {
+      _controller.dispose();
+    }
     super.dispose();
   }
 
